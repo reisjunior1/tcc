@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class joga_em extends Model
 {
     use HasFactory;
+
+    protected $fillable = [];
+
+    public function joga_em()
+    {
+        return $this->belongsTo(joga_em::class);
+    }
 }
