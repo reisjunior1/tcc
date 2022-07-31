@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreign('id_usuario')->references('id')->on('usuarios');
             $table->string('nome',100);
             $table->integer('Eexcluido');
-            $table->date('nacimento');
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
         });
