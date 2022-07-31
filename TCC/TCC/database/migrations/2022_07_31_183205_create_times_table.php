@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('times', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')->references('id')->on('usuarios');
             $table->string('nome',100);
             $table->integer('Eexcluido');
             $table->timestamp('criado-em')->useCurrent();
