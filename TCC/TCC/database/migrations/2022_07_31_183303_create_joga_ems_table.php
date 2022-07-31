@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('joga_em', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_usuario')-> references('id')->on('usuario');
-            $table->foreign('id_time')-> references('id')->on('time');
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')-> references('id')->on('usuarios');
+            $table->unsignedBigInteger('id_time');
+            $table->foreign('id_time')-> references('id')->on('times');
             $table->integer('Eexcluido');
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();

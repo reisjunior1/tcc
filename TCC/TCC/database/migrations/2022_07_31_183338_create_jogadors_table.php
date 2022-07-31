@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('nome');
             $table->String('telefone');
-            $table->boolen('Eexcluido');
+            $table->integer('Eexcluido');
             $table->date('nacimento');
         
             $table->timestamp('criado-em')->useCurrent();
