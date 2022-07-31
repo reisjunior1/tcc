@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreign('id_usuario')-> references('id')->on('usuario');
             $table->foreign('id_time')-> references('id')->on('time');
-            $table->boolen('Eexcluido');
+            $table->integer('Eexcluido');
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
-           
         });
     }
 

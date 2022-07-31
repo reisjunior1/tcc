@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('joga_em', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_usuario')-> references('id')->on('usuario');
-            $table->foreign('id_time')-> references('id')->on('time');
-            $table->boolen('Eexcluido');
+            $table->string('cpf',14)->unique();
+            $table->string('nome', 100);
+            $table->String('telefone',20);
+            $table->String('email',100);
+            $table->String('Tipo',2);
+            $table->integer('Eexcluido');
             $table->timestamp('criado-em')->useCurrent();
-            $table->timestamp('atualizado-em')->useCurrent();
-           
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('joga_em');
+        Schema::dropIfExists('usuarios');
     }
 };

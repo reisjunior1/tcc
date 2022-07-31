@@ -21,9 +21,7 @@ return new class extends Migration
             $table->String('email',100);
             $table->String('Tipo',2);
             $table->boolen('Eexcluido');
-           
-            
-            $table->timestamp('failed_at')->useCurrent();
+            $table->timestamp('criado-em')->useCurrent();
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('usuario');
     }
 };
