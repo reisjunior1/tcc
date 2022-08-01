@@ -27,5 +27,8 @@ Route::get('/times', function () {
 
 Route::get('/jogador', function () {
     return view(view:'times.jogadors');
-})->name('jogadors');;
+})->name('jogadors');
+
+//Rotas Modulo Campeonato
+Route::get('/campeonato/cadastrar', 'App\Http\Controllers\CampeonatosController@cadastrarCampeonato');
 
