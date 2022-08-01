@@ -14,5 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view(view:'times.paginainicial');
+})->name('PaginaInicial');
+
+Route::get('/cadastrar', function () {
+    return view(view:'times.cadastrar');
+})->name('cadastrar');
+
+Route::get('/times', function () {
+    return view(view:'times.times');
+})->name('times');
+
+Route::get('/jogador', function () {
+    return view(view:'times.jogadors');
+})->name('jogadors');;
+
