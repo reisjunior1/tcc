@@ -16,10 +16,10 @@
   </div>
   <div class="col-md-6">
     <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control" id="inputEmail4">
+    <input type="email" class="form-control" id="inEmail">
   </div>
   <div class="col-md-6">
-    <label for="seaha" class="form-label">Senha</label>
+    <label for="senha" class="form-label">Senha</label>
     <input type="password" class="form-control" id="Senha">
   </div>
   <div class="col-12">
@@ -27,12 +27,12 @@
     <input type="text" class="form-control" id="endereco" placeholder="Rua:..">
   </div>
   <div class="col-12">
-    <label for="inputAddress2" class="form-label">Address 2</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    <label for="endereco" class="form-label">endereco 2</label>
+    <input type="text" class="form-control" id="inendereco2" placeholder="Apartment, studio, or floor">
   </div>
   <div class="col-md-6">
     <label for="cidade" class="form-label">Cidade</label>
-    <input type="text" class="form-control" id="cidade">
+    <input type="text" class="form-control" id="incidade">
   </div>
   <div class="col-md-4">
     <label for="inputState" class="form-label">State</label>
