@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="br" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="css/login.css" />
-    <title>Login</title>
+@extends('times.tela.telas')
+
+
+@section('parte')
+    <title>Cadastro</title>
   </head>
   <body>
    <form action=" POST">
@@ -17,5 +14,4 @@
 
    </form>
     
-  </body>
-</html>
+   @endsection
