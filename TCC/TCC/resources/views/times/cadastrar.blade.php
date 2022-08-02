@@ -5,7 +5,7 @@
     <title>Cadastro</title>
   </head>
   <body>
-
+<div class="container">
 <div class="conterner py-4">
 
 <form class="row g-3">
@@ -71,5 +71,5 @@
 
 
    </form>
-    
+   </div>
    @endsection
