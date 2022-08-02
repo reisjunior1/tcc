@@ -35,8 +35,8 @@
     <input type="text" class="form-control" id="incidade">
   </div>
   <div class="col-md-4">
-    <label for="inputState" class="form-label">State</label>
-    <select id="inputState" class="form-select">
+    <label for="estado" class="form-label">Estado</label>
+    <select id="inestado" class="form-select">
       <option selected>Choose...</option>
       <option>...</option>
     </select>
