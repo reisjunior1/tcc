@@ -15,6 +15,16 @@
     <input type="text" class="form-control" id="nome" placeholder="Nome/Sobrenome">
   </div>
   <div class="col-md-6">
+    <label for="cpf" class="form-label">CPF:</label>
+    <input type="cpf" class="form-control" id="incpf"  placeholder="***.***.***-**">
+  </div>
+  <div class="col-md-6">
+    <label for="telefone" class="form-label">Telefone:</label>
+    <input type="text" class="form-control" id="intelefone"  placeholder="( ) - ---- ----">
+  </div>
+
+
+  <div class="col-md-6">
     <label for="email" class="form-label">Email:</label>
     <input type="email" class="form-control" id="inEmail"  placeholder="....@email.com">
   </div>
@@ -22,6 +32,10 @@
     <label for="senha" class="form-label">Senha:</label>
     <input type="text" class="form-control" id="insenha"  placeholder="Crie uma senha">
   </div>
+
+
+
+
   <div class="col-12">
     <label for="endereco" class="form-label">Endereço:</label>
     <input type="text" class="form-control" id="inendereco" placeholder="Rua:..">
@@ -31,11 +45,11 @@
     <input type="text" class="form-control" id="incomplemento" placeholder="Apartamento, quadra...">
   </div>
   <div class="col-md-6">
-    <label for="cidade" class="form-label">Cidade</label>
+    <label for="cidade" class="form-label">Cidade:</label>
     <input type="text" class="form-control" id="incidade">
   </div>
   <div class="col-md-4">
-    <label for="estado" class="form-label">Estado</label>
+    <label for="estado" class="form-label">Estado:</label>
     <select id="slestado" class="form-select">
       <option selected>...</option>
       <option>...</option>
