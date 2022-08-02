@@ -44,6 +44,10 @@
     <label for="complemento" class="form-label">Complemento:</label>
     <input type="text" class="form-control" id="incomplemento" placeholder="Apartamento, quadra...">
   </div>
+  <div class="col-md-2">
+    <label for="cep" class="form-label">CEP:</label>
+    <input type="text" class="form-control" id="incep">
+  </div>
   <div class="col-md-6">
     <label for="cidade" class="form-label">Cidade:</label>
     <input type="text" class="form-control" id="incidade">
@@ -55,10 +59,7 @@
       <option>...</option>
     </select>
   </div>
-  <div class="col-md-2">
-    <label for="cpf" class="form-label">CEP</label>
-    <input type="text" class="form-control" id="incpf">
-  </div>
+  
   <div class="col-12">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="gridCheck">
