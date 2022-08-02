@@ -8,27 +8,27 @@
 <div class="container">
 <div class="conterner py-4">
 
-<form class="row g-3">
+<form class="row g-3"  action=" POST">
 
 <div class="col-12">
-    <label for="nome" class="form-label">nome</label>
-    <input type="text" class="form-control" id="nome" placeholder="nome">
+    <label for="nome" class="form-label">Nome Completo:</label>
+    <input type="text" class="form-control" id="nome" placeholder="Nome/Sobrenome">
   </div>
   <div class="col-md-6">
-    <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control" id="inEmail">
+    <label for="email" class="form-label">Email:</label>
+    <input type="email" class="form-control" id="inEmail"  placeholder="....@email.com">
   </div>
   <div class="col-md-6">
-    <label for="senha" class="form-label">Senha</label>
-    <input type="password" class="form-control" id="essenha">
+    <label for="senha" class="form-label">Senha:</label>
+    <input type="text" class="form-control" id="insenha"  placeholder="Crie uma senha">
   </div>
   <div class="col-12">
-    <label for="endereco" class="form-label">Endereço</label>
+    <label for="endereco" class="form-label">Endereço:</label>
     <input type="text" class="form-control" id="inendereco" placeholder="Rua:..">
   </div>
   <div class="col-12">
-    <label for="complemento" class="form-label">Complemento</label>
-    <input type="text" class="form-control" id="incomplemento" placeholder="Apartamento,quadra...">
+    <label for="complemento" class="form-label">Complemento:</label>
+    <input type="text" class="form-control" id="incomplemento" placeholder="Apartamento, quadra...">
   </div>
   <div class="col-md-6">
     <label for="cidade" class="form-label">Cidade</label>
@@ -49,7 +49,8 @@
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="gridCheck">
       <label class="form-check-label" for="gridCheck">
-        Check me out
+        Aceitar os termos de serviços
+        <a href="#">Termos</a>
       </label>
     </div>
   </div>
@@ -63,13 +64,6 @@
   </div>
 
 
-   <form action=" POST">
-    
-   <label for="nome">Nome:</label>
-      <input type="text" name="nome" id="nome" placeholder="Nome completo">
-    </div>
-
-
-   </form>
+   
    </div>
    @endsection
