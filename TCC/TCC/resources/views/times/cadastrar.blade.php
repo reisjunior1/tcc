@@ -27,8 +27,8 @@
     <input type="text" class="form-control" id="inendereco" placeholder="Rua:..">
   </div>
   <div class="col-12">
-    <label for="endereco" class="form-label">endereco 2</label>
-    <input type="text" class="form-control" id="inendereco2" placeholder="Apartment, studio, or floor">
+    <label for="complemento" class="form-label">Complemento</label>
+    <input type="text" class="form-control" id="incomplemento" placeholder="Apartamento,quadra...">
   </div>
   <div class="col-md-6">
     <label for="cidade" class="form-label">Cidade</label>
