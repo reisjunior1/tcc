@@ -20,11 +20,11 @@
   </div>
   <div class="col-md-6">
     <label for="senha" class="form-label">Senha</label>
-    <input type="password" class="form-control" id="Senha">
+    <input type="password" class="form-control" id="essenha">
   </div>
   <div class="col-12">
     <label for="endereco" class="form-label">Endereço</label>
-    <input type="text" class="form-control" id="endereco" placeholder="Rua:..">
+    <input type="text" class="form-control" id="inendereco" placeholder="Rua:..">
   </div>
   <div class="col-12">
     <label for="endereco" class="form-label">endereco 2</label>
@@ -36,14 +36,14 @@
   </div>
   <div class="col-md-4">
     <label for="estado" class="form-label">Estado</label>
-    <select id="inestado" class="form-select">
-      <option selected>Choose...</option>
+    <select id="slestado" class="form-select">
+      <option selected>...</option>
       <option>...</option>
     </select>
   </div>
   <div class="col-md-2">
-    <label for="inputZip" class="form-label">Zip</label>
-    <input type="text" class="form-control" id="inputZip">
+    <label for="cpf" class="form-label">CEP</label>
+    <input type="text" class="form-control" id="incpf">
   </div>
   <div class="col-12">
     <div class="form-check">
@@ -54,7 +54,7 @@
     </div>
   </div>
   <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-primary">Salvar</button>
   </div>
 </form>
 
