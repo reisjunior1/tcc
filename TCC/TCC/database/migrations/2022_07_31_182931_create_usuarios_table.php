@@ -20,7 +20,8 @@ return new class extends Migration
             $table->String('telefone',20);
             $table->String('email',100);
             $table->String('Tipo',2);
-            $table->integer('Eexcluido');
+           
+            $table->tinyInteger('Eexcluido')->nullable(false);
             $table->timestamp('criado-em')->useCurrent();
         });
     }

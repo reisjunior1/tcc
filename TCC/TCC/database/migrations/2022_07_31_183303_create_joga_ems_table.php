@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('id_usuario')-> references('id')->on('usuarios');
             $table->unsignedBigInteger('id_time');
             $table->foreign('id_time')-> references('id')->on('times');
-            $table->integer('Eexcluido');
+            $table->integer('Eexcluido')->nullable(false);
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
         });

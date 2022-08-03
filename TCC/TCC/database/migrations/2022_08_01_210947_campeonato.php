@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 100);
             $table->string('formato', 5);
-            $table->integer('Eexcluido');
+            $table->integer('Eexcluido')->nullable(false);
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
         });

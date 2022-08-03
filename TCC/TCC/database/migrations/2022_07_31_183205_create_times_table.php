@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('times', function (Blueprint $table) {
             $table->id();
             $table->string('nome',100);
-            $table->integer('Eexcluido');
+            $table->integer('Eexcluido')->nullable(false);
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
         });
