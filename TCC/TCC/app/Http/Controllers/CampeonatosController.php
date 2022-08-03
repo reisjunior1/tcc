@@ -6,6 +6,7 @@ use App\Models\campeonato;
 use App\Models\usuario;
 use App\Models\time;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class CampeonatosController extends Controller
@@ -23,7 +24,12 @@ class CampeonatosController extends Controller
 
     public function index()
     {
-        $campeonatos = $this->objCampeonato->all();
+        //$campeonatos = $this->objCampeonato->all();
+        $campeonatos = DB::table('campeonatos')
+                ->where('Eexcluido', '=', '0')
+                ->orderBy('created_at', 'DESC')
+                ->orderBy('nome', 'ASC')
+                ->get();
         return view('campeonatos/index', compact('campeonatos'));
     }
     public function cadastrarCampeonato()
@@ -37,4 +43,26 @@ class CampeonatosController extends Controller
         dd($formato);
         die();
     }
+
+    public function show($id)
+    {
+        $campeonato = $this->objCampeonato->find($id);
+        return view('campeonatos/exibir', compact('campeonato'));
+    }
+    
+    public function store(Request $request)
+    {
+        //dd($request->inNomeCampeonato);die();
+        $cadastro=$this->objCampeonato->create([
+        'nome'=>$request->inNomeCampeonato,
+        'formato'=>$request->slFormato,
+        'Eexcluido' => 0,
+        'numeroTimes' => $request->inNumeroTimes,
+        'dataInicio'=>$request->inDataInicio,
+        'dataFim'=>$request->inDataFim
+        ]);
+        if($cadastro){
+            return redirect('campeonato');
+        }
+}
 }

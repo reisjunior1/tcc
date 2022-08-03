@@ -32,4 +32,6 @@ Route::get('/jogador', function () {
 //Rotas Modulo Campeonato
 Route::get('/campeonato', 'App\Http\Controllers\CampeonatosController@index')->name("campeonato.index");
 Route::get('/campeonato/cadastrar', 'App\Http\Controllers\CampeonatosController@cadastrarCampeonato')->name("campeonato.cadastrar");
-Route::get('/campeonato/pesquisar', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar");
+Route::get('/campeonato/pesquisar/formato', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar/slFormato");
+//Route::get('/campeonato/exibir/id', 'App\Http\Controllers\CampeonatosController@exibir')->name("campeonato.exibir");
+Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');

@@ -18,7 +18,7 @@
             <option value="MM">Mata a mata</option>
         </select>
     </div>
-    <a href="{{route('campeonato.pesquisar')}}">
+    <a href="{{route('campeonato.pesquisar/slFormato')}}">
         <button class="btn btn-primary">Pesquisar</button>
     </a>
 </div>

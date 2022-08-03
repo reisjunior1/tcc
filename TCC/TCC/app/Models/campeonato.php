@@ -9,7 +9,7 @@ class campeonato extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome','formato'];
+    protected $fillable = ['nome','formato', 'Eexcluido', 'numeroTimes', 'dataInicio', 'dataFim'];
 
     public function campeonato()
     {

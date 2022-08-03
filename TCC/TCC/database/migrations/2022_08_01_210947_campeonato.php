@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('campeonato', function (Blueprint $table) {
+        Schema::create('campeonatos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 100);
-            $table->string('formato', 5);
-            $table->integer('Eexcluido')->nullable(false);
-            $table->timestamp('criado-em')->useCurrent();
-            $table->timestamp('atualizado-em')->useCurrent();
+            $table->string('nome', 100)->nullable(false);;
+            $table->string('formato', 5)->nullable(false);;
+            $table->tinyInteger('Eexcluido')->nullable(false);
+            $table->date('dataInicio')->nullable(false);
+            $table->date('dataFim')->nullable(false);
+            $table->tinyInteger('numeroTimes')->nullable(false);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 
