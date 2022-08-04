@@ -8,9 +8,9 @@ class CadastroTime extends Controller
 {
     //
 
-   public function cadastrar ()
+   public function cadastrartimes ()
    {
-    return view ('times.cadastrar');
+    return view ('times.times');
    }
 
 

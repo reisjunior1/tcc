@@ -12,14 +12,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\CadastroTime;
+use App\Http\Controllers\CadastroUsuario;
+use App\http\Controllers\CampeonatosController;
 
 Route::get('/', function () {
     return view(view:'times.paginainicial');
 })->name('PaginaInicial');
 
+/*
 Route::get('/cadastrar', function () {
     return view(view:'times.cadastrar');
-})->name('cadastrar');
+})->name('cadastrar');*/
+
+Route::get('/cadastrar',[EventController::class, 'cadastrar']);
 
 Route::get('/times', function () {
     return view(view:'times.times');
