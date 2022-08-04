@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\campeonato;
 use App\Models\usuario;
 use App\Models\time;
 use Illuminate\Http\Request;
+use App\Http\Requests\CampeonatosRequest;
 use Illuminate\Support\Facades\DB;
 
 
@@ -34,8 +36,7 @@ class CampeonatosController extends Controller
     }
     public function cadastrarCampeonato()
     {
-        $times = $this->objTime->all();
-        return view('campeonatos/cadastrar', compact('times'));
+        return view('campeonatos/cadastrar');
     }
 
     public function pesquisar($formato)
@@ -50,7 +51,7 @@ class CampeonatosController extends Controller
         return view('campeonatos/exibir', compact('campeonato'));
     }
     
-    public function store(Request $request)
+    public function store(CampeonatosRequest $request)
     {
         //dd($request->inNomeCampeonato);die();
         $cadastro=$this->objCampeonato->create([

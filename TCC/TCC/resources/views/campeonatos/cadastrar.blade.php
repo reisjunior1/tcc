@@ -7,6 +7,13 @@
   <body>
 
 <div class="conterner py-4">
+@if(isset($errors) && count($errors)>0)
+    <div class="class= text-danger text-center mt-4 mb-4 p-2 ">
+        @foreach($errors->all() as $erro)
+            {{$erro}}<br>
+        @endforeach
+    </div>
+@endif
 
 <form class="row g-7" name="formCadastro" id="formCadastro" method="post" action="{{url('campeonato')}}">
   @csrf
@@ -38,13 +45,6 @@
     <div class="col-md-6">
     <label for="inNumeroTimes" class="form-label">Número de Times Participantes*</label>
     <input type="number" class="form-control" name="inNumeroTimes" id="inNumeroTimes" placeholder="Digite o Número de times participantes">
-    </div>
-    <div class="col-12">
-      <select id="slTime" select id="demo" multiple="multiple" class="form-select">
-        @foreach($times as $time)
-        <option value={{$time->id}}>{{$time->nome}}</option>
-        @endforeach
-      </select>
     </div>
     <br>
     <div class="col-12">
