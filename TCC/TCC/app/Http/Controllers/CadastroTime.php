@@ -10,7 +10,7 @@ class CadastroTime extends Controller
 
    public function cadastrartimes ()
    {
-    return view ('times.times');
+    return view(view:'times.times');
    }
 
 

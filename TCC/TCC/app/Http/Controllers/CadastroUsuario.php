@@ -8,11 +8,9 @@ class CadastroUsuario extends Controller
 {
     //
 
-    public function cadastrar ()
+    public function cadastrar()
     {
-     return view ('times.cadastrar');
-
-     
+        return view(view:'times.cadastrar');
 
      
     }

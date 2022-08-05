@@ -13,21 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view(view:'times.paginainicial');
-})->name('PaginaInicial');
+})->name('PaginaInicial');*/
+Route::get('/', 'App\Http\Controllers\PaginaInicial@index')->name("PaginaInicial");
 
+
+/*
 Route::get('/cadastrar', function () {
     return view(view:'times.cadastrar');
 })->name('cadastrar');
-
+*/
+Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuario@cadastrar')->name("cadastrar");
+ 
+/*
 Route::get('/times', function () {
     return view(view:'times.times');
 })->name('times');
+*/
+Route::get('/times', 'App\Http\Controllers\CadastroTime@cadastrarTimes')->name("times");
 
 Route::get('/jogador', function () {
     return view(view:'times.jogadors');
 })->name('jogadors');
+
+
 
 //Rotas Modulo Campeonato
 Route::get('/campeonato', 'App\Http\Controllers\CampeonatosController@index')->name("campeonato.index");
