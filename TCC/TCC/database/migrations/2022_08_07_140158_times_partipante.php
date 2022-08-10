@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('joga_em', function (Blueprint $table) {
+        Schema::create('times_participantes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_jogador')-> references('id')->on('jogadores');
             $table->unsignedBigInteger('id_time');
             $table->foreign('id_time')-> references('id')->on('times');
+            $table->unsignedBigInteger('id_campeonato');
+            $table->foreign('id_campeonato')-> references('id')->on('campeonatos');
             $table->integer('Eexcluido')->nullable(false);
             $table->timestamp('criado-em')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('joga_em');
+        //
     }
 };

@@ -40,8 +40,13 @@ Route::get('/jogador', function () {
 
 
 //Rotas Modulo Campeonato
+Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');
 Route::get('/campeonato', 'App\Http\Controllers\CampeonatosController@index')->name("campeonato.index");
 Route::get('/campeonato/cadastrar', 'App\Http\Controllers\CampeonatosController@cadastrarCampeonato')->name("campeonato.cadastrar");
 Route::get('/campeonato/pesquisar/formato', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar/slFormato");
-//Route::get('/campeonato/exibir/id', 'App\Http\Controllers\CampeonatosController@exibir')->name("campeonato.exibir");
-Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');
+Route::get('/campeonato/{id}/adicionarTime/', 'App\Http\Controllers\CampeonatosController@adicionarTime')->name("campeonato.adicionarTime");
+//Route::get('/campeonato/buscaJogadores/{idTime}', 'App\Http\Controllers\CampeonatosController@buscaJogadores')->name("campeonato.buscaJogadores");
+
+Route::group(['prefix' => 'vendor','as'=>'vendor.'], function () {
+    Route::get('/campeonato/buscaJogadores/{idTime}',['as' => 'activebranch', 'uses' => 'App\Http\Controllers\CampeonatosController@buscaJogadores']);
+});

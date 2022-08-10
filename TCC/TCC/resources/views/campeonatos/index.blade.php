@@ -47,13 +47,13 @@
                 <td>{{$campeonato->formato}}</td>
                 <td>
                     <a href="{{url("campeonato/$campeonato->id")}}">
-                        <button class="btn btn-dark">Visualizar</button>
+                        <button class="btn btn-dark">Times Participantes</button>
                     </a>
-                    <a href="">
+                    <a href="{{url("campeonato/$campeonato->id/edit")}}">
                         <button class="btn btn-primary">Editar</button>
                     </a>
                     
-                    <a href="">
+                    <a href="{{url("campeonato/$campeonato->id")}}" class="js-del">
                         <button class="btn btn-danger">Deletar</button>
                     </a>
                 </td>

@@ -16,5 +16,19 @@ class time extends Model
         return $this->belongsTo(time::class);
     }
 
+    public function lstTimes($arrayTimes)
+    {
+        return time::select('id', 'nome')
+            ->whereIn('id', $arrayTimes)
+            ->get()->toArray();
+    }
+
+    public function sltTimes()
+    {
+        return time::select('id', 'nome')
+            ->where('Eexcluido', '=', '0')
+            ->get()->toArray();
+    }
+
     
 }
