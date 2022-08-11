@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreign('id_local')-> references('id')->on('local');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
-            $table->timestamp('atualizado-em')->useCurrent();
         });
     }
 
