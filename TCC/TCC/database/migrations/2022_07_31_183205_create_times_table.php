@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('times', function (Blueprint $table) {
             $table->id();
-            $table->id('id_usuario');
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')-> references('id')->on('usuarios');
             $table->string('sigla',5);
             $table->string('nome',100);
-            $table->id('id_local');
+            $table->unsignedBigInteger('id_local');
+            $table->foreign('id_local')-> references('id')->on('local');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('atualizado-em')->useCurrent();
