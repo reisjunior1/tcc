@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreign('id_jogador')-> references('id')->on('jogadores');
             $table->unsignedBigInteger('id_time');
             $table->foreign('id_time')-> references('id')->on('times');
-            $table->integer('Eexcluido')->nullable(false);
-            $table->timestamp('criado-em')->useCurrent();
-            $table->timestamp('atualizado-em')->useCurrent();
+            $table->tinyInteger('Eexcluido')->nullable(false);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

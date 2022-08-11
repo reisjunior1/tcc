@@ -9,7 +9,7 @@ class usuario extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cpf', 'nome', 'telefone', 'email'];
+    protected $fillable = ['tipo','cpf', 'nome', 'telefone', 'email'];
 
     public function usuario()
     {

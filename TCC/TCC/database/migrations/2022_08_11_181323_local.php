@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('campeonatos', function (Blueprint $table) {
+        Schema::create('local', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 100)->nullable(false);;
-            $table->string('formato', 5)->nullable(false);;
-            $table->tinyInteger('Eexcluido')->nullable(false);
-            $table->date('dataInicio')->nullable(false);
-            $table->date('dataFim')->nullable(false);
-            $table->tinyInteger('numeroTimes')->nullable(false);
+            $table->string('endereco',100);
+            $table->String('cidade',100);
+            $table->String('bairro',100);
+            $table->String('numero',4);
+            $table->String('cep',8);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
-            
+            $table->tinyInteger('Eexcluido')->nullable(false);
         });
     }
 
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campeonatos');
+        Schema::dropIfExists('local');
     }
 };
