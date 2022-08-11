@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('nome');
             $table->String('telefone');
-            $table->integer('Eexcluido')->nullable(false);
+            $table->tinyInteger('Eexcluido')->nullable(false);
             $table->date('nacimento');
-        
-            $table->timestamp('criado-em')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+
         });
     }
 

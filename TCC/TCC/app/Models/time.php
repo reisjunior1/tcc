@@ -9,7 +9,12 @@ class time extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome',
+    'id-User',
+    'Local',
+    'Sigla',
+    'Eexcluido',
+    ];
 
     public function time()
     {

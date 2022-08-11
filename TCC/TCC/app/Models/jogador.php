@@ -9,7 +9,7 @@ class jogador extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cpf', 'nome', 'telefone', 'nascimento'];
+    protected $fillable = ['cpf', 'nome','telefone', 'nascimento','Eexecluido'];
 
     public function jogador()
     {

@@ -5,17 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class joga_em extends Model
+class local extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-    'id_jogador',
-    'id_Time',
-    'Eexcluido'];
+    'Endereço',
+    'Bairro',
+    'Cidadede',
+    'CEP'
+    ];
 
-    public function joga_em()
+    public function local()
     {
-        return $this->belongsTo(joga_em::class);
+        return $this->belongsTo(local::class);
     }
+
+
+
+
 }

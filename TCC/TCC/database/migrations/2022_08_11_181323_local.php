@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
+        Schema::create('local', function (Blueprint $table) {
             $table->id();
-            $table->string('cpf',14)->unique();
-            $table->string('nome', 100);
-            $table->String('telefone',20);
-            $table->String('email',100);
-            $table->String('Tipo',2);
-            $table->String('senha',100);
+            $table->string('endereco', 100);
+            $table->String('cidade',100);
+            $table->String('bairro',100);
+            $table->String('numero',4);
+            $table->String('cep',8);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
+            $table->tinyInteger('Eexcluido')->nullable(false);
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios');
+        //
     }
 };
