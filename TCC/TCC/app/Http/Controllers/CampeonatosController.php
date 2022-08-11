@@ -36,6 +36,7 @@ class CampeonatosController extends Controller
                 ->get();
         return view('campeonatos/index', compact('campeonatos'));
     }
+
     public function cadastrarCampeonato()
     {
         return view('campeonatos/cadastrar');
@@ -101,10 +102,17 @@ class CampeonatosController extends Controller
         return($del)?"sim":"não";
     }
 
-    public function adicionarTime($id)
+    public function adicionarTime($idCampeonato, $idTime = null)
     {
+        var_dump($idTime);
         $modelTime = new time();
         $times = $modelTime->sltTimes();
+
+        if(!is_null($idTime)){
+            $modelJogador = new jogador();
+            $jogadores = $modelJogador->lstJogadoresPorTime($idTime);
+            var_dump($jogadores);
+        }
         
         return view('campeonatos/adicionarTime', compact('times'));
     }

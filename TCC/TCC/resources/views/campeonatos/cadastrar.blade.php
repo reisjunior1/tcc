@@ -2,6 +2,7 @@
 
 
 @section('parte')
+<?php // var_dump($campeonato); die(); ?>
   <title>@if(isset($campeonato)) Editar @else Cadastrar @endif</title>
   </head>
   <body>

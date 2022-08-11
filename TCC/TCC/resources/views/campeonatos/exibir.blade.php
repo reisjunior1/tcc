@@ -7,7 +7,7 @@
   <body>
 <?php var_dump($campeonato[0]["id"]); //die();?>
 <div class="conterner py-4">
-<form class="row g-7">
+
   <div class="mx-auto" style="width: 800px; height: 500px;">
     <div class="col-md-6">
         <label class="form-label">Nome: </label> {{$campeonato[0]['nome']}}
@@ -20,7 +20,7 @@
         <br>
         <label class="form-label">Perído: </label> {{$campeonato[0]['dataInicio']}} <label> a </label> {{$campeonato[0]['dataFim']}}
         <div class="text-center mt-3 mb-4">
-          <a href="{{route('campeonato.adicionarTime', ['id' => $campeonato[0]['id']])}}">
+          <a href="{{ route("campeonato.adicionarTime", ['idCampeonato' => $campeonato[0]['id']]) }}">
             <button class="btn btn-success">Adicionar Time</button>
           </a>
         </div>
@@ -48,7 +48,6 @@
           <br><label class="text-center">Não há times participando deste campeonato</label>
         @endif
     </div>
-</form>
 
 
    @endsection

@@ -19,11 +19,6 @@ class campeonato extends Model
 
     public function lstCampeonatos($id)
     {
-        //return DB::table('campeonatos')
-        //    ->where('id', '=', $id)
-        //    ->orderBy('created_at', 'DESC')
-        //    ->orderBy('nome', 'ASC')
-        //    ->get();
         return campeonato::where('id', '=', $id)->get();
     }
 }

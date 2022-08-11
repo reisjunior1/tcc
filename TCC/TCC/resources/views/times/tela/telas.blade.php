@@ -75,10 +75,10 @@
     $('form[name = formInsereirTime').change(function(event){
       event.preventDefault();
       var idTime = $("#slTime").val();
-      alert("route('vendor.activebranch')" +'/'+ idTime );
+      //alert("#");
       $.ajax({
         method:"GET",
-        url:"{{ route('vendor.activebranch'), ['idTime' => '2']}}",
+        url: "{{route('campeonato.adicionarTime', ['idCampeonato' => 9])}}"+'/'+idTime,
         data:{idTime:idTime},
         dataType: "json",
         success:function(response)
