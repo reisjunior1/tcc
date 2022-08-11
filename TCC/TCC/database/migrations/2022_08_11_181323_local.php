@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('local', function (Blueprint $table) {
             $table->id();
-            $table->string('endereco', 100);
+            $table->string('endereco',100);
             $table->String('cidade',100);
             $table->String('bairro',100);
             $table->String('numero',4);
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('local');
     }
 };
