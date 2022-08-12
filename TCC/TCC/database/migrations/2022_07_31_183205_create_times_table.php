@@ -16,14 +16,18 @@ return new class extends Migration
         Schema::create('times', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')-> references('id')->on('usuarios');
             $table->string('sigla',5);
             $table->string('nome',100);
-            $table->unsignedBigInteger('id_local');
-            $table->foreign('id_local')-> references('id')->on('local');
+            //$table->unsignedBigInteger('id_local');
+            //$table->foreign('idLocal')->references('id')->on('local');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
+
+        Schema::table('times', function($table) {
+            $table->foreign('id_usuario')->references('id')->on('usuarios');
+        });
+
     }
 
     /**

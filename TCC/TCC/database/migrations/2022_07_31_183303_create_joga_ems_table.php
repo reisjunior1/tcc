@@ -15,14 +15,21 @@ return new class extends Migration
     {
         Schema::create('joga_em', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_jogador')-> references('id')->on('jogadores');
+            //$table->unsignedBigInteger('id_jogador');
+            //$table->foreign('idJogador')->references('id')->on('jogadores');
             $table->unsignedBigInteger('id_time');
-            $table->foreign('id_time')-> references('id')->on('times');
             $table->tinyInteger('Eexcluido')->nullable(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
+
+        Schema::table('joga_em', function($table) {
+            //$table->foreign('id_jogador')->references('id')->on('jogador');
+        });
+
+        Schema::table('joga_em', function($table) {
+            $table->foreign('id_time')->references('id')->on('times');
+         });
     }
 
     /**
