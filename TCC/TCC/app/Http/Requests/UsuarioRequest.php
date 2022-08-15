@@ -30,7 +30,8 @@ class UsuarioRequest extends FormRequest
                 'incpf'=>'required',
                 'telefone'=>'required',
                 'inemail' => 'required',
-                'insenha' => 'required'
+                'insenha' => 'required',
+                'intipo'=>'required'
             ];
 
 
