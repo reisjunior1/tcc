@@ -37,7 +37,7 @@ Route::get('/jogador', function () {
     return view(view:'times.jogadors');
 })->name('jogadors');
 
-
+Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
 
 //Rotas Modulo Campeonato
 Route::get('/campeonato', 'App\Http\Controllers\CampeonatosController@index')->name("campeonato.index");

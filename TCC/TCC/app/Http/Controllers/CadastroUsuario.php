@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\usuario;
 
-
+use App\Http\Requests\UsuarioRequest;
 
 
 
