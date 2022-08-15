@@ -29,9 +29,10 @@ class CadastroUsuario extends Controller
         return view(view:'times.cadastrar');
 
     }
-
+   
     public function store(UsuarioRequest $request)
-    {
+    { dd($request);
+        die();
         $cadastro=$this->objUsuario->create([
             'nome'=>$request->innome,
             'cpf'=>$request->incpf,

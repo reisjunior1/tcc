@@ -2,14 +2,18 @@
 
 
 @section('parte')
+
+
+
     <title>Cadastro</title>
   </head>
   <body>
 <div class="container">
 <div class="conterner py-4">
 
-<form class="row g-3"  method="post"  action="{{url('campeonato')}}"  >
+<form class="row g-3"  method="post"  action="{{url('usuario')}}"  >
 
+@csrf
 <div class="col-12">
     <label for="nome" class="form-label">Nome Completo:</label>
     <input type="text" class="form-control" id="innome" name='innome'   placeholder="Nome/Sobrenome">
