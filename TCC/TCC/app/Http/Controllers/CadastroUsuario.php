@@ -21,6 +21,13 @@ class CadastroUsuario extends Controller
         $this->objUsuario = new usuario();
         
     }
+    public function index()
+    {
+        return view(view:'times.cadastrar');
+
+    }
+
+
 
     //
 
@@ -30,9 +37,14 @@ class CadastroUsuario extends Controller
 
     }
    
+
+
+
+
+
     public function store(UsuarioRequest $request)
-    { dd($request);
-        die();
+    { //dd($request);
+       // die();
         $cadastro=$this->objUsuario->create([
             'nome'=>$request->innome,
             'cpf'=>$request->incpf,

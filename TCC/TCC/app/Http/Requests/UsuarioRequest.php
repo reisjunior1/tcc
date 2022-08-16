@@ -26,18 +26,26 @@ class UsuarioRequest extends FormRequest
         return [
 
            
-                'inmome'=>'required',
+                'innome'=>'required',
                 'incpf'=>'required',
-                'telefone'=>'required',
+                'intelefone'=>'required',
                 'inemail' => 'required',
                 'insenha' => 'required',
                 'intipo'=>'required'
             ];
-
-
-
-
-            //
         
+    }
+
+
+public function messages()
+    {
+        return [
+            'innome.required' => 'O campo Nome é obrigatório!',
+            'incpf.required' => 'O campo CPF é obrigatório!',
+            'intelefone.required' => 'O campo Telefone é obrigatório!',
+            'intipo.required' => 'O campo Tipo é obrigatório!',
+            'insenha.required' => 'O campo Senha é obrigatório!',
+
+        ];
     }
 }
