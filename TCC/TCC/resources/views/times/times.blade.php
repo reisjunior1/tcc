@@ -29,10 +29,12 @@
     <input type="emailtime" class="form-control" id="inEmailtime"  placeholder="....@email.com">
   </div>
 
-  <div></div>
+  <div>
+   <!-- 
+  </div>
   <div class="col-md-6">
-    <label for="senha" class="form-label">Responsável:</label>
-    <input type="text" class="form-control" id="insenha"  placeholder="Nome do Responsavel">
+    <label for="responsavel" class="form-label">Responsável:</label>
+    <input type="text" class="form-control" id="inresponsavel"  placeholder="Nome do Responsavel">
   </div>
   <div class="col-md-6">
     <label for="cpfresp" class="form-label">CPF:</label>
@@ -40,7 +42,7 @@
   </div>
 
   </div>
-
+-->
 
   <div class="col-md-2" >
     <label for="cep" class="form-label">CEP:</label>

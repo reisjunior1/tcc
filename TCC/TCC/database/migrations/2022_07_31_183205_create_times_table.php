@@ -18,6 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->string('sigla',5);
             $table->string('nome',100);
+            $table->string('endereco',100);
+            $table->String('cidade',100);
+            $table->String('bairro',100);
+            $table->String('complemento',100);
+            $table->String('cep',8);
+            $table->String('estado',100);
             //$table->unsignedBigInteger('id_local');
             //$table->foreign('idLocal')->references('id')->on('local');
             $table->timestamp('created_at')->useCurrent();
