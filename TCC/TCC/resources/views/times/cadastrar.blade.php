@@ -17,12 +17,14 @@
         @endforeach
     </div>
 @endif
+
 <form class="row g-3"  method="post"  action="{{url('usuario')}}"  >
+
 
 @csrf
 <div class="col-12">
     <label for="nome" class="form-label">Nome Completo:</label>
-    <input type="text" class="form-control" id="innome" name='innome'   placeholder="Nome/Sobrenome">
+    <input type="text" class="form-control" id="inNome" name='inNome'   placeholder="Nome/Sobrenome">
   </div>
   <div class="col-md-6">
     <label for="cpf" class="form-label">CPF:</label>
@@ -30,7 +32,7 @@
   </div>
   <div class="col-md-6">
     <label for="telefone" class="form-label">Telefone:</label>
-    <input type="text" class="form-control" id="intelefone" name='intelefone' placeholder="( ) - ---- ----">
+    <input type="text" class="form-control" id="inTelefone" name='inTelefone' placeholder="( ) - ---- ----">
   </div>
 
 
@@ -40,7 +42,7 @@
   </div>
   <div class="col-md-4">
   <label for="tipo" class="form-label">Tipo:</label>
-    <input type="text" class="form-control" id="intipo" name='intipo'  placeholder="Informe o tipo do usuario">
+    <input type="text" class="form-control" id="inTipo" name='inTipo'  placeholder="Informe o tipo do usuario">
 
 
 
@@ -92,11 +94,4 @@
   </div>
 </form>
 
-
-
-  </div>
-
-
-   
-   </div>
-   @endsection
+@endsection

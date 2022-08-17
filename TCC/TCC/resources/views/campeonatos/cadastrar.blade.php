@@ -9,7 +9,7 @@
 
 <div class="conterner py-4">
 @if(isset($errors) && count($errors)>0)
-    <div class="class= text-danger text-center mt-4 mb-4 p-2 ">
+    <div class="alert alert-danger text-center mt-4 mb-4 p-2">
         @foreach($errors->all() as $erro)
             {{$erro}}<br>
         @endforeach

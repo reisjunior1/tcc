@@ -7,6 +7,11 @@
   <body>
 
   <hr> <h2 class="text-center">Campeonatos</h2> <hr>
+  @if(session('mensagem'))
+    <div class="alert alert-success text-center mt-4 mb-4 p-2">
+        <p>{{session('mensagem')}}</p>
+    </div>
+  @endif
   <h3 class="text-center">Filtrar por</h3>
 <div class="text-center mt-3 mb-4">
     <div class="col-4 m-auto">

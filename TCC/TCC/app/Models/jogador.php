@@ -16,11 +16,5 @@ class jogador extends Model
         return $this->belongsTo(jogador::class);
     }
 
-    public function lstJogadoresPorTime($idTime)
-    {
-        return time::select('jogador.id', 'jogador.nome')
-            ->join('joga_em', 'joga_em.id_jogador', '=', 'jogador.id')
-            ->where('joga_em.id_time', '=', $idTime)
-            ->get()->toArray();
-    }
+    
 }

@@ -9,6 +9,7 @@ use App\Models\time;
 use App\Models\timesParticipantes;
 use Illuminate\Http\Request;
 use App\Http\Requests\CampeonatosRequest;
+use App\Models\joga_em;
 use App\Models\jogador;
 use App\Models\timeParticipantes;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,7 @@ class CampeonatosController extends Controller
         $this->objUsuario = new usuario();
         $this->objTime = new time();
         $this->objCampeonato = new campeonato();
+        $this->objJogaEm = new joga_em();
     }
 
     public function index()
@@ -73,8 +75,10 @@ class CampeonatosController extends Controller
         'dataFim'=>$request->inDataFim
         ]);
         if($cadastro){
+            session()->flash('mensagem', 'Campeonato criado com sucesso!');
             return redirect('campeonato');
         }
+        
     }
 
     public function edit($id)
@@ -93,6 +97,7 @@ class CampeonatosController extends Controller
             'dataInicio'=>$request->inDataInicio,
             'dataFim'=>$request->inDataFim
         ]);
+        session()->flash('mensagem', "Campeonato $request->inNomeCampeonato foi editado!");
         return redirect('campeonato');
     }
 
@@ -102,25 +107,43 @@ class CampeonatosController extends Controller
         return($del)?"sim":"não";
     }
 
-    public function adicionarTime($idCampeonato, $idTime = null)
+    public function adicionarTime($idCampeonato)
     {
-        var_dump($idTime);
+        $modelCampeonato = new campeonato();
+        $campeonato = $modelCampeonato->lstCampeonatos($idCampeonato);
+
         $modelTime = new time();
         $times = $modelTime->sltTimes();
 
-        if(!is_null($idTime)){
-            $modelJogador = new jogador();
-            $jogadores = $modelJogador->lstJogadoresPorTime($idTime);
-            var_dump($jogadores);
-        }
-        
-        return view('campeonatos/adicionarTime', compact('times'));
+        return view('campeonatos/adicionarTime', compact('campeonato', 'times'));
     }
 
-    public function buscaJogadores($idTime)
+    public function buscaJogadores(Request $request)
     {
-        $modelJogador = new jogador();
-        $jogadores = $modelJogador->lstJogadoresPorTime($idTime);
-        var_dump($jogadores);
+        $idCampeonato = $request->hdCampeonato;
+        $idTime = $request->slTime;
+        $modelCampeonato = new campeonato();
+        $campeonato = $modelCampeonato->lstCampeonatos($idCampeonato);
+        $campeonato = array($campeonato[0]);
+
+        $modelTime = new time();
+        $time = $modelTime->lstTimes(array($idTime));
+
+        $modelJogaEm = new joga_em();
+        $jogadores = $modelJogaEm->lstJogadoresPorTime($idTime);
+        return view('campeonatos/confirmarJogadores', compact('campeonato','time', 'jogadores'));
+    }
+
+    public function salvaTimesJogadoresCampeonato(Request $request)
+    {
+        $modelTimesParticipantes = new timesParticipantes();
+        $cadastro = $modelTimesParticipantes->insParticipantes(
+            $request->hdCampeonato,
+            $request->hdTime
+        );
+        if($cadastro){
+            session()->flash('mensagem', 'Time adicionado ao campeonato com sucesso!');
+            return redirect('campeonato');
+        }
     }
 }

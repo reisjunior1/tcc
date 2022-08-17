@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\usuario;
-
 use App\Http\Requests\UsuarioRequest;
 
 
 
+
 class CadastroUsuario extends Controller
+
 { 
     private $objUsuario;
     private $objTime;
@@ -21,15 +22,14 @@ class CadastroUsuario extends Controller
         $this->objUsuario = new usuario();
         
     }
+
+
+
     public function index()
     {
         return view(view:'times.cadastrar');
 
     }
-
-
-
-    //
 
     public function cadastrar()
     {
@@ -45,12 +45,13 @@ class CadastroUsuario extends Controller
     public function store(UsuarioRequest $request)
     { //dd($request);
        // die();
+
         $cadastro=$this->objUsuario->create([
-            'nome'=>$request->innome,
+            'nome'=>$request->inNome,
             'cpf'=>$request->incpf,
             'email' => $request->inemail,
-            'telefone' => $request->intelefone,
-            'tipo'=>$request->intipo,
+            'telefone' => $request->inTelefone,
+            'tipo'=>$request->inTipo,
             'senha'=>$request->insenha
             ]);
             if($cadastro){
