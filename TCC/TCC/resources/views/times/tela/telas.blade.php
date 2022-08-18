@@ -25,10 +25,10 @@
             <a class="nav-link active" aria-current="page" href="{{ route('PaginaInicial') }}">Pagina Inicial</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('cadastrar') }}">Cadastro</a>
+            <a class="nav-link" href="{{ route('usuario.cadastrar') }}">Cadastro</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"   href="{{ route('times') }}" >  Times</a>
+            <a class="nav-link"   href="{{ route('time.cadastrar') }}" >  Times</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"  href="{{ route('jogadors') }}"  > Jogador</a>

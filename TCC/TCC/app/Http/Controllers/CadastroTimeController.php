@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-class CadastroTime extends Controller
+use App\Models\time;
+class CadastroTimeController extends Controller
 {
     //
 
@@ -14,6 +14,7 @@ class CadastroTime extends Controller
 
     public function __construct()
     {
+        //O erro está aqui
         $this->objTime = new time();
         
     }
@@ -29,8 +30,9 @@ class CadastroTime extends Controller
 
 
 
-   public function cadastrartimes ()
+   public function cadastrarTimes ()
    {
+    var_dump('entrou'); die();
     return view(view:'times.times');
 
 

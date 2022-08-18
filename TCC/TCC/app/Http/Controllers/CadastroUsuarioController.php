@@ -9,12 +9,11 @@ use App\Http\Requests\UsuarioRequest;
 
 
 
-class CadastroUsuario extends Controller
+class CadastroUsuarioController extends Controller
 
 { 
     private $objUsuario;
-    private $objTime;
-    private $objCampeonato;
+
 
 
     public function __construct()
