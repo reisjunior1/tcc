@@ -20,8 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_campeonato');
             $table->foreign('id_campeonato')->references('id')->on('campeonatos')->onDelete('cascade');
             $table->integer('Eexcluido')->nullable(false);
-            $table->timestamp('criado-em')->useCurrent();
-            $table->timestamp('atualizado-em')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 
