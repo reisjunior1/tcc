@@ -32,7 +32,7 @@ class CadastroTimeController extends Controller
 
    public function cadastrarTimes ()
    {
-    var_dump('entrou'); die();
+    //var_dump('entrou'); die();
     return view(view:'times.times');
 
 

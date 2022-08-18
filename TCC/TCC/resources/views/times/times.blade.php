@@ -9,7 +9,7 @@
 <div class="container" >
 <div class="conterner py-4">
 
-<form class="row g-3"  action=" POST">
+<form class="row g-3"  method="post"  action="{{url('times')}}">
 
 <div class="col-12">
     <label for="nometime" class="form-label">Nome do Time:</label>
@@ -24,13 +24,13 @@
     <input type="text" class="form-control" id="intelefonetime"  placeholder="( ) - ---- ----">
   </div>
 
-  <div class="col-md-6">
+ <!-- <div class="col-md-6">
     <label for="emailtime" class="form-label">Email:</label>
     <input type="emailtime" class="form-control" id="inEmailtime"  placeholder="....@email.com">
   </div>
 
   <div>
-   <!-- 
+    
   </div>
   <div class="col-md-6">
     <label for="responsavel" class="form-label">Responsável:</label>
@@ -56,16 +56,18 @@
     <label for="complemento" class="form-label">Complemento:</label>
     <input type="text" class="form-control" id="incomplemento" placeholder="Apartamento, quadra...">
   </div>
+  
+  <div class="col-md-4">
+    <label for="cidade" class="form-label">Cidade:</label>
+    <input type="text" class="form-control" id="incidade">
+  </div>
   <div class="col-md-4">
     <label for="estado" class="form-label">Estado:</label>
     <select id="slestado" class="form-select">
       <option selected>...</option>
       <option>...</option>
     </select>
-  <div class="col-md-6">
-    <label for="cidade" class="form-label">Cidade:</label>
-    <input type="text" class="form-control" id="incidade">
-  </div>
+
 
   <div class="col-12"> <p></p>
     <button type="submit" class="btn btn-primary">Salvar</button>
