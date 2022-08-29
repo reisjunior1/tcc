@@ -32,16 +32,16 @@ class CampeonatosRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'inNomeCampeonato.required' => 'O campo Nome do Campeonato é obrigatório!',
-            'inNomeCampeonato.max' => 'O campo Nome do Campeonato deve conter até 100 caracteres!',
-            'slFormato.in' => 'O campo Formato é obrigatório!',
-            'inDataInicio.required' => 'O campo Data Inicio é obrigatório!',
-            'inDataFim.required' => 'O campo Data Fim é obrigatório!',
-            'inNumeroTimes.required' => 'O campo Número de Times Participantes é obrigatório!',
-            'inNumeroTimes.digits_between' => 'O valor de Número de Times Participantes deve ser entre 1 e 9999!',
-        ];
-    }
+        public function messages()
+        {
+            return [
+                'inNomeCampeonato.required' => 'O campo Nome do Campeonato é obrigatório!',
+                'inNomeCampeonato.max' => 'O campo Nome do Campeonato deve conter até 100 caracteres!',
+                'slFormato.in' => 'O campo Formato é obrigatório!',
+                'inDataInicio.required' => 'O campo Data Inicio é obrigatório!',
+                'inDataFim.required' => 'O campo Data Fim é obrigatório!',
+                'inNumeroTimes.required' => 'O campo Número de Times Participantes é obrigatório!',
+                'inNumeroTimes.digits_between' => 'O valor de Número de Times Participantes deve ser entre 1 e 9999!',
+            ];
+        }
 }

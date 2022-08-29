@@ -21,4 +21,10 @@ class Campeonato extends Model
     {
         return campeonato::where('id', '=', $id)->get();
     }
+
+    public function delCampeonato($idCampeonato)
+    {
+        return campeonato::where('id', '=', $idCampeonato)
+        ->delete();
+    }
 }

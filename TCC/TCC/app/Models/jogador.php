@@ -16,5 +16,13 @@ class jogador extends Model
         return $this->belongsTo(jogador::class);
     }
 
+    public function lstJogadores($arrayId)
+    {
+        return jogador::select('id', 'nome')
+            ->from('jogadores')
+            ->wherein('id', $arrayId)
+            ->get()->toArray();
+    }
+
     
 }

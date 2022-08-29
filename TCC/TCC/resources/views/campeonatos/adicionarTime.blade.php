@@ -2,7 +2,6 @@
 <script type="text/javascript">
 function changeurl(url)
 {
- var new_url="/Your URL/"+url;
  window.history.pushState("data","Title",new_url);
  document.title=url;
 }
@@ -12,7 +11,6 @@ function changeurl(url)
   <title>@if(isset($campeonato)) Editar @else Cadastrar @endif</title>
   </head>
   <body>
-
 <form action={{route("campeonato.buscaJogadores")}} method='PUT'>
   @csrf
 <div class="conterner py-4">

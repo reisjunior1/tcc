@@ -9,8 +9,10 @@ use App\Models\time;
 use App\Models\timesParticipantes;
 use Illuminate\Http\Request;
 use App\Http\Requests\CampeonatosRequest;
+use App\Http\Requests\TimesJogadoresRequest;
 use App\Models\joga_em;
 use App\Models\jogador;
+use App\Models\jogadoresParticipantes;
 use App\Models\timeParticipantes;
 use Illuminate\Support\Facades\DB;
 
@@ -56,12 +58,22 @@ class CampeonatosController extends Controller
         $campeonato = $modelCampeonato->lstCampeonatos($id);
 
         $modelTimesParticipantes = new timesParticipantes();
-        $timesParticipantes = array_column($modelTimesParticipantes->lstParticipantes($id), 'id_time');
+        $numeroTimes = $modelTimesParticipantes->lstQtdTimesParticipantes($id);
 
-        $modelTime = new time();
-        $times = $modelTime->lstTimes($timesParticipantes);
+        $times = $modelTimesParticipantes->lstTimesParticipantes($id);
 
-        return view('campeonatos/exibir', compact('campeonato','times'));
+        $modelJogadoresParticipantes = new jogadoresParticipantes();
+        $aux[] = $modelJogadoresParticipantes->lstQtdeJogadoresCampeonato($id);
+        $numeroJogadores = array_column($aux[0],'total', 'id_time');
+        
+        return view(
+            'campeonatos/exibir', 
+            compact(
+                'campeonato',
+                'times',
+                'numeroJogadores',
+                'numeroTimes'
+            ));
     }
     
     public function store(CampeonatosRequest $request)
@@ -101,10 +113,13 @@ class CampeonatosController extends Controller
         return redirect('campeonato');
     }
 
-    public function destroy($id)
+    public function deletarCampeonato(Request $request)
     {
-        $del=$this->objBook->destroy($id);
-        return($del)?"sim":"não";
+        $modelCampeonato = new campeonato();
+        $modelCampeonato->delCampeonato($request->hdCampeonato);
+        
+        session()->flash('mensagem', "Campeonato $request->hdCampeonato foi excluido!");
+        return redirect('campeonato');
     }
 
     public function adicionarTime($idCampeonato)
@@ -113,7 +128,16 @@ class CampeonatosController extends Controller
         $campeonato = $modelCampeonato->lstCampeonatos($idCampeonato);
 
         $modelTime = new time();
-        $times = $modelTime->sltTimes();
+        $todosTimes = $modelTime->sltTimes();
+
+        $modelTimesParticipantes = new timesParticipantes();
+        $participantes = $modelTimesParticipantes->lstTimesParticipantes($idCampeonato);
+
+        foreach($todosTimes as $time){
+            if(!in_array($time, $participantes)){
+                $times[] = $time;
+            }
+        }
 
         return view('campeonatos/adicionarTime', compact('campeonato', 'times'));
     }
@@ -122,6 +146,8 @@ class CampeonatosController extends Controller
     {
         $idCampeonato = $request->hdCampeonato;
         $idTime = $request->slTime;
+        $apagarDados = $request->hdApagarDados;
+
         $modelCampeonato = new campeonato();
         $campeonato = $modelCampeonato->lstCampeonatos($idCampeonato);
         $campeonato = array($campeonato[0]);
@@ -131,19 +157,84 @@ class CampeonatosController extends Controller
 
         $modelJogaEm = new joga_em();
         $jogadores = $modelJogaEm->lstJogadoresPorTime($idTime);
-        return view('campeonatos/confirmarJogadores', compact('campeonato','time', 'jogadores'));
+        return view(
+            'campeonatos/confirmarJogadores', 
+            compact(
+                'campeonato',
+                'time', 
+                'jogadores',
+                'apagarDados'
+            ));
     }
 
-    public function salvaTimesJogadoresCampeonato(Request $request)
+    public function salvaTimesJogadoresCampeonato(TimesJogadoresRequest $request)
     {
+        $modelJogadoresParticipantes = new jogadoresParticipantes();
         $modelTimesParticipantes = new timesParticipantes();
+        //apagar os jogadores do time
+        if($request->hdApagarDados == 1){
+            $modelJogadoresParticipantes->delJogadoresParticipantesPorTime(
+                $request->hdTime, 
+                $request->hdCampeonato
+            );
+            $modelTimesParticipantes->delTimesParticipantes($request->hdTime);
+        }
+
+        $dados = $modelJogadoresParticipantes->lstDadosJogadoresCampeonato($request->hdCampeonato);
+        for($i = 0; $i < count($dados); $i++){
+            $arrayJogadores[] = $dados[$i]['id_jogador'];
+        }
+        $arrayJogadores = !empty($arrayJogadores) ? $arrayJogadores : array(null);
+
+         //verifica se os jogadores selecionados ja participam do campeonato
+         $intersecao = array_intersect($request->ckJogador, $arrayJogadores);
+         if(!is_null($intersecao)){
+            $modelJogadores = new jogador();
+            $jogadores = $modelJogadores->lstJogadores($intersecao);
+
+            foreach($jogadores as $jogador){
+                $arrayNomes[] = $jogador['nome']; 
+            }
+            session()->flash('mensagem', "O(s) jogador(es): " . implode(', ',$arrayNomes) . 
+            " já estão participando deste campeonato!");
+                return redirect("campeonato/$request->hdCampeonato");
+         }
+
+        //Insere os jogadores no campeonato
+        foreach($request->ckJogador as $idJogador){
+            /*if(in_array($idJogador, $arrayJogadores)){
+                
+               }*/
+            $modelJogadoresParticipantes->insParticipantes(
+                $request->hdCampeonato,
+                $request->hdTime,
+                intval($idJogador)
+            );
+        }
+
+        //insere o time ao campeonato
         $cadastro = $modelTimesParticipantes->insParticipantes(
             $request->hdCampeonato,
             $request->hdTime
         );
         if($cadastro){
             session()->flash('mensagem', 'Time adicionado ao campeonato com sucesso!');
-            return redirect('campeonato');
+            return redirect("campeonato/$request->hdCampeonato");
         }
+    }
+
+    public function apagaTimesCampeonato(Request $request)
+    {
+        $modelTimesParticipantes = new timesParticipantes();
+        $modelJogadoresParticipantes = new jogadoresParticipantes();
+
+        $modelTimesParticipantes->delTimesParticipantes($request->slTime);
+        $modelJogadoresParticipantes->delJogadoresParticipantesPorTime(
+            $request->slTime,
+            $request->hdCampeonato
+        );
+
+        session()->flash('mensagem', 'Time excluido do campeonato com sucesso!');
+            return redirect("campeonato/$request->hdCampeonato");
     }
 }

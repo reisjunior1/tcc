@@ -12,9 +12,19 @@ class timesParticipantes extends Model
 
     protected $fillable = ['id_time', 'id_campeonato', 'Eexcluido'];
 
-    public function lstParticipantes($id)
+    public function lstTimesParticipantes($idCampeonato)
     {
-        return timesParticipantes::where('id_campeonato', '=', $id)->get()->toArray();
+        return timesParticipantes::selectRaw('times.id, times.nome')
+        ->join('times', 'times.id', '=', 'id_time')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->get()->toArray();
+    }
+
+    public function lstQtdTimesParticipantes($idCampeonato)
+    {
+        return timesParticipantes::selectRaw('count(id_time) as total')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->get()->toArray();
     }
 
     public function insParticipantes($idCampeonato, $idTime)
@@ -25,5 +35,11 @@ class timesParticipantes extends Model
             'id_campeonato'=>$idCampeonato,
             'Eexcluido' => 0
         ]);
+    }
+
+    public function delTimesParticipantes($idTime)
+    {
+        return timesParticipantes::where('id_time', '=', $idTime)
+        ->delete();
     }
 }

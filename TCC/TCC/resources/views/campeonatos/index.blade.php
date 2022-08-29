@@ -58,9 +58,12 @@
                         <button class="btn btn-primary">Editar</button>
                     </a>
                     
-                    <a href="{{url("campeonato/$campeonato->id")}}" class="js-del">
-                        <button class="btn btn-danger">Deletar</button>
-                    </a>
+                    <form id="submit-form" action={{route("campeonato.deletaCampeonato")}} method='PUT' class="hidden">
+                        @csrf
+                        @method('PUT')                         
+                        <input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato->id}}">
+                        <button type="submit" class="btn btn-danger">Deletar</button>
+                      </form>
                 </td>
             </tr>
         @endforeach
