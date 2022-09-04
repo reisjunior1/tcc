@@ -33,12 +33,12 @@ class CampeonatosController extends Controller
 
     public function index()
     {
-        $campeonatos = DB::table('campeonatos')
-                ->where('Eexcluido', '=', '0')
-                ->orderBy('created_at', 'DESC')
-                ->orderBy('nome', 'ASC')
-                ->get();
-        return view('campeonatos/index', compact('campeonatos'));
+        $modelCampeonato = new campeonato();
+        $campeonatos = $modelCampeonato->lstCampeonatos();
+        
+        $modelTime = new time();
+        $times = $modelTime->sltTimes();
+        return view('campeonatos/index', compact('campeonatos', 'times'));
     }
 
     public function cadastrarCampeonato()
@@ -46,16 +46,80 @@ class CampeonatosController extends Controller
         return view('campeonatos/cadastrar');
     }
 
-    public function pesquisar($formato)
+    public function pesquisar(Request $request)
     {
-        dd($formato);
-        die();
+        $formato = $request->slFormato == 'Selecione...' ? null : $request->slFormato;
+        $slTime = $request->slTime == 'Selecione...' ? null : $request->slTime;
+        $dtInicio = $request->inDataInicio == null ? null : $request->inDataInicio;
+        $dtFim = $request->inDataFim == null ? null : $request->inDataFim;
+
+        $modelTime = new time();
+        $times = $modelTime->sltTimes();
+
+        $modelCampeonato = new campeonato();
+        $campeonatos = $modelCampeonato->lstCampeonatos();
+
+        $aux1 = [];
+        $aux2 = [];
+        $aux3 = [];
+        if(
+            (!is_null($request->inDataInicio) && is_null($request->inDataFim)) 
+            || (is_null($request->inDataInicio) && !is_null($request->inDataFim))
+        ){
+            session()->flash('mensagem', 'Informe uma data de inicio e de fim para a pesquisa.');
+            return view('campeonatos/index', compact('campeonatos', 'times', 'formato', 'slTime', 'dtInicio', 'dtFim'));
+        }
+        if(!is_null($formato)){
+            $aux1 = $modelCampeonato->lstCampeonatosPorFormato($formato);
+        }
+
+        if(!is_null($slTime)){
+            $aux2 = $modelCampeonato->lstCampeonatosPorTime($slTime);
+        }
+
+        if(!is_null($request->inDataInicio) && !is_null($request->inDataFim)){
+            $aux3 = $modelCampeonato->lstCampeonatosPorPeriodo($request->inDataInicio, $request->inDataFim);
+        }
+
+        for($i = 0; $i < count($aux1); $i++){
+            $a1[] = $aux1[$i]['id'];
+        }
+        $a1 = !empty($a1) ? $a1 : array();
+
+        foreach($aux2 as $val){
+            $a2[] = $val['id'];
+        }
+        $a2 = !empty($a2) ? $a2 : array();
+
+        for($i = 0; $i < count($aux3); $i++){
+            $a3[] = $aux3[$i]['id'];
+        }
+        $a3 = !empty($a3) ? $a3 : array();
+
+        if(empty($formato) && empty($slTime) && empty($request->inDataInicio) && empty($request->inDataFim)){
+            return view('campeonatos/index', compact('campeonatos', 'times', 'formato', 'slTime', 'dtInicio', 'dtFim'));
+        }else{
+            //dd($a1, $a2, $a3);
+            $array[] = $a1;
+            $array[] = $a2;
+            $array[] = $a3;
+
+            $array = array_filter($array);
+            //dd($array);
+            if(!empty($array)){
+                $arrayId = (array_intersect(...$array));
+                $campeonatos = $modelCampeonato->lstCampeonatosPorId($arrayId);
+            }else{
+                $campeonatos = array();
+            }
+            return view('campeonatos/index', compact('campeonatos', 'times', 'formato', 'slTime', 'dtInicio', 'dtFim'));
+        }
     }
 
     public function show($id)
     {
         $modelCampeonato = new campeonato();
-        $campeonato = $modelCampeonato->lstCampeonatos($id);
+        $campeonato = $modelCampeonato->lstCampeonatosPorId(array($id));
 
         $modelTimesParticipantes = new timesParticipantes();
         $numeroTimes = $modelTimesParticipantes->lstQtdTimesParticipantes($id);
@@ -73,7 +137,8 @@ class CampeonatosController extends Controller
                 'times',
                 'numeroJogadores',
                 'numeroTimes'
-            ));
+            )
+        );
     }
     
     public function store(CampeonatosRequest $request)
@@ -125,7 +190,7 @@ class CampeonatosController extends Controller
     public function adicionarTime($idCampeonato)
     {
         $modelCampeonato = new campeonato();
-        $campeonato = $modelCampeonato->lstCampeonatos($idCampeonato);
+        $campeonato = $modelCampeonato->lstCampeonatosPorId(array($idCampeonato));
 
         $modelTime = new time();
         $todosTimes = $modelTime->sltTimes();
@@ -149,7 +214,7 @@ class CampeonatosController extends Controller
         $apagarDados = $request->hdApagarDados;
 
         $modelCampeonato = new campeonato();
-        $campeonato = $modelCampeonato->lstCampeonatos($idCampeonato);
+        $campeonato = $modelCampeonato->lstCampeonatosPorId(array($idCampeonato));
         $campeonato = array($campeonato[0]);
 
         $modelTime = new time();
@@ -188,7 +253,9 @@ class CampeonatosController extends Controller
 
          //verifica se os jogadores selecionados ja participam do campeonato
          $intersecao = array_intersect($request->ckJogador, $arrayJogadores);
-         if(!is_null($intersecao)){
+         
+         $arrayNomes = [];
+        if(!is_null($intersecao)){
             $modelJogadores = new jogador();
             $jogadores = $modelJogadores->lstJogadores($intersecao);
 
@@ -198,28 +265,25 @@ class CampeonatosController extends Controller
             session()->flash('mensagem', "O(s) jogador(es): " . implode(', ',$arrayNomes) . 
             " já estão participando deste campeonato!");
                 return redirect("campeonato/$request->hdCampeonato");
-         }
-
-        //Insere os jogadores no campeonato
-        foreach($request->ckJogador as $idJogador){
-            /*if(in_array($idJogador, $arrayJogadores)){
-                
-               }*/
-            $modelJogadoresParticipantes->insParticipantes(
+        }else{
+            //Insere os jogadores no campeonato
+            foreach($request->ckJogador as $idJogador){
+                $modelJogadoresParticipantes->insParticipantes(
+                    $request->hdCampeonato,
+                    $request->hdTime,
+                    intval($idJogador)
+                );
+            }
+            
+            //insere o time ao campeonato
+            $cadastro = $modelTimesParticipantes->insParticipantes(
                 $request->hdCampeonato,
-                $request->hdTime,
-                intval($idJogador)
+                $request->hdTime
             );
-        }
-
-        //insere o time ao campeonato
-        $cadastro = $modelTimesParticipantes->insParticipantes(
-            $request->hdCampeonato,
-            $request->hdTime
-        );
-        if($cadastro){
-            session()->flash('mensagem', 'Time adicionado ao campeonato com sucesso!');
-            return redirect("campeonato/$request->hdCampeonato");
+            if($cadastro){
+                session()->flash('mensagem', 'Time adicionado ao campeonato com sucesso!');
+                return redirect("campeonato/$request->hdCampeonato");
+            }
         }
     }
 

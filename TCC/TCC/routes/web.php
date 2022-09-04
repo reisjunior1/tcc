@@ -42,5 +42,5 @@ Route::get('/campeonato/buscaJogadores/', 'App\Http\Controllers\CampeonatosContr
 Route::get('/campeonato/salvaTimesJogadoresCampeonato/', 'App\Http\Controllers\CampeonatosController@salvaTimesJogadoresCampeonato')->name("campeonato.salvaTimesJogadoresCampeonato");
 Route::get('/campeonato/apagaTimesCampeonato/', 'App\Http\Controllers\CampeonatosController@apagaTimesCampeonato')->name("campeonato.apagaTimesCampeonato");
 //ver essa rota
-Route::get('/campeonato/pesquisar/formato', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar/slFormato");
+Route::post('/campeonato/pesquisar/', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar");
 Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');
