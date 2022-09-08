@@ -27,15 +27,15 @@ class TimeRequest extends FormRequest
 
 
             'innome'=>'required',
-            'incpf'=>'required', 
+            //'incpf'=>'required', 
             'insigla'=>'required',
             'inendereco'=>'required',
             'incidade'=>'required',
             'inbairro'=>'required',
-            'incomplemento'=>'required',
+           // 'incomplemento'=>'required',
             'incep'=>'required',
             'slestado'=>'required',
-            'id_usuario'=>'required',
+            //'id_usuario'=>'required',
 
             //
         ];

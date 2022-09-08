@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\time;
+use App\Http\Requests\TimeRequest;
+
 class CadastroTimeController extends Controller
 {
     //
@@ -20,7 +22,7 @@ class CadastroTimeController extends Controller
     }
     public function index()
     {
-        return view(view:'times.time');
+        return view(view:'times.times');
 
     }
 
@@ -57,11 +59,11 @@ class CadastroTimeController extends Controller
 
            ]);
            if($cadastro){
-               return redirect('time');
+               return redirect('times');
            }
 
 
-
+           //$event->save();
 
    }
 

@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'App\Http\Controllers\PaginaInicial@index')->name("PaginaInicial");
 
-
-
 Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastrar')->name("usuario.cadastrar");
- 
+
+Route::get('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
+Route::post('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
 
 Route::get('/times', 'App\Http\Controllers\CadastroTimeController@cadastrarTimes')->name("time.cadastrar");
-/*Route::resource('/times', 'App\Http\Controllers\CadastroTimesController');*/
+Route::post('/times', 'App\Http\Controllers\CadastroTimeController@store')->name("time.cadastrar");
+//Route::resource('/times', 'App\Http\Controllers\CadastroTimeController');
 
 Route::get('/jogador', function () {
     return view(view:'times.jogadors');

@@ -9,8 +9,9 @@
 <div class="container" >
 <div class="conterner py-4">
 
-<form class="row g-3"  method="post"  action="{{url('times')}}">
-
+<form class="row g-3"  method="put"  action={(route("time.cadastrar"))}>
+<!--<form class="row g-3"  method="post"  action="{{url('times')}}"  >-->
+   @csrf
 <div class="col-12">
     <label for="nometime" class="form-label">Nome do Time:</label>
     <input type="text" class="form-control" id="isnometime" placeholder="NomeTime">
@@ -24,7 +25,7 @@
     <input type="text" class="form-control" id="intelefonetime"  placeholder="( ) - ---- ----">
   </div>
 
- <!-- <div class="col-md-6">
+<!--<div class="col-md-6">
     <label for="emailtime" class="form-label">Email:</label>
     <input type="emailtime" class="form-control" id="inEmailtime"  placeholder="....@email.com">
   </div>
@@ -43,7 +44,6 @@
 
   </div>
 -->
-
   <div class="col-md-2" >
     <label for="cep" class="form-label">CEP:</label>
     <input type="text" class="form-control" id="incep">
@@ -66,6 +66,7 @@
     <select id="slestado" class="form-select">
       <option selected>...</option>
       <option>...</option>
+      <option>MG</option>
     </select>
 
 

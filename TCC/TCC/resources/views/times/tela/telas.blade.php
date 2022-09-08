@@ -28,6 +28,9 @@
             <a class="nav-link" href="{{ route('usuario.cadastrar') }}">Cadastro</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ route('local.cadastrar') }}">local</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link"   href="{{ route('time.cadastrar') }}" >  Times</a>
           </li>
           <li class="nav-item">
