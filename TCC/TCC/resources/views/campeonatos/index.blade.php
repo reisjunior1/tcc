@@ -28,9 +28,9 @@
             <div class="col-12">
             <label for="inDataInicio" class="form-label">Periodo</label>
             <div class="col-3">
-                <input type="date" class="form-control" name="inDataInicio" id="inDataInicio" value="{{$dtInicio}}" placeholder="DD/MM/AAAA">
+                <input type="date" class="form-control" name="inDataInicio" id="inDataInicio" value="{{isset($dtInicio) ? $dtInicio : null}}" placeholder="DD/MM/AAAA">
                 <label class="form-label">a</label>
-                <input type="date" class="form-control" name="inDataFim" id="inDataFim" value="{{$dtFim}}" placeholder="DD/MM/AAAA">
+                <input type="date" class="form-control" name="inDataFim" id="inDataFim" value="{{isset($dtFim) ? $dtFim : null}}" placeholder="DD/MM/AAAA">
             </div>
             </div>
             <br>
