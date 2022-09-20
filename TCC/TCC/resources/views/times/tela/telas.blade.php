@@ -42,6 +42,9 @@
           <li class="nav-item">
             <a class="nav-link"> Login</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login.login') }}"> {{isset($_SESSION) ? $_SESSION['dados']['nome'] : 'Login'}}</a>
+          </li>
 
         </ul>
         <form class="d-flex" role="search">

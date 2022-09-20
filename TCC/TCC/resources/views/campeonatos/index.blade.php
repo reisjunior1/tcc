@@ -12,6 +12,7 @@
         <p>{{session('mensagem')}}</p>
     </div>
   @endif
+  <?php var_dump(session_status()); ?>
   <h3 class="text-center">Filtrar por</h3>
 <div class="text-center mt-3 mb-4">
     <div class="col-4 m-auto">
@@ -72,18 +73,21 @@
                 <td>{{$campeonato->formato}}</td>
                 <td>
                     <a href="{{url("campeonato/$campeonato->id")}}">
-                        <button class="btn btn-dark">Times Participantes</button>
+                        <button class="btn btn-dark">Informações</button>
+                    </a>
+                    <a href="{{url("campeonato/$campeonato->id/partidas")}}">
+                        <button class="btn btn-dark">Partidas</button>
                     </a>
                     <a href="{{url("campeonato/$campeonato->id/edit")}}">
                         <button class="btn btn-primary">Editar</button>
                     </a>
                     
-                    <form id="submit-form" action={{route("campeonato.deletaCampeonato")}} method='PUT' class="hidden">
+                    <form id="submit-form" action={{route("campeonato.criarPartida", ['idCampeonato'])}} method='PUT' class="hidden">
                         @csrf
                         @method('PUT')                         
                         <input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato->id}}">
                         <button type="submit" class="btn btn-danger">Deletar</button>
-                      </form>
+                    </form>
                 </td>
             </tr>
         @endforeach

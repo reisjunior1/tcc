@@ -42,6 +42,14 @@ Route::get('/campeonato/{idCampeonato}/adicionarTime/', 'App\Http\Controllers\Ca
 Route::get('/campeonato/buscaJogadores/', 'App\Http\Controllers\CampeonatosController@buscaJogadores')->name("campeonato.buscaJogadores");
 Route::get('/campeonato/salvaTimesJogadoresCampeonato/', 'App\Http\Controllers\CampeonatosController@salvaTimesJogadoresCampeonato')->name("campeonato.salvaTimesJogadoresCampeonato");
 Route::get('/campeonato/apagaTimesCampeonato/', 'App\Http\Controllers\CampeonatosController@apagaTimesCampeonato')->name("campeonato.apagaTimesCampeonato");
-//ver essa rota
+Route::get('/campeonato/{idCampeonato}/partidas/', 'App\Http\Controllers\CampeonatosController@partidas')->name("campeonato.partidas");
+Route::get('/campeonato/{idCampeonato}/criarPartida/', 'App\Http\Controllers\CampeonatosController@criarPartida')->name("campeonato.criarPartida");
+Route::get('/campeonato/{idCampeonato}/editarPartida/', 'App\Http\Controllers\CampeonatosController@editarPartida')->name("campeonato.editarPartida");
+Route::get('/campeonato/{idCampeonato}/excluirPartida/', 'App\Http\Controllers\CampeonatosController@excluirPartida')->name("campeonato.excluirPartida");
 Route::post('/campeonato/pesquisar/', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar");
+Route::get('/campeonato/{idCampeonato}/salvaPartida/', 'App\Http\Controllers\CampeonatosController@salvaPartida')->name("campeonato.salvaPartida");
 Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');
+
+//Rotas Login
+Route::get('/login', 'App\Http\Controllers\LoginController@index')->name("login.login");
+Route::post('/login/entrar', 'App\Http\Controllers\LoginController@entrar')->name("login.entrar");

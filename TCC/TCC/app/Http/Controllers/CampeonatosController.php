@@ -9,18 +9,17 @@ use App\Models\time;
 use App\Models\timesParticipantes;
 use Illuminate\Http\Request;
 use App\Http\Requests\CampeonatosRequest;
+use App\Http\Requests\PartidasRequest;
 use App\Http\Requests\TimesJogadoresRequest;
 use App\Models\joga_em;
 use App\Models\jogador;
 use App\Models\jogadoresParticipantes;
-use App\Models\timeParticipantes;
-use Illuminate\Support\Facades\DB;
-
+use App\Models\local;
+use App\Models\partida;
+use Illuminate\Support\Facades\Redirect;
 
 class CampeonatosController extends Controller
 {
-    private $objUsuario;
-    private $objTime;
     private $objCampeonato;
 
     public function __construct()
@@ -33,6 +32,9 @@ class CampeonatosController extends Controller
 
     public function index()
     {
+        if (session_status() !== PHP_SESSION_ACTIVE ){
+            session_start();
+        }
         $modelCampeonato = new campeonato();
         $campeonatos = $modelCampeonato->lstCampeonatos();
         
@@ -246,16 +248,18 @@ class CampeonatosController extends Controller
         }
 
         $dados = $modelJogadoresParticipantes->lstDadosJogadoresCampeonato($request->hdCampeonato);
+        
         for($i = 0; $i < count($dados); $i++){
             $arrayJogadores[] = $dados[$i]['id_jogador'];
         }
+        
         $arrayJogadores = !empty($arrayJogadores) ? $arrayJogadores : array(null);
 
-         //verifica se os jogadores selecionados ja participam do campeonato
-         $intersecao = array_intersect($request->ckJogador, $arrayJogadores);
-         
-         $arrayNomes = [];
-        if(!is_null($intersecao)){
+        //verifica se os jogadores selecionados ja participam do campeonato
+        $intersecao = array_intersect($request->ckJogador, $arrayJogadores);
+       // dd($intersecao); 
+        $arrayNomes = [];
+        if(!empty($intersecao)){
             $modelJogadores = new jogador();
             $jogadores = $modelJogadores->lstJogadores($intersecao);
 
@@ -300,5 +304,89 @@ class CampeonatosController extends Controller
 
         session()->flash('mensagem', 'Time excluido do campeonato com sucesso!');
             return redirect("campeonato/$request->hdCampeonato");
+    }
+
+    public function partidas($idCampeonato)
+    {
+        $modelPartida = new partida();
+        $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
+        return view('campeonatos.partidas', compact('partidas'));
+    }
+
+    public function criarPartida($idCampeonato)
+    {
+        $modelTimes = new timesParticipantes();
+        $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
+        
+        $modelLocal = new local();
+        $locais = $modelLocal->lstLocais();
+        
+        return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais'));
+    }
+
+    public function editarPartida($idPartida)
+    {
+        $modelPartida = new partida();
+        $partida = $modelPartida->lstPartida($idPartida);
+        //dd($partida);
+        $modelTimes = new timesParticipantes();
+        $times = $modelTimes->lstTimesParticipantes(array($partida[0]['id_campeonato']));
+        
+        $modelLocal = new local();
+        $locais = $modelLocal->lstLocais();
+        
+        $dados['slTimeCasa'] = $partida[0]['id_time_casa'];
+        $dados['slTimeVizitante'] = $partida[0]['id_time_visitante'];
+        $dados['slLocal'] = $partida[0]['id_local'];
+        $dados['inData'] = $partida[0]['dataHora'];
+       // $dados['inHora'] = $partida[0]['inHora'];
+       $idCampeonato = $partida[0]['id_campeonato'];
+
+        return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
+    }
+
+    public function salvaPartida(PartidasRequest $request)
+    {
+        $idCampeonato = $request['hdIdCampeonato'];
+        $dados['slTimeCasa'] = $request['slTimeCasa'];
+        $dados['slTimeVizitante'] = $request['slTimeVizitante'];
+        $dados['slLocal'] = $request['slLocal'];
+        $dados['inData'] = $request['inData'];
+        $dados['inHora'] = $request['inHora'];
+
+        if($request['slTimeCasa'] == $request['slTimeVizitante']){
+            $modelTimes = new timesParticipantes();
+            $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
+        
+            $modelLocal = new local();
+            $locais = $modelLocal->lstLocais();
+
+            session()->flash('mensagem', 'Os times selecionados não podem ser os mesmos!');
+            return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
+        }else{
+            $modelPartida = new partida();
+            $modelPartida->insPartida(
+                $request['hdIdCampeonato'],
+                $request['slTimeCasa'],
+                $request['slTimeVizitante'],
+                $request['slLocal'],
+                $request['inData'],
+                $request['inHora'],
+            );
+
+            return Redirect($this->partidas($idCampeonato));
+            //return Redirect::route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
+            //return view('campeonatoS.partidas', compact('idCampeonato'));
+        }
+    }
+
+    public function excluirPartida($idPartida)
+    {
+        $modelPartida = new partida();
+        $modelPartida->delPartida($idPartida);
+
+        session()->flash('mensagem', "Partida excluida com sucesso!");
+        //return redirect('par');
+        return view('campeonato.partidas', compact('idCampeonato'));
     }
 }

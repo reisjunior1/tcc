@@ -21,6 +21,13 @@ class local extends Model
         return $this->belongsTo(local::class);
     }
 
+    public function lstLocais()
+    {
+        return local::select('id', 'endereco')
+            ->from('local')
+            ->get()->toArray();
+    }
+
 
 
 

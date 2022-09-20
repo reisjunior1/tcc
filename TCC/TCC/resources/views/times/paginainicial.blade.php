@@ -3,6 +3,7 @@
 
 @section('parte')
 
+<?php isset($_SESSION) ? var_dump("Iniciado") : var_dump('nao'); ?>
 
 <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
