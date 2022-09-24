@@ -26,13 +26,13 @@ class UsuarioRequest extends FormRequest
         return [
 
            
-                'innome'=>'required',
-                'incpf'=>'required',
-                'intelefone'=>'required',
-                'inemail' => 'required',
-                'insenha' => 'required',
-                'intipo'=>'required'
-            ];
+                'inNome'=>'required',
+                'inCpf'=>'required',
+                'inTelefone'=>'required',
+                'inEmail'=>'required',
+                'inSenha'=>'required',
+                'inSenha2'=>'required',
+          ];
         
     }
 
@@ -40,11 +40,12 @@ class UsuarioRequest extends FormRequest
 public function messages()
     {
         return [
-            'innome.required' => 'O campo Nome é obrigatório!',
-            'incpf.required' => 'O campo CPF é obrigatório!',
-            'intelefone.required' => 'O campo Telefone é obrigatório!',
-            'intipo.required' => 'O campo Tipo é obrigatório!',
-            'insenha.required' => 'O campo Senha é obrigatório!',
+            'inNome.required' => 'O campo Nome é obrigatório!',
+            'inCpf.required' => 'O campo CPF é obrigatório!',
+            'inTelefone.required' => 'O campo Telefone é obrigatório!',
+            'inEmail.required' => 'O campo Tipo é obrigatório!',
+            'inSenha.required' => 'O campo Senha é obrigatório!',
+            'inSenha2.required' => 'O campo Confirmar Senha é obrigatório!',
 
         ];
     }

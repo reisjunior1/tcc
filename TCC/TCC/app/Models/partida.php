@@ -9,7 +9,7 @@ class partida extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_campeonato','id_time_casa' ,'id_time_visitante', 'id_local', 'dataHora'];
+    protected $fillable = ['id_campeonato','id_time_casa' ,'id_time_visitante', 'id_local', 'dataHora', 'status'];
 
     public function partida()
     {
@@ -22,7 +22,7 @@ class partida extends Model
         ->get()->toArray();
     }
 
-    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $data, $hora)
+    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $data, $hora, $status = 0)
     {
         $objPartida = new partida();
         return $objPartida->create([
@@ -31,6 +31,7 @@ class partida extends Model
             'id_time_visitante'=>$timeFora,
             'id_local' => $local,
             'dataHora' => $data,
+            'status' => $status
         ]);
     }
 
@@ -49,5 +50,13 @@ class partida extends Model
     {
         return partida::where('id', '=', $idPartida)
         ->delete();
+    }
+
+    public function lstCampeonatoPorPartida($idPartida)
+    {
+        return partida::select('id_campeonato')
+        ->where('id', '=', $idPartida)
+        ->get()->toArray();
+
     }
 }

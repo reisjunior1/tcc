@@ -26,12 +26,18 @@
               </div>
               
               <div class="d-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-0"><span class="caption">Lembrar de mim</span>
-                  <input type="checkbox" checked="checked"/>
-                  <div class="control__indicator"></div>
-                  <br>
-                </label>
-                <span class="ml-auto"><a href="#" class="forgot-pass">Esqueceu sua Senha</a></span> 
+                <p>
+                  <label class="control control--checkbox mb-0"><span class="caption">Lembrar de mim</span>
+                    <input type="checkbox" checked="checked"/>
+                  </label>
+                </p>
+              <div class="control__indicator"></div>
+                <p>
+                  <span class="ml-auto"><a href="#" class="forgot-pass">Esqueceu sua Senha</a></span>
+                </p>
+                <p>
+                  <span class="ml-auto"><a href="{{ route('usuario.cadastrar') }}" class="cadastrar">Cadastrar-se</a></span> 
+                </p>
               </div>
 
               <input type="submit" value="Log In" class="btn btn-block btn-primary">

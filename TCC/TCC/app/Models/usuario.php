@@ -16,6 +16,12 @@ class usuario extends Model
         return $this->belongsTo(usuario::class);
     }
 
+    public function lstUsuarioPorId($idUsuario)
+    {
+        return usuario::where('id', '=', $idUsuario)
+            ->get();
+    }
+
     public function lstUsuarioPorEmail($email)
     {
         return usuario::where('email', '=', $email)
@@ -38,5 +44,17 @@ class usuario extends Model
         }else{
             return true;
         }
+    }
+
+    public function upUsuario($id, $nome, $cpf, $telefone, $email)
+    {
+        usuario::where(['id'=>$id])->update([
+            'nome'=>$nome,
+            'cpf'=>$cpf,
+            'telefone' => $telefone,
+            'email' => $email
+        ]);
+        return true;
+
     }
 }

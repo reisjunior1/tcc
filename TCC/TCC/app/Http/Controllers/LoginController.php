@@ -16,6 +16,15 @@ class LoginController extends Controller
 
     public function index()
     {
+        if (session_status() !== PHP_SESSION_ACTIVE ){
+            session_start();
+        }
+       $usuario = [];
+        if(!empty($_SESSION)){
+            
+            $usuario = $this->objUsuario->find($_SESSION['dados']['id']);
+            return view('times/cadastrar', compact('usuario'));
+        }
         return view('login/index');
     }
 

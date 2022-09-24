@@ -13,14 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+//Pagina Inicial
 Route::get('/', 'App\Http\Controllers\PaginaInicial@index')->name("PaginaInicial");
 
+//Rotas de Usuario
 Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastrar')->name("usuario.cadastrar");
+Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
+Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');
+Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')->name("usuario.editar");
 
+//Rotas de Local
 Route::get('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
 Route::post('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
 
+//Rotas de Times
 Route::get('/times', 'App\Http\Controllers\CadastroTimeController@cadastrarTimes')->name("time.cadastrar");
 Route::post('/times', 'App\Http\Controllers\CadastroTimeController@store')->name("time.cadastrar");
 //Route::resource('/times', 'App\Http\Controllers\CadastroTimeController');
@@ -29,9 +35,6 @@ Route::get('/jogador', function () {
     return view(view:'times.jogadors');
 })->name('jogadors');
 
-Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
-
-Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');
 
 
 //Rotas Modulo Campeonato

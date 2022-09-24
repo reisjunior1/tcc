@@ -310,7 +310,7 @@ class CampeonatosController extends Controller
     {
         $modelPartida = new partida();
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
-        return view('campeonatos.partidas', compact('partidas'));
+        return view('campeonatos.partidas', compact('idCampeonato', 'partidas'));
     }
 
     public function criarPartida($idCampeonato)
@@ -374,19 +374,20 @@ class CampeonatosController extends Controller
                 $request['inHora'],
             );
 
-            return Redirect($this->partidas($idCampeonato));
-            //return Redirect::route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
-            //return view('campeonatoS.partidas', compact('idCampeonato'));
+            return Redirect("campeonato/$idCampeonato/partidas");
         }
     }
 
     public function excluirPartida($idPartida)
     {
         $modelPartida = new partida();
+        $campeonato = $modelPartida->lstCampeonatoPorPartida($idPartida);
+        $idCampeonato = $campeonato[0]['id_campeonato'];
+        $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
         $modelPartida->delPartida($idPartida);
 
+
         session()->flash('mensagem', "Partida excluida com sucesso!");
-        //return redirect('par');
-        return view('campeonato.partidas', compact('idCampeonato'));
+        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 }

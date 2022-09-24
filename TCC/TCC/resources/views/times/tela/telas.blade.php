@@ -15,18 +15,12 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Futebol</a>
+      <a class="navbar-brand" href="{{ route('PaginaInicial') }}">Futebol</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ route('PaginaInicial') }}">Pagina Inicial</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('usuario.cadastrar') }}">Cadastro</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('local.cadastrar') }}">local</a>
           </li>
@@ -40,10 +34,10 @@
             <a class="nav-link"  href="{{ route('campeonato.index') }}"> Campeonato</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"> Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('login.login') }}"> {{isset($_SESSION) ? $_SESSION['dados']['nome'] : 'Login'}}</a>
+            <?php 
+              $texto = !empty($_SESSION) ? $_SESSION['dados']['nome'] : 'Login';
+            ?>
+            <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
           </li>
 
         </ul>

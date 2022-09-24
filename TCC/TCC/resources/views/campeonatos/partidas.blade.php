@@ -17,9 +17,10 @@
             {{$erro}}<br>
         @endforeach
     </div>
-@endif
+    @endif
+
 <div class="text-center mt-3 mb-4">
-<a href="{{route("campeonato.criarPartida", ['idCampeonato' => $partidas[0]['id_campeonato']])}}">
+<a href="{{route("campeonato.criarPartida", ['idCampeonato' => $idCampeonato])}}">
     <button class="btn btn-dark">Adicionar Partida</button>
 </a>
     <div class="col-4 m-auto">

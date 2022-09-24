@@ -1,6 +1,5 @@
 @extends('times.tela.telas')
 
-
 @section('parte')
   <title>@if(isset($campeonato)) Editar @else Cadastrar @endif</title>
   </head>
