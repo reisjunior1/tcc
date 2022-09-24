@@ -112,5 +112,16 @@ class CadastroUsuarioController extends Controller
         
     }
 
+    public function sair()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE ){
+            session_start();
+            unset($_SESSION);
+            session_destroy();
+        }
+        return view('times.paginainicial');
+
+    }
+
 }
 

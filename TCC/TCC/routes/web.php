@@ -21,6 +21,7 @@ Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastr
 Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')->name("usuario.editar");
 Route::get('/usuario/{idUsuario}/atualizarSenha', 'App\Http\Controllers\CadastroUsuarioController@atualizarSenha')->name("usuario.atualizarSenha");
 Route::get('/usuario/validaAlterarSenha/', 'App\Http\Controllers\CadastroUsuarioController@validaAlterarSenha')->name("usuario.validaAlterarSenha");
+Route::get('/usuario/sair/', 'App\Http\Controllers\CadastroUsuarioController@sair')->name("usuario.sair");
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');
 

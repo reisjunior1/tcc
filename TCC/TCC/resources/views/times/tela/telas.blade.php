@@ -35,7 +35,7 @@
           </li>
           <li class="nav-item">
             <?php 
-              $texto = !empty($_SESSION) ? $_SESSION['dados']['nome'] : 'Login';
+              $texto = !empty($_SESSION) ? 'Perfil' : 'Login';
             ?>
             <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
           </li>

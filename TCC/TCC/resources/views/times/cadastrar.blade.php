@@ -74,8 +74,13 @@
   <?php endif; ?>
 
   <div class="col-12">
-    <button type="submit" class="btn btn-primary">Salvar</button>
+      <button type="submit" class="btn btn-primary">Salvar</button>
   </div>
 </form>
+<?php if(!empty($usuario)): ?>
+  <a href="{{route("usuario.sair")}}">
+    <button class="btn btn-danger">Sair</button>
+  </a>
+<?php endif; ?>
 
 @endsection
