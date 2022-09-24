@@ -18,9 +18,11 @@ Route::get('/', 'App\Http\Controllers\PaginaInicial@index')->name("PaginaInicial
 
 //Rotas de Usuario
 Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastrar')->name("usuario.cadastrar");
+Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')->name("usuario.editar");
+Route::get('/usuario/{idUsuario}/atualizarSenha', 'App\Http\Controllers\CadastroUsuarioController@atualizarSenha')->name("usuario.atualizarSenha");
+Route::get('/usuario/validaAlterarSenha/', 'App\Http\Controllers\CadastroUsuarioController@validaAlterarSenha')->name("usuario.validaAlterarSenha");
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');
-Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')->name("usuario.editar");
 
 //Rotas de Local
 Route::get('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");

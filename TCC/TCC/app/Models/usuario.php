@@ -19,7 +19,7 @@ class usuario extends Model
     public function lstUsuarioPorId($idUsuario)
     {
         return usuario::where('id', '=', $idUsuario)
-            ->get();
+            ->get()->toArray();
     }
 
     public function lstUsuarioPorEmail($email)
@@ -55,6 +55,13 @@ class usuario extends Model
             'email' => $email
         ]);
         return true;
+    }
 
+    public function upSenha($idUsuario, $novaSenha)
+    {
+        usuario::where(['id'=>$idUsuario])->update([
+            'senha'=>$novaSenha
+        ]);
+        return true;
     }
 }

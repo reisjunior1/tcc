@@ -64,6 +64,14 @@
       <input type="text" class="form-control" id="inSenha2" name='inSenha2'  placeholder="Confime a senha">
     </div>
   <?php endif; ?>
+  
+  <?php if(!empty($usuario)): ?>
+    <div class="col-md-6" >
+      <p>
+        <span class="ml-auto"><a href="{{ route('usuario.atualizarSenha', ['idUsuario' => $usuario->id]) }}" class="atualizarSenha">Atualizar Senha</a></span> 
+      </p>
+    </div>
+  <?php endif; ?>
 
   <div class="col-12">
     <button type="submit" class="btn btn-primary">Salvar</button>

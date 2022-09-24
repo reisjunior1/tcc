@@ -63,7 +63,7 @@ class CadastroUsuarioController extends Controller
         if (session_status() !== PHP_SESSION_ACTIVE ){
             session_start();
         }
-        
+
         $modelUsuario = new usuario();
         $modelUsuario->upUsuario(
             $id,
@@ -77,6 +77,39 @@ class CadastroUsuarioController extends Controller
         session()->flash('mensagem', "Os dados do usuário foram atualizados!");
         return view('times/cadastrar', compact('usuario'));
         //return redirect('usuario');
+    }
+
+    public function atualizarSenha($id)
+    {
+        $modelUsuario = new usuario();
+        $usuario = $modelUsuario->lstUsuarioPorId($id);
+        return view('usuario/atualizarSenha', compact('usuario'));
+    }
+
+    public function validaAlterarSenha(Request $request)
+    {
+        $modelUsuario = new usuario();
+        $usuario = $modelUsuario->lstUsuarioPorId($request['hdUsuario']);
+
+        if($request['inSenhaAtual'] == $usuario[0]['senha']){
+            if($request['inSenhaAtual'] == $request['inNovaSenha']){
+                $msg = "A nova senha não pode ser igual a senha atual!";
+            }else{
+                if($request['inNovaSenha'] != $request['inConfirmaSenha']){
+                    $msg = "As senhas não coenhecidem!";
+                }else{
+                    $modelUsuario->upSenha($request['hdUsuario'],$request['inConfirmaSenha']);
+                    session()->flash('mensagem', 'Senha atualizada com sucesso');
+                    $usuario = $usuario = $this->objUsuario->find($request['hdUsuario']);
+                    return view('times/cadastrar', compact('usuario'));
+                }
+            }
+        }else{
+            $msg = "Senha atual incorreta!";
+        }
+        session()->flash('mensagem', $msg);
+        return view('usuario/atualizarSenha', compact('usuario'));
+        
     }
 
 }
