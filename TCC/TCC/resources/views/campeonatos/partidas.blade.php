@@ -56,7 +56,7 @@
                                 <button class="btn btn-dark">Excluir</button>
                             </a>
                            
-                            <a href="{{'#'}}">
+                            <a href="{{route("campeonato.encerraPartida", ['idCampeonato' => $partida['id']])}}">
                                 <button class="btn btn-dark">Encerrar Partida</button>
                             </a>
                         </td>

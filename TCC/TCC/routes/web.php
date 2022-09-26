@@ -54,6 +54,8 @@ Route::get('/campeonato/{idCampeonato}/editarPartida/', 'App\Http\Controllers\Ca
 Route::get('/campeonato/{idCampeonato}/excluirPartida/', 'App\Http\Controllers\CampeonatosController@excluirPartida')->name("campeonato.excluirPartida");
 Route::post('/campeonato/pesquisar/', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar");
 Route::get('/campeonato/{idCampeonato}/salvaPartida/', 'App\Http\Controllers\CampeonatosController@salvaPartida')->name("campeonato.salvaPartida");
+Route::get('/campeonato/{idCampeonato}/encerraPartida/', 'App\Http\Controllers\CampeonatosController@encerraPartida')->name("campeonato.encerraPartida");
+Route::get('/campeonato/validaEncerrarPartida/', 'App\Http\Controllers\CampeonatosController@validaEncerrarPartida')->name("campeonato.validaEncerrarPartida");
 Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');
 
 //Rotas Login
