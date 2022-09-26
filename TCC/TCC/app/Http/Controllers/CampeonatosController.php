@@ -16,6 +16,8 @@ use App\Models\jogador;
 use App\Models\jogadoresParticipantes;
 use App\Models\local;
 use App\Models\partida;
+use App\Models\acao;
+use App\Models\sumula;
 use Illuminate\Support\Facades\Redirect;
 
 class CampeonatosController extends Controller
@@ -35,6 +37,7 @@ class CampeonatosController extends Controller
         if (session_status() !== PHP_SESSION_ACTIVE ){
             session_start();
         }
+        
         $modelCampeonato = new campeonato();
         $campeonatos = $modelCampeonato->lstCampeonatos();
         
@@ -386,8 +389,37 @@ class CampeonatosController extends Controller
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
         $modelPartida->delPartida($idPartida);
 
-
         session()->flash('mensagem', "Partida excluida com sucesso!");
         return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+    }
+
+    public function encerraPartida($idPartida)
+    {
+        $modelAcao = new acao();
+        $acoes = $modelAcao->lstAcao();
+        
+        $modelPartida = new partida();
+        $timesParticipantes = $modelPartida->lstPartida($idPartida);
+
+        $modelTime =  new time();
+        $times = $modelTime->lstTimes([
+            $timesParticipantes[0]['id_time_casa'],
+            $timesParticipantes[0]['id_time_visitante']
+        ]);
+
+        return view('campeonatos.encerraPartida', compact('idPartida', 'acoes','times'));
+    }
+
+    public function validaEncerrarPartida(Request $request)
+    {
+        $modelSumula = new sumula();
+        $modelSumula->insAcao(
+            $request['hdPartida'],
+            $request['slAcao0'],
+            $request['slTime0']
+        );
+
+        $modelPartida = new partida();
+        $modelPartida->encerraPartida($request['hdPartida']);
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->String('telefone',20);
             $table->String('email',100);
             $table->String('tipo',2);
-            $table->String('senha',100);
+            $table->String('senha',255);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

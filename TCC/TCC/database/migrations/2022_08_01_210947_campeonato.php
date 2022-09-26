@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('campeonatos', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100)->nullable(false);
-            $table->string('formato', 5)->nullable(false);;
+            $table->string('formato', 5)->nullable(false);
             $table->tinyInteger('Eexcluido')->nullable(false);
             $table->date('dataInicio')->nullable(false);
             $table->date('dataFim')->nullable(false);

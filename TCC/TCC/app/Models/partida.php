@@ -13,7 +13,7 @@ class partida extends Model
 
     public function partida()
     {
-        return $this->belongsTo(partoda::class);
+        return $this->belongsTo(partida::class);
     }
 
     public function lstPartida($idPartida)
@@ -56,7 +56,13 @@ class partida extends Model
     {
         return partida::select('id_campeonato')
         ->where('id', '=', $idPartida)
-        ->get()->toArray();
+        ->get()->toArray();   
+    }
 
+    public function encerraPartida($idPartida)
+    {
+        return partida::where(['id'=>$idPartida])->update([
+            'status'=>1
+        ]);
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_time');
             $table->foreign('id_time')->references('id')->on('times');
             $table->unsignedBigInteger('id_campeonato');
-            $table->foreign('id_campeonato')->references('id')->on('campeonatos')->onDelete('cascade');
+            $table->foreign('id_campeonato')->references('id')->on('campeonatos');
             $table->integer('Eexcluido')->nullable(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

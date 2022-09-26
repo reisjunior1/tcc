@@ -42,20 +42,19 @@ class CadastroUsuarioController extends Controller
 
 
     public function store(UsuarioRequest $request)
-    { //dd($request);
-       // die();
-
+    { 
+        //dd($request);
         $cadastro=$this->objUsuario->create([
             'nome'=>$request->inNome,
             'cpf'=>$request->inCpf,
             'email' => $request->inEmail,
             'telefone' => $request->inTelefone,
             'tipo'=>$request->inTipo,
-            'senha'=>$request->inSenha
-            ]);
-            if($cadastro){
-                return redirect('usuario');
-            }
+            'senha'=> password_hash($request->inSenha, PASSWORD_DEFAULT)
+        ]);
+        if($cadastro){
+            return redirect('usuario');
+        }
     }
 
     public function update(Request $request, $id)
@@ -91,14 +90,17 @@ class CadastroUsuarioController extends Controller
         $modelUsuario = new usuario();
         $usuario = $modelUsuario->lstUsuarioPorId($request['hdUsuario']);
 
-        if($request['inSenhaAtual'] == $usuario[0]['senha']){
+        if(password_verify($request['inSenhaAtual'], $usuario[0]['senha'])){
             if($request['inSenhaAtual'] == $request['inNovaSenha']){
                 $msg = "A nova senha não pode ser igual a senha atual!";
             }else{
                 if($request['inNovaSenha'] != $request['inConfirmaSenha']){
                     $msg = "As senhas não coenhecidem!";
                 }else{
-                    $modelUsuario->upSenha($request['hdUsuario'],$request['inConfirmaSenha']);
+                    $modelUsuario->upSenha(
+                        $request['hdUsuario'],
+                        password_hash($request['inConfirmaSenha'], PASSWORD_DEFAULT)
+                    );
                     session()->flash('mensagem', 'Senha atualizada com sucesso');
                     $usuario = $usuario = $this->objUsuario->find($request['hdUsuario']);
                     return view('times/cadastrar', compact('usuario'));

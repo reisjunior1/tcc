@@ -50,22 +50,21 @@ class LoginController extends Controller
             session()->flash('mensagem', 'Usuário não encontrado. Verifique os dados.');
                 return view('login/index');
         }else{
-            $user = $modelUsuario->getSenha($usuario[0]['id'], $request['password']);
-        }
-        if($user === false){
-            session()->flash('mensagem', 'Usuário ou senha incorreto. Verifique os dados.');
-                return view('login/index');
-        }else{
-            Session::put('id', $usuario[0]['id']);
-            Session::put('nome', $usuario[0]['nome']);
-            Session::put('email', $usuario[0]['email']);
-            Session::put('telefone', $usuario[0]['telefone']);
-            Session::put('tipo', $usuario[0]['Tipo']);
+            if(password_verify($request['password'], $usuario[0]['senha'])){
+                Session::put('id', $usuario[0]['id']);
+                Session::put('nome', $usuario[0]['nome']);
+                Session::put('email', $usuario[0]['email']);
+                Session::put('telefone', $usuario[0]['telefone']);
+                Session::put('tipo', $usuario[0]['tipo']);
 
-            if (session_status() !== PHP_SESSION_ACTIVE ){
-                session_start();
-                $_SESSION["dados"]=$usuario[0];
-                return view('times.paginainicial');
+                if (session_status() !== PHP_SESSION_ACTIVE ){
+                    session_start();
+                    $_SESSION["dados"]=$usuario[0];
+                    return view('times.paginainicial');
+                }
+            }else{
+                session()->flash('mensagem', 'Usuário ou senha incorreto. Verifique os dados.');
+                return view('login/index');
             }
         }
     }
