@@ -19,11 +19,17 @@ class TimesSeeder extends Seeder
     {
         //id_usuario	sigla	nome	id_local	
         DB::table('times')->insert([
-            'id_usuario' => rand(0,10),
+            'id_usuario' => rand(4,12),
             'sigla' => Str::random(3),
             'nome' => Str::random(10),
-            'id_local' => rand(0,1),
-            'Eexcluido' => rand(0,0)
+            'id_local' => rand(4,12),
+            'Eexcluido' => rand(0,0),
+            'endereco' => 'Rua A',
+            'cidade' => 'Cidade',
+            'bairro' => 'Bairro',
+            'complemento' => '-',
+            'cep' => 3595000,
+            'estado' => 'MG'
         ]);
     }
 }

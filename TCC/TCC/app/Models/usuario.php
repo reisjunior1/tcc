@@ -16,6 +16,11 @@ class usuario extends Model
         return $this->belongsTo(usuario::class);
     }
 
+    public function lstUsuario()
+    {
+        return usuario::get()->toArray();
+    }
+
     public function lstUsuarioPorId($idUsuario)
     {
         return usuario::where('id', '=', $idUsuario)
@@ -61,6 +66,14 @@ class usuario extends Model
     {
         usuario::where(['id'=>$idUsuario])->update([
             'senha'=>$novaSenha
+        ]);
+        return true;
+    }
+
+    public function upTipo($idUsuario, $tipo)
+    {
+        usuario::where(['id'=>$idUsuario])->update([
+            'tipo'=>$tipo
         ]);
         return true;
     }

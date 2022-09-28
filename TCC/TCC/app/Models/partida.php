@@ -22,7 +22,7 @@ class partida extends Model
         ->get()->toArray();
     }
 
-    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $data, $hora, $status = 0)
+    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $dataHora, $status = 0)
     {
         $objPartida = new partida();
         return $objPartida->create([
@@ -30,7 +30,7 @@ class partida extends Model
             'id_time_casa'=>$timeCasa,
             'id_time_visitante'=>$timeFora,
             'id_local' => $local,
-            'dataHora' => $data,
+            'dataHora' => $dataHora,
             'status' => $status
         ]);
     }

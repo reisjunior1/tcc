@@ -34,7 +34,6 @@
 
 @csrf
 <div class="col-12">
-  <?php //var_dump($usuario); ?>
     <label for="nome" class="form-label">Nome Completo:</label>
     <input type="text" class="form-control" id="inNome" name='inNome' value="{{$usuario->nome ?? ''}}"  placeholder="Nome/Sobrenome">
   </div>
@@ -52,11 +51,7 @@
     <label for="email" class="form-label">Email:</label>
     <input type="email" class="form-control" id="inEmail" name='inEmail' value="{{$usuario->email ?? ''}}" placeholder="....@email.com">
   </div>
-  <div class="col-md-4">
-  <label for="tipo" class="form-label">Tipo:</label>
-    <input type="text" class="form-control" id="inTipo" name='inTipo'  placeholder="Informe o tipo do usuario">
-  </div>
-  
+ 
   <?php if(empty($usuario)): ?>
     <div class="col-md-6" >
       <label for="senha" class="form-label">Senha:</label>

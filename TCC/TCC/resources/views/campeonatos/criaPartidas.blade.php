@@ -1,12 +1,13 @@
 @extends('times.tela.telas')
 
-
 @section('parte')
-  <title>Cadastro</title>
-  </head>
-  <body>
 
-  <hr> <h2 class="text-center">Partidas</h2> <hr>
+
+<title>Cadastro</title>
+</head>
+<body>
+    
+    <hr> <h2 class="text-center">Partidas</h2> <hr>
   @if(session('mensagem'))
     <div class="alert alert-success text-center mt-4 mb-4 p-2">
         <p>{{session('mensagem')}}</p>
@@ -31,7 +32,7 @@
                 @endforeach
             </select>
 
-            <label for="slTimeVizitante" class="form-label">Selecione o Time vizitante*</label>
+            <label for="slTimeVizitante" class="form-label">Selecione o Time visitante*</label>
             <select name="slTimeVizitante"  id="slTimeVizitante" class="form-select">
                 <option selected>Selecione...</option>
                 @foreach($times as $time)
@@ -51,7 +52,7 @@
             <input type="date" class="form-control" name="inData" id="inData" value="{{isset($dados['inData']) ? $dados['inData'] : null}}" placeholder="DD/MM/AAAA">
 
             <label for="inHora" class="form-label">Hora*</label>
-            <input type="number" class="form-control" name="inHora" id="inHora" value="{{isset($dados['inHora']) ? $dados['inHora'] : null}}" placeholder="Hora de início">
+            <input type="text" class="form-control" name="inHora" id="inHora" value="{{isset($dados['inHora']) ? $dados['inHora'] : null}}" placeholder="Hora de início">
             
             <input type="hidden" id="hdIdCampeonato" name="hdIdCampeonato" value={{$idCampeonato}}>
 
@@ -65,5 +66,4 @@
 </div>
 
 
-
-   @endsection
+@endsection

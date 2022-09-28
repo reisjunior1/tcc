@@ -43,13 +43,12 @@ class CadastroUsuarioController extends Controller
 
     public function store(UsuarioRequest $request)
     { 
-        //dd($request);
         $cadastro=$this->objUsuario->create([
             'nome'=>$request->inNome,
             'cpf'=>$request->inCpf,
             'email' => $request->inEmail,
             'telefone' => $request->inTelefone,
-            'tipo'=>$request->inTipo,
+            'tipo'=>'UC',
             'senha'=> password_hash($request->inSenha, PASSWORD_DEFAULT)
         ]);
         if($cadastro){
@@ -75,7 +74,6 @@ class CadastroUsuarioController extends Controller
         $usuario = $this->objUsuario->find($_SESSION['dados']['id']);
         session()->flash('mensagem', "Os dados do usuário foram atualizados!");
         return view('times/cadastrar', compact('usuario'));
-        //return redirect('usuario');
     }
 
     public function atualizarSenha($id)
@@ -122,6 +120,26 @@ class CadastroUsuarioController extends Controller
             session_destroy();
         }
         return view('times.paginainicial');
+
+    }
+
+    public function tipoUsuario()
+    {
+        $modelUsuario = new usuario();
+        $usuarios = $modelUsuario->lstUsuario();
+
+        return view('usuario/gerenciarTipo', compact('usuarios'));
+    }
+
+    public function validaTipoUsuario(Request $request)
+    {
+        $modelUsuario = new usuario();
+        $modelUsuario->upTipo(
+            $request['slUsuario'],
+            $request['slTipo']
+        );
+
+        return redirect()->route('usuario.tipo');
 
     }
 

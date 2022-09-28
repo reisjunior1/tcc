@@ -18,7 +18,11 @@ use App\Models\local;
 use App\Models\partida;
 use App\Models\acao;
 use App\Models\sumula;
+use App\Rules\ValidaHora;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
+
+
 
 class CampeonatosController extends Controller
 {
@@ -341,7 +345,8 @@ class CampeonatosController extends Controller
         $dados['slTimeCasa'] = $partida[0]['id_time_casa'];
         $dados['slTimeVizitante'] = $partida[0]['id_time_visitante'];
         $dados['slLocal'] = $partida[0]['id_local'];
-        $dados['inData'] = $partida[0]['dataHora'];
+        $dados['inData'] =  (new Carbon($partida[0]['dataHora']))->format('Y-m-d');
+        $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H').(new Carbon($partida[0]['dataHora']))->format('i');
        // $dados['inHora'] = $partida[0]['inHora'];
        $idCampeonato = $partida[0]['id_campeonato'];
 
@@ -367,14 +372,17 @@ class CampeonatosController extends Controller
             session()->flash('mensagem', 'Os times selecionados não podem ser os mesmos!');
             return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
         }else{
+            $this->validate($request, ['inHora' => new ValidaHora]);
+            $dataHora = $this->trataDataHora($request['inData'], $request['inHora']);
+            //dd($dataHora);
+
             $modelPartida = new partida();
             $modelPartida->insPartida(
                 $request['hdIdCampeonato'],
                 $request['slTimeCasa'],
                 $request['slTimeVizitante'],
                 $request['slLocal'],
-                $request['inData'],
-                $request['inHora'],
+                $dataHora
             );
 
             return Redirect("campeonato/$idCampeonato/partidas");
@@ -421,5 +429,15 @@ class CampeonatosController extends Controller
 
         $modelPartida = new partida();
         $modelPartida->encerraPartida($request['hdPartida']);
+    }
+
+    public function trataDataHora($stringData, $stringHora)
+    {
+        $ano = substr($stringData,0,4);
+        $mes = substr($stringData,5,2);
+        $dia = substr($stringData,8,2);
+        $hora = substr($stringHora,0,2);
+        $minuto = substr($stringHora, 2, 2);
+        return Carbon::create($ano, $mes, $dia, $hora, $minuto, 0, -2);
     }
 }
