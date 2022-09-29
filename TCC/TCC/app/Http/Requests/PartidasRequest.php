@@ -31,7 +31,7 @@ class PartidasRequest extends FormRequest
             'slTimeVizitante'=>'required|notin:Selecione...',
             'slLocal'=>'required|notin:Selecione...',
             'inData' => 'required',
-            'inHora' => 'required|numeric'
+            'inHora' => 'required'
         ];
     }
 
@@ -42,10 +42,7 @@ class PartidasRequest extends FormRequest
                 'slTimeVizitante.notin' => 'O campo Time visitante é obrigatório!',
                 'slLocal.notin' => 'O campo Local é obrigatório!',
                 'inData.required' => 'O campo Data é obrigatório!',
-                'inHora.required' => 'O campo Hora é obrigatório!',
-                'inHora.numeric' => 'O campo Hora deve conter apenas números!',
-                //'inHora.max' => 'O campo Hora não pode conter mais de 4 digítos',
-                //'inHora.min' => 'O campo Hora deve conter 4 digítos'
+                'inHora.required' => 'O campo Hora é obrigatório!'
             ];
         }
 }

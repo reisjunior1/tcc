@@ -35,21 +35,21 @@
 @csrf
 <div class="col-12">
     <label for="nome" class="form-label">Nome Completo:</label>
-    <input type="text" class="form-control" id="inNome" name='inNome' value="{{$usuario->nome ?? ''}}"  placeholder="Nome/Sobrenome">
+    <input type="text" class="form-control" id="inNome" name='inNome' value="{{$usuario->nome ?? ''}}"  placeholder="Nome Sobrenome">
   </div>
   <div class="col-md-6">
     <label for="cpf" class="form-label">CPF:</label>
-    <input type="cpf" class="form-control" id="inCpf" name='inCpf' value="{{$usuario->cpf ?? ''}}" placeholder="***.***.***-**">
+    <input type="cpf" class="form-control cpf" id="inCpf" name='inCpf' value="{{$usuario->cpf ?? ''}}" placeholder="CPF">
   </div>
   <div class="col-md-6">
     <label for="telefone" class="form-label">Telefone:</label>
-    <input type="text" class="form-control" id="inTelefone" name='inTelefone' value="{{$usuario->telefone ?? ''}}" placeholder="( ) - ---- ----">
+    <input type="text" class="form-control telefone" id="inTelefone" name='inTelefone' value="{{$usuario->telefone ?? ''}}" placeholder="( ) - ---- ----">
   </div>
 
 
   <div class="col-md-6">
     <label for="email" class="form-label">Email:</label>
-    <input type="email" class="form-control" id="inEmail" name='inEmail' value="{{$usuario->email ?? ''}}" placeholder="....@email.com">
+    <input type="email" class="form-control" id="inEmail" name='inEmail' value="{{$usuario->email ?? ''}}" placeholder="exemplo@mail.com">
   </div>
  
   <?php if(empty($usuario)): ?>

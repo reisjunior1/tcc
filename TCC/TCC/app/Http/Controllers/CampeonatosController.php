@@ -346,9 +346,8 @@ class CampeonatosController extends Controller
         $dados['slTimeVizitante'] = $partida[0]['id_time_visitante'];
         $dados['slLocal'] = $partida[0]['id_local'];
         $dados['inData'] =  (new Carbon($partida[0]['dataHora']))->format('Y-m-d');
-        $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H').(new Carbon($partida[0]['dataHora']))->format('i');
-       // $dados['inHora'] = $partida[0]['inHora'];
-       $idCampeonato = $partida[0]['id_campeonato'];
+        $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H:i:s');
+        $idCampeonato = $partida[0]['id_campeonato'];
 
         return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
     }
@@ -433,11 +432,12 @@ class CampeonatosController extends Controller
 
     public function trataDataHora($stringData, $stringHora)
     {
-        $ano = substr($stringData,0,4);
-        $mes = substr($stringData,5,2);
-        $dia = substr($stringData,8,2);
-        $hora = substr($stringHora,0,2);
-        $minuto = substr($stringHora, 2, 2);
-        return Carbon::create($ano, $mes, $dia, $hora, $minuto, 0, -2);
+        $ano = substr($stringData, 0, 4);
+        $mes = substr($stringData, 5, 2);
+        $dia = substr($stringData, 8, 2);
+        $hora = substr($stringHora, 0, 2);
+        $minuto = substr($stringHora, 3, 2);
+        $segundo = substr($stringHora, 6, 2);
+        return Carbon::create($ano, $mes, $dia, $hora, $minuto, $segundo, -2);
     }
 }

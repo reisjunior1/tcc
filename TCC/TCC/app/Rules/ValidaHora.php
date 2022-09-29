@@ -26,14 +26,10 @@ class ValidaHora implements Rule
     public function passes($attribute, $value)
     {
         $hora = substr($value,0,2);
-        $minuto = substr($value, 2, 2);
-        
-        if(strlen($value)!=4){
-            return false;
-        }
-        if(strlen($value)!=4 
-            || $hora >= 24 || $hora < 0 || $minuto >= 60 || $minuto < 0
-        ){
+        $minuto = substr($value, 3, 2);
+        $segundo = substr($value, 6, 2);
+
+        if($hora >= 24 || $hora < 0 || $minuto >= 60 || $minuto < 0 || $segundo >= 60 || $segundo < 0){
             return false;
         }
         return true;

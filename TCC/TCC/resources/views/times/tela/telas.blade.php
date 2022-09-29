@@ -70,5 +70,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
 
+<script src="{{asset('vendor/jquery/jquery-3.6.1.min.js')}}"></script>
+<script src="{{asset('vendor/jquery-mask/jquery.mask.min.js')}}"></script>
+<script>
+    $('.hora').mask('00:00:00');
+    $('.cpf').mask('000.000.000-00');
+    $('.telefone').mask('(00) 00000-0000');
+</script>
+
 </body>
 </html>
