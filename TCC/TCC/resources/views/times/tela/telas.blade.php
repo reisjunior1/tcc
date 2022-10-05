@@ -40,6 +40,13 @@
             <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
           </li>
 
+		  <?php //var_dump($_SESSION['dados']['tipo']); ?>
+		  @if(!empty($_SESSION) && $_SESSION['dados']['tipo'] == 'AG')
+		  <li class="nav-item">
+            <a class="nav-link"  href="{{ route('usuario.tipo') }}"> Gerenciar Usuários</a>
+          </li>
+		  @endif
+
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
