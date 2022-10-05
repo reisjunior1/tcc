@@ -40,7 +40,6 @@
             <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
           </li>
 
-		  <?php //var_dump($_SESSION['dados']['tipo']); ?>
 		  @if(!empty($_SESSION) && $_SESSION['dados']['tipo'] == 'AG')
 		  <li class="nav-item">
             <a class="nav-link"  href="{{ route('usuario.tipo') }}"> Gerenciar Usuários</a>
