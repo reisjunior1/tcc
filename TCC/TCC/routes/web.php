@@ -43,22 +43,60 @@ Route::get('/jogador', function () {
 
 
 //Rotas Modulo Campeonato
-Route::get('/campeonato', 'App\Http\Controllers\CampeonatosController@index')->name("campeonato.index");
-Route::get('/campeonato/cadastrar', 'App\Http\Controllers\CampeonatosController@cadastrarCampeonato')->name("campeonato.cadastrar");
-Route::get('/campeonato/deleta', 'App\Http\Controllers\CampeonatosController@deletarCampeonato')->name("campeonato.deletaCampeonato");
-Route::get('/campeonato/{idCampeonato}/adicionarTime/', 'App\Http\Controllers\CampeonatosController@adicionarTime')->name("campeonato.adicionarTime");
-Route::get('/campeonato/buscaJogadores/', 'App\Http\Controllers\CampeonatosController@buscaJogadores')->name("campeonato.buscaJogadores");
-Route::get('/campeonato/salvaTimesJogadoresCampeonato/', 'App\Http\Controllers\CampeonatosController@salvaTimesJogadoresCampeonato')->name("campeonato.salvaTimesJogadoresCampeonato");
-Route::get('/campeonato/apagaTimesCampeonato/', 'App\Http\Controllers\CampeonatosController@apagaTimesCampeonato')->name("campeonato.apagaTimesCampeonato");
-Route::get('/campeonato/{idCampeonato}/partidas/', 'App\Http\Controllers\CampeonatosController@partidas')->name("campeonato.partidas");
-Route::get('/campeonato/{idCampeonato}/criarPartida/', 'App\Http\Controllers\CampeonatosController@criarPartida')->name("campeonato.criarPartida");
-Route::get('/campeonato/{idCampeonato}/editarPartida/', 'App\Http\Controllers\CampeonatosController@editarPartida')->name("campeonato.editarPartida");
-Route::get('/campeonato/{idCampeonato}/excluirPartida/', 'App\Http\Controllers\CampeonatosController@excluirPartida')->name("campeonato.excluirPartida");
-Route::post('/campeonato/pesquisar/', 'App\Http\Controllers\CampeonatosController@pesquisar')->name("campeonato.pesquisar");
-Route::get('/campeonato/{idCampeonato}/salvaPartida/', 'App\Http\Controllers\CampeonatosController@salvaPartida')->name("campeonato.salvaPartida");
-Route::get('/campeonato/{idCampeonato}/encerraPartida/', 'App\Http\Controllers\CampeonatosController@encerraPartida')->name("campeonato.encerraPartida");
-Route::get('/campeonato/validaEncerrarPartida/', 'App\Http\Controllers\CampeonatosController@validaEncerrarPartida')->name("campeonato.validaEncerrarPartida");
-Route::resource('/campeonato', 'App\Http\Controllers\CampeonatosController');
+define("CAMPEONATOS_CONTROLLER", 'App\Http\Controllers\CampeonatosController');
+
+Route::get('/campeonato', CAMPEONATOS_CONTROLLER.'@index')
+    ->name("campeonato.index");
+
+Route::get('/campeonato/cadastrar', CAMPEONATOS_CONTROLLER.'@cadastrarCampeonato')
+    ->name("campeonato.cadastrar");
+
+Route::get('/campeonato/deleta', CAMPEONATOS_CONTROLLER.'@deletarCampeonato')
+    ->name("campeonato.deletaCampeonato");
+
+Route::get('/campeonato/{idCampeonato}/adicionarTime/', CAMPEONATOS_CONTROLLER.'@adicionarTime')
+    ->name("campeonato.adicionarTime");
+
+Route::get('/campeonato/buscaJogadores/', CAMPEONATOS_CONTROLLER.'@buscaJogadores')
+    ->name("campeonato.buscaJogadores");
+
+Route::get('/campeonato/salvaTimesJogadoresCampeonato/', CAMPEONATOS_CONTROLLER.'@salvaTimesJogadoresCampeonato')
+    ->name("campeonato.salvaTimesJogadoresCampeonato");
+
+Route::get('/campeonato/apagaTimesCampeonato/', CAMPEONATOS_CONTROLLER.'@apagaTimesCampeonato')
+    ->name("campeonato.apagaTimesCampeonato");
+
+Route::get('/campeonato/{idCampeonato}/partidas/', CAMPEONATOS_CONTROLLER.'@partidas')
+    ->name("campeonato.partidas");
+
+Route::get('/campeonato/{idCampeonato}/criarPartida/', CAMPEONATOS_CONTROLLER.'@criarPartida')
+    ->name("campeonato.criarPartida");
+
+Route::get('/campeonato/{idCampeonato}/editarPartida/', CAMPEONATOS_CONTROLLER.'@editarPartida')
+    ->name("campeonato.editarPartida");
+
+Route::get('/campeonato/{idCampeonato}/excluirPartida/', CAMPEONATOS_CONTROLLER.'@excluirPartida')
+    ->name("campeonato.excluirPartida");
+
+Route::post('/campeonato/pesquisar/', CAMPEONATOS_CONTROLLER.'@pesquisar')
+    ->name("campeonato.pesquisar");
+
+Route::get('/campeonato/{idCampeonato}/salvaPartida/', CAMPEONATOS_CONTROLLER.'@salvaPartida')
+    ->name("campeonato.salvaPartida");
+
+Route::get('/campeonato/{idPartida}/encerraPartida/', CAMPEONATOS_CONTROLLER.'@encerraPartida')
+    ->name("campeonato.encerraPartida");
+
+Route::get('/campeonato/validaEncerrarPartida/', CAMPEONATOS_CONTROLLER.'@validaEncerrarPartida')
+    ->name("campeonato.validaEncerrarPartida");
+
+Route::get('/campeonato/{idPartida}/detalhesPartida/', CAMPEONATOS_CONTROLLER.'@detalhesPartida')
+    ->name("campeonato.detalhesPartida");
+
+Route::get('/campeonato/{idPartida}/editarResultado/', CAMPEONATOS_CONTROLLER.'@editarResultado')
+    ->name("campeonato.editarResultado");
+
+Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Login
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name("login.login");
