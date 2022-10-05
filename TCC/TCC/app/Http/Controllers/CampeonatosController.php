@@ -108,13 +108,11 @@ class CampeonatosController extends Controller
         if(empty($formato) && empty($slTime) && empty($request->inDataInicio) && empty($request->inDataFim)){
             return view('campeonatos/index', compact('campeonatos', 'times', 'formato', 'slTime', 'dtInicio', 'dtFim'));
         }else{
-            //dd($a1, $a2, $a3);
             $array[] = $a1;
             $array[] = $a2;
             $array[] = $a3;
 
             $array = array_filter($array);
-            //dd($array);
             if(!empty($array)){
                 $arrayId = (array_intersect(...$array));
                 $campeonatos = $modelCampeonato->lstCampeonatosPorId($arrayId);
@@ -419,15 +417,56 @@ class CampeonatosController extends Controller
 
     public function validaEncerrarPartida(Request $request)
     {
+        $count = ((count($request->query())) - 4) / 3;
+        //dd($request, $count);
+        
         $modelSumula = new sumula();
-        $modelSumula->insAcao(
-            $request['hdPartida'],
-            $request['slAcao0'],
-            $request['slTime0']
-        );
 
+        $golsTimeCasa = 0;
+        $golsTimeVisitante = 0;
+
+        for($i=0; $i<$count; $i++){
+            $modelSumula->insAcao(
+                $request['hdPartida'],
+                $request['slAcao'.$i],
+                $request['slTime'.$i],
+                $request['inTempo'.$i]
+            );
+
+            if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeCasa']
+            || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeVisitante']
+            ){
+                $golsTimeCasa++;
+            }
+
+            if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeVisitante']
+            || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeCasa']
+            ){
+                $golsTimeVisitante++;
+            }
+        }
+        //dd($golsTimeCasa, $golsTimeVisitante);
         $modelPartida = new partida();
-        $modelPartida->encerraPartida($request['hdPartida']);
+        $modelPartida->encerraPartida($request['hdPartida'], $golsTimeCasa, $golsTimeVisitante);
+
+        $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);
+        $idCampeonato = intval($campeonato[0]);
+
+        $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
+        //dd($idCampeonato, $partidas);
+        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+    }
+
+    public function detalhesPartida($idPartida)
+    {
+        $modelPartida = new partida();
+        $partida = $modelPartida->lstDadosPartidaPorIdPartida($idPartida);
+
+        $modelSumula = new sumula();
+        $eventos = $modelSumula->lstEventosPorPartida($idPartida);
+
+        //dd($partida, $eventos);
+        return view('campeonatos.detalhesPartida', compact('partida','eventos'));
     }
 
     public function trataDataHora($stringData, $stringHora)
@@ -439,5 +478,10 @@ class CampeonatosController extends Controller
         $minuto = substr($stringHora, 3, 2);
         $segundo = substr($stringHora, 6, 2);
         return Carbon::create($ano, $mes, $dia, $hora, $minuto, $segundo, -2);
+    }
+
+    public function editarResultado($idPartida)
+    {
+        dd($idPartida);
     }
 }

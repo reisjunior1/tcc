@@ -34,7 +34,7 @@
             <a class="nav-link"  href="{{ route('campeonato.index') }}"> Campeonato</a>
           </li>
           <li class="nav-item">
-            <?php 
+            <?php
               $texto = !empty($_SESSION) ? 'Perfil' : 'Login';
             ?>
             <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
@@ -72,10 +72,39 @@
 
 <script src="{{asset('vendor/jquery/jquery-3.6.1.min.js')}}"></script>
 <script src="{{asset('vendor/jquery-mask/jquery.mask.min.js')}}"></script>
+
+<?php 
+  if(!isset($acoes)){
+    $acoes = array();
+  }
+  if(!isset($times)){
+    $times = array();
+  }
+?>
 <script>
     $('.hora').mask('00:00:00');
     $('.cpf').mask('000.000.000-00');
     $('.telefone').mask('(00) 00000-0000');
+    $('.minutos').mask('000:00', {reverse: true});
+    
+</script>
+
+<script>
+var i=1;
+$("#add-campo").click(function(){
+  $( ".campo" ).append('<div class="teste" id="teste'+i+'"><label for="slAcao'+i+'" '
+  + 'class="form-label">Ação:</label><select name="slAcao'+i
+  +'"  id="slAcao'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($acoes as $acao): var_dump(@acao); <option value= {{$acao["id"]}}>{{$acao["descricao"]}}</option> @endforeach </select><label for="slTime'+i+'" class="form-label">Time:</label><select name="slTime'+i+'"  id="slTime'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($times as $time)<option value= {{$time["id"]}}>{{$time["nome"]}}</option>@endforeach</select><label for="inTempo'+i+' class="form-label">Minutos*</label><input type="text" class="form-control minutos" name="inTempo'+i+'" id="inTempo'+i+'" placeholder="Minutos"><button type="button" class="btn-apagar btn btn-danger" id="'+i+'">-</button>');
+  $('.minutos').mask('000:00', {reverse: true} );
+  
+  i++;
+});
+
+$('form').on('click', '.btn-apagar', function () {
+	var button_id = $(this).attr("id");
+	$('#teste' + button_id + '').remove();
+});
+
 </script>
 
 </body>
