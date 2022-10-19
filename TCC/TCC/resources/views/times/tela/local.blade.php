@@ -10,7 +10,7 @@
 <div class="conterner py-4">
 
 <form class="row g-3"  method="put"  action={(route("time.local"))}>
-<!--<form class="row g-3"  method="post"  action="{{url('local')}}"  >-->
+  <form class="row g-3"  method="post"  action="{{url('local')}}"  >-->
    @csrf
 
    <div class="col-12">

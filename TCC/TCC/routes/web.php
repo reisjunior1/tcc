@@ -40,7 +40,9 @@ Route::get('/jogador', function () {
     return view(view:'times.jogadors');
 })->name('jogadors');
 
-
+Route::get('/cadastrojogador', 'App\Http\Controllers\CadastroJogadoresController@cadastrarJogar')->name("time.cadastrajogadors");
+Route::post('/cadastrojogadorr', 'App\Http\Controllers\CadastroJagadoresController@salvejogador')->name("time.salvajagadors");
+Route::resource('/cadastrojogador', 'App\Http\Controllers\CadastrojogadoresController');
 
 //Rotas Modulo Campeonato
 Route::get('/campeonato', 'App\Http\Controllers\CampeonatosController@index')->name("campeonato.index");
