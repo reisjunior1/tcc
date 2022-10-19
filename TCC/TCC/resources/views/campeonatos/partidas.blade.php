@@ -25,6 +25,21 @@
 </a>
     <div class="col-4 m-auto">
         @foreach($partidas as $partida)
+            <?php
+                if ($partida['status'] == 0){
+                    $status = 'Não Iniciada';
+                    $golsTimeCasa = '-';
+                    $golsTimeVisitante = '-';
+                    $href = route("campeonato.encerraPartida", ['idPartida' => $partida['id']]);
+                    $btn = 'Encerrar Partida';
+                } else {
+                    $status = 'Encerrada';
+                    $golsTimeCasa = $partida['gols_time_casa'];
+                    $golsTimeVisitante = $partida['gols_time_visitante'];
+                    $href = route("campeonato.editarResultado", ['idPartida' => $partida['id']]);
+                    $btn = 'Editar Resultado';
+                }
+            ?>
             <table class="table text-center">
                 <thead class="thead-dark">
                     <tr>
@@ -33,6 +48,7 @@
                         <th scope="col">Data</th>
                         <th scope="col">Local</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Resultado</th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
@@ -42,9 +58,10 @@
                         <td>{{$partida['timeVisitante']}}</td>
                         <td>{{$partida['dataHora']}}</td>
                         <td>{{$partida['endereco']}}</td>
-                        <td>{{$partida['status'] == 0 ? 'Não Iniciada' : 'Encerrada'}}</td>
+                        <td>{{$status}}</td>
+                        <td>{{$golsTimeCasa . ' x '. $golsTimeVisitante}}</td>
                         <td>
-                            <a href="{{url("#")}}">
+                            <a href="{{route("campeonato.detalhesPartida", ['idPartida' => $partida['id']])}}">
                                 <button class="btn btn-dark">Detalhes</button>
                             </a>
                             
@@ -56,8 +73,8 @@
                                 <button class="btn btn-dark">Excluir</button>
                             </a>
                            
-                            <a href="{{route("campeonato.encerraPartida", ['idCampeonato' => $partida['id']])}}">
-                                <button class="btn btn-dark">Encerrar Partida</button>
+                            <a href="{{$href}}">
+                                <button class="btn btn-dark">{{$btn}}</button>
                             </a>
                         </td>
                     </tr>

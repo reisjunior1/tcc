@@ -34,11 +34,17 @@
             <a class="nav-link"  href="{{ route('campeonato.index') }}"> Campeonato</a>
           </li>
           <li class="nav-item">
-            <?php 
+            <?php
               $texto = !empty($_SESSION) ? 'Perfil' : 'Login';
             ?>
             <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
           </li>
+
+		  @if(!empty($_SESSION) && $_SESSION['dados']['tipo'] == 'AG')
+		  <li class="nav-item">
+            <a class="nav-link"  href="{{ route('usuario.tipo') }}"> Gerenciar Usuários</a>
+          </li>
+		  @endif
 
         </ul>
         <form class="d-flex" role="search">
@@ -69,6 +75,43 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+
+<script src="{{asset('vendor/jquery/jquery-3.6.1.min.js')}}"></script>
+<script src="{{asset('vendor/jquery-mask/jquery.mask.min.js')}}"></script>
+
+<?php 
+  if(!isset($acoes)){
+    $acoes = array();
+  }
+  if(!isset($times)){
+    $times = array();
+  }
+?>
+<script>
+    $('.hora').mask('00:00:00');
+    $('.cpf').mask('000.000.000-00');
+    $('.telefone').mask('(00) 00000-0000');
+    $('.minutos').mask('000:00', {reverse: true});
+    
+</script>
+
+<script>
+var i=1;
+$("#add-campo").click(function(){
+  $( ".campo" ).append('<div class="teste" id="teste'+i+'"><label for="slAcao'+i+'" '
+  + 'class="form-label">Ação:</label><select name="slAcao'+i
+  +'"  id="slAcao'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($acoes as $acao): var_dump(@acao); <option value= {{$acao["id"]}}>{{$acao["descricao"]}}</option> @endforeach </select><label for="slTime'+i+'" class="form-label">Time:</label><select name="slTime'+i+'"  id="slTime'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($times as $time)<option value= {{$time["id"]}}>{{$time["nome"]}}</option>@endforeach</select><label for="inTempo'+i+' class="form-label">Minutos*</label><input type="text" class="form-control minutos" name="inTempo'+i+'" id="inTempo'+i+'" placeholder="Minutos"><button type="button" class="btn-apagar btn btn-danger" id="'+i+'">-</button>');
+  $('.minutos').mask('000:00', {reverse: true} );
+  
+  i++;
+});
+
+$('form').on('click', '.btn-apagar', function () {
+	var button_id = $(this).attr("id");
+	$('#teste' + button_id + '').remove();
+});
+
+</script>
 
 </body>
 </html>

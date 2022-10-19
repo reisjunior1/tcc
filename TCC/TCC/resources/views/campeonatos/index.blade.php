@@ -12,7 +12,6 @@
         <p>{{session('mensagem')}}</p>
     </div>
   @endif
-  <?php var_dump(session_status()); ?>
   <h3 class="text-center">Filtrar por</h3>
 <div class="text-center mt-3 mb-4">
     <div class="col-4 m-auto">
@@ -28,11 +27,12 @@
             <br>
             <div class="col-12">
             <label for="inDataInicio" class="form-label">Periodo</label>
-            <div class="col-3">
+            <div class="col-3 input-group">
                 <input type="date" class="form-control" name="inDataInicio" id="inDataInicio" value="{{isset($dtInicio) ? $dtInicio : null}}" placeholder="DD/MM/AAAA">
-                <label class="form-label">a</label>
+                <label class="form-label">&nbsp&nbsp&nbsp&nbsp A &nbsp&nbsp&nbsp&nbsp</label>
                 <input type="date" class="form-control" name="inDataFim" id="inDataFim" value="{{isset($dtFim) ? $dtFim : null}}" placeholder="DD/MM/AAAA">
             </div>
+
             </div>
             <br>
             <label for="slTime" class="form-label">Time:</label>

@@ -108,13 +108,11 @@ class CampeonatosController extends Controller
         if(empty($formato) && empty($slTime) && empty($request->inDataInicio) && empty($request->inDataFim)){
             return view('campeonatos/index', compact('campeonatos', 'times', 'formato', 'slTime', 'dtInicio', 'dtFim'));
         }else{
-            //dd($a1, $a2, $a3);
             $array[] = $a1;
             $array[] = $a2;
             $array[] = $a3;
 
             $array = array_filter($array);
-            //dd($array);
             if(!empty($array)){
                 $arrayId = (array_intersect(...$array));
                 $campeonatos = $modelCampeonato->lstCampeonatosPorId($arrayId);
@@ -346,9 +344,8 @@ class CampeonatosController extends Controller
         $dados['slTimeVizitante'] = $partida[0]['id_time_visitante'];
         $dados['slLocal'] = $partida[0]['id_local'];
         $dados['inData'] =  (new Carbon($partida[0]['dataHora']))->format('Y-m-d');
-        $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H').(new Carbon($partida[0]['dataHora']))->format('i');
-       // $dados['inHora'] = $partida[0]['inHora'];
-       $idCampeonato = $partida[0]['id_campeonato'];
+        $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H:i:s');
+        $idCampeonato = $partida[0]['id_campeonato'];
 
         return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
     }
@@ -420,24 +417,71 @@ class CampeonatosController extends Controller
 
     public function validaEncerrarPartida(Request $request)
     {
+        $count = ((count($request->query())) - 4) / 3;
+        //dd($request, $count);
+        
         $modelSumula = new sumula();
-        $modelSumula->insAcao(
-            $request['hdPartida'],
-            $request['slAcao0'],
-            $request['slTime0']
-        );
 
+        $golsTimeCasa = 0;
+        $golsTimeVisitante = 0;
+
+        for($i=0; $i<$count; $i++){
+            $modelSumula->insAcao(
+                $request['hdPartida'],
+                $request['slAcao'.$i],
+                $request['slTime'.$i],
+                $request['inTempo'.$i]
+            );
+
+            if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeCasa']
+            || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeVisitante']
+            ){
+                $golsTimeCasa++;
+            }
+
+            if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeVisitante']
+            || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeCasa']
+            ){
+                $golsTimeVisitante++;
+            }
+        }
+        //dd($golsTimeCasa, $golsTimeVisitante);
         $modelPartida = new partida();
-        $modelPartida->encerraPartida($request['hdPartida']);
+        $modelPartida->encerraPartida($request['hdPartida'], $golsTimeCasa, $golsTimeVisitante);
+
+        $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);
+        $idCampeonato = intval($campeonato[0]);
+
+        $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
+        //dd($idCampeonato, $partidas);
+        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+    }
+
+    public function detalhesPartida($idPartida)
+    {
+        $modelPartida = new partida();
+        $partida = $modelPartida->lstDadosPartidaPorIdPartida($idPartida);
+
+        $modelSumula = new sumula();
+        $eventos = $modelSumula->lstEventosPorPartida($idPartida);
+
+        //dd($partida, $eventos);
+        return view('campeonatos.detalhesPartida', compact('partida','eventos'));
     }
 
     public function trataDataHora($stringData, $stringHora)
     {
-        $ano = substr($stringData,0,4);
-        $mes = substr($stringData,5,2);
-        $dia = substr($stringData,8,2);
-        $hora = substr($stringHora,0,2);
-        $minuto = substr($stringHora, 2, 2);
-        return Carbon::create($ano, $mes, $dia, $hora, $minuto, 0, -2);
+        $ano = substr($stringData, 0, 4);
+        $mes = substr($stringData, 5, 2);
+        $dia = substr($stringData, 8, 2);
+        $hora = substr($stringHora, 0, 2);
+        $minuto = substr($stringHora, 3, 2);
+        $segundo = substr($stringHora, 6, 2);
+        return Carbon::create($ano, $mes, $dia, $hora, $minuto, $segundo, -2);
+    }
+
+    public function editarResultado($idPartida)
+    {
+        dd($idPartida);
     }
 }

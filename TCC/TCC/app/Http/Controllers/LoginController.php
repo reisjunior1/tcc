@@ -39,6 +39,7 @@ class LoginController extends Controller
             $usuario = $modelUsuario->lstUsuarioPorEmail($input);
         } else {
             if($this->validaTelefone($input)){
+                $input = $this->montaTelefone($input, true);
                 $modelUsuario = new usuario();
                 $usuario = $modelUsuario->lstUsuarioPorTelefone($input);
             }else{
@@ -85,8 +86,8 @@ class LoginController extends Controller
     }
 
     function validaTelefone($telefone){
-        $telefone= trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
-    
+        
+        $telefone = $this->montaTelefone($telefone);
         $regexTelefone = "/^[0-9]{11}$/";
     
         //$regexCel = '/[0-9]{2}[6789][0-9]{3,4}[0-9]{4}/'; // Regex para validar somente celular
@@ -95,6 +96,15 @@ class LoginController extends Controller
         }else{
             return false;
         }
+    }
+
+    function montaTelefone($telefone, $formatanumero = false){
+        $telefone = trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
+        
+        if($formatanumero){
+            $telefone = '(' . substr($telefone,0,2) . ') ' . substr($telefone,2,5) .'-'.substr($telefone,7,4);
+        }
+        return $telefone;
     }
 
 }

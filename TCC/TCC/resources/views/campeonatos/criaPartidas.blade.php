@@ -52,7 +52,7 @@
             <input type="date" class="form-control" name="inData" id="inData" value="{{isset($dados['inData']) ? $dados['inData'] : null}}" placeholder="DD/MM/AAAA">
 
             <label for="inHora" class="form-label">Hora*</label>
-            <input type="text" class="form-control" name="inHora" id="inHora" value="{{isset($dados['inHora']) ? $dados['inHora'] : null}}" placeholder="Hora de início">
+            <input type="text" class="form-control hora" name="inHora" id="inHora" value="{{isset($dados['inHora']) ? $dados['inHora'] : null}}" placeholder="Hora de início">
             
             <input type="hidden" id="hdIdCampeonato" name="hdIdCampeonato" value={{$idCampeonato}}>
 
@@ -64,6 +64,5 @@
 <div class="col-8 m-auto">
     
 </div>
-
 
 @endsection
