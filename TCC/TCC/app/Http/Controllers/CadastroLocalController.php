@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\local;
+use App\Http\Requests\LocalRequest;
+
+
 
 class CadastroLocalController extends Controller
 {
