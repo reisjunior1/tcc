@@ -58,4 +58,12 @@ class Campeonato extends Model
             ->where('campeonatos.dataFim', '<=', $dataFim)
             ->get()->toArray();
     }
+
+    public function getTabela($idCampeonato)
+    {
+        dd($idCampeonato);
+        return campeonato::select('campeonatos.id', 'campeonatos.nome,')
+            ->where('campeonatos.id', '=', $idCampeonato)
+            ->get()->toArray();
+    }
 }

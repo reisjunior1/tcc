@@ -25,6 +25,7 @@ class joga_em extends Model
             ->from('joga_em')
             ->join('jogadores', 'jogadores.id', '=', 'joga_em.id_jogador')
             ->where('joga_em.id_time', '=', $idTime)
+            ->orderby('jogadores.nome')
             ->get()->toArray();
     }
 }

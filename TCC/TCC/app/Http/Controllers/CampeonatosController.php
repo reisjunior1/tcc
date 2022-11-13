@@ -128,14 +128,37 @@ class CampeonatosController extends Controller
         $modelCampeonato = new campeonato();
         $campeonato = $modelCampeonato->lstCampeonatosPorId(array($id));
 
+        
         $modelTimesParticipantes = new timesParticipantes();
         $numeroTimes = $modelTimesParticipantes->lstQtdTimesParticipantes($id);
-
+        
         $times = $modelTimesParticipantes->lstTimesParticipantes($id);
-
+        
         $modelJogadoresParticipantes = new jogadoresParticipantes();
         $aux[] = $modelJogadoresParticipantes->lstQtdeJogadoresCampeonato($id);
         $numeroJogadores = array_column($aux[0],'total', 'id_time');
+        
+        $arrayId = array_column($times, 'id');
+        $modelPartida = new partida();
+        if($campeonato[0]['formato'] == 'PC'){
+            $saldoGolCasa = array_column(
+                $modelPartida->lstSaldoGolPorTimeCasa($arrayId, $id),
+                'saldoGols',
+                'id_time_casa'
+            );
+            
+            $saldoGolFora = array_column(
+                $modelPartida->lstSaldoGolPorTimeVisitante($arrayId, $id),
+                'saldoGols',
+                'id_time_visitante'
+            );
+
+            $salGols = array_walk($saldoGolCasa, function($valor){
+                //if()
+            });
+            //dd($saldoGolCasa, $saldoGolFora);
+        }
+        //dd($tabela);
         
         return view(
             'campeonatos/exibir', 
@@ -229,70 +252,102 @@ class CampeonatosController extends Controller
 
         $modelJogaEm = new joga_em();
         $jogadores = $modelJogaEm->lstJogadoresPorTime($idTime);
+
+        $modelJogadoresParticipantes = new jogadoresParticipantes();
+        $participantes = array_column(
+            $modelJogadoresParticipantes->lstDadosJogadoresCampeonato($request->hdCampeonato),
+            'id_jogador'
+        );
+
+        $jogaTime = array_column(
+            $modelJogadoresParticipantes->lstDadosJogadoresCampeonatoTime($request->hdCampeonato, $time),
+            'id_jogador'
+        );
+
         return view(
-            'campeonatos/confirmarJogadores', 
+            'campeonatos/confirmarJogadores',
             compact(
                 'campeonato',
-                'time', 
+                'time',
                 'jogadores',
-                'apagarDados'
+                'apagarDados',
+                'participantes',
+                'jogaTime'
             ));
     }
 
     public function salvaTimesJogadoresCampeonato(TimesJogadoresRequest $request)
     {
-        $modelJogadoresParticipantes = new jogadoresParticipantes();
-        $modelTimesParticipantes = new timesParticipantes();
-        //apagar os jogadores do time
-        if($request->hdApagarDados == 1){
-            $modelJogadoresParticipantes->delJogadoresParticipantesPorTime(
-                $request->hdTime, 
-                $request->hdCampeonato
-            );
-            $modelTimesParticipantes->delTimesParticipantes($request->hdTime);
-        }
+        $modelJogaEm = new joga_em();
+        $jogadoresTime = $modelJogaEm->lstJogadoresPorTime($request->hdTime);
 
-        $dados = $modelJogadoresParticipantes->lstDadosJogadoresCampeonato($request->hdCampeonato);
+       $modelJogadoresParticipantes = new jogadoresParticipantes();
+       
+       //Verifica se o jogador já esta participando do campeonato por outro time
+        $jogadoresParticipantes = array_column(
+            $modelJogadoresParticipantes->lstDadosJogadoresCampeonatoTime(
+                $request->hdCampeonato,
+                $request->hdTime,
+                '!='
+            ),
+            'id_jogador'
+        );
+        $jogadoresParticipantes = !empty($jogadoresParticipantes) ? $jogadoresParticipantes : array(null);
         
-        for($i = 0; $i < count($dados); $i++){
-            $arrayJogadores[] = $dados[$i]['id_jogador'];
-        }
+        $intersecao = array_intersect($request->ckJogador, $jogadoresParticipantes);
         
-        $arrayJogadores = !empty($arrayJogadores) ? $arrayJogadores : array(null);
-
-        //verifica se os jogadores selecionados ja participam do campeonato
-        $intersecao = array_intersect($request->ckJogador, $arrayJogadores);
-       // dd($intersecao); 
         $arrayNomes = [];
-        if(!empty($intersecao)){
+        if (!empty($intersecao)) {
             $modelJogadores = new jogador();
             $jogadores = $modelJogadores->lstJogadores($intersecao);
 
-            foreach($jogadores as $jogador){
-                $arrayNomes[] = $jogador['nome']; 
+            foreach ($jogadores as $jogador) {
+                $arrayNomes[] = $jogador['nome'];
             }
-            session()->flash('mensagem', "O(s) jogador(es): " . implode(', ',$arrayNomes) . 
-            " já estão participando deste campeonato!");
-                return redirect("campeonato/$request->hdCampeonato");
-        }else{
-            //Insere os jogadores no campeonato
-            foreach($request->ckJogador as $idJogador){
-                $modelJogadoresParticipantes->insParticipantes(
-                    $request->hdCampeonato,
-                    $request->hdTime,
-                    intval($idJogador)
+            session()->flash(
+                'mensagem',
+                "O(s) jogador(es): " . implode(', ', $arrayNomes) ." já estão participando deste campeonato!"
+            );
+            return redirect("campeonato/$request->hdCampeonato");
+        }
+
+        //Caso já exista registro pra o time atualiza os jogadores participantes
+        if ($request->hdApagarDados === '1') {
+            $jogadoresTime = $modelJogadoresParticipantes->lstJogadoresPorTimeECampeonato(
+                $request->hdTime,
+                $request->hdCampeonato
+            );
+            foreach ($jogadoresTime as $jogador) {
+                $status = in_array($jogador['id_jogador'], $request->ckJogador) ? 1 : 0;
+                $modelJogadoresParticipantes->updParticipantes(
+                    intval($jogador['id']),
+                    $status
                 );
             }
-            
-            //insere o time ao campeonato
-            $cadastro = $modelTimesParticipantes->insParticipantes(
+            session()->flash('mensagem', 'Jogadores alterados com sucesso!');
+            return redirect("campeonato/$request->hdCampeonato");
+        }
+
+        //Adiciona todos os jogadores ao time com o status correto
+        foreach ($jogadoresTime as $jogador) {
+            $status = in_array($jogador['id'], $request->ckJogador) ? 1 : 0;
+            $modelJogadoresParticipantes->insParticipantes(
                 $request->hdCampeonato,
-                $request->hdTime
+                $request->hdTime,
+                intval($jogador['id']),
+                $status
             );
-            if($cadastro){
-                session()->flash('mensagem', 'Time adicionado ao campeonato com sucesso!');
-                return redirect("campeonato/$request->hdCampeonato");
-            }
+        }
+
+        //insere o time ao campeonato
+        $modelTimesParticipantes = new timesParticipantes();
+        $cadastro = $modelTimesParticipantes->insParticipantes(
+            $request->hdCampeonato,
+            $request->hdTime
+        );
+        if ($cadastro) {
+            session()->flash('mensagem', 'Time adicionado ao campeonato com sucesso!');
+            return redirect("campeonato/$request->hdCampeonato");
         }
     }
 
@@ -347,7 +402,7 @@ class CampeonatosController extends Controller
         $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H:i:s');
         $idCampeonato = $partida[0]['id_campeonato'];
 
-        return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
+        return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados', 'partida'));
     }
 
     public function salvaPartida(PartidasRequest $request)
@@ -395,7 +450,49 @@ class CampeonatosController extends Controller
         $modelPartida->delPartida($idPartida);
 
         session()->flash('mensagem', "Partida excluida com sucesso!");
-        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+        
+        return Redirect("campeonato/$idCampeonato/partidas");
+        //return view('campeonatos.partidas', compact('idCampeonato', 'partidas'));
+    }
+
+    public function editaPartida(PartidasRequest $request, $idPartida)
+    {
+
+        //dd($request);
+        $idCampeonato = $request['hdIdCampeonato'];
+        $idCampeonato = $request['hdIdCampeonato'];
+        $dados['slTimeCasa'] = $request['slTimeCasa'];
+        $dados['slTimeVizitante'] = $request['slTimeVizitante'];
+        $dados['slLocal'] = $request['slLocal'];
+        $dados['inData'] = $request['inData'];
+        $dados['inHora'] = $request['inHora'];
+
+        $modelPartida = new partida();
+        $partida = $modelPartida->lstPartida($idPartida);
+
+        if ($request['slTimeCasa'] == $request['slTimeVizitante']) {
+            $modelTimes = new timesParticipantes();
+            $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
+        
+            $modelLocal = new local();
+            $locais = $modelLocal->lstLocais();
+
+            session()->flash('mensagem', 'Os times selecionados não podem ser os mesmos!');
+            return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados', 'partida'));
+        } else {
+            $this->validate($request, ['inHora' => new ValidaHora]);
+            $dataHora = $this->trataDataHora($request['inData'], $request['inHora']);
+            
+            $modelPartida->updPartida(
+                $idPartida,
+                $request->slTimeCasa,
+                $request->slTimeVizitante,
+                $request->slLocal,
+                $dataHora
+            );
+
+            return Redirect("campeonato/$idCampeonato/partidas");
+        }
     }
 
     public function encerraPartida($idPartida)
@@ -418,8 +515,7 @@ class CampeonatosController extends Controller
     public function validaEncerrarPartida(Request $request)
     {
         $count = ((count($request->query())) - 4) / 3;
-        //dd($request, $count);
-        
+
         $modelSumula = new sumula();
 
         $golsTimeCasa = 0;
@@ -445,7 +541,6 @@ class CampeonatosController extends Controller
                 $golsTimeVisitante++;
             }
         }
-        //dd($golsTimeCasa, $golsTimeVisitante);
         $modelPartida = new partida();
         $modelPartida->encerraPartida($request['hdPartida'], $golsTimeCasa, $golsTimeVisitante);
 
@@ -453,7 +548,7 @@ class CampeonatosController extends Controller
         $idCampeonato = intval($campeonato[0]);
 
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
-        //dd($idCampeonato, $partidas);
+        
         return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 
@@ -466,7 +561,93 @@ class CampeonatosController extends Controller
         $eventos = $modelSumula->lstEventosPorPartida($idPartida);
 
         //dd($partida, $eventos);
-        return view('campeonatos.detalhesPartida', compact('partida','eventos'));
+        return view('campeonatos.detalhesPartida', compact('partida', 'eventos'));
+    }
+
+    public function editarResultado($idPartida)
+    {
+        $modelSumula = new sumula();
+        $eventos =  $modelSumula->lstEventosPorPartida($idPartida);
+        
+        $modelPartida = new partida();
+        $modelTime =  new time();
+        $timesParticipantes = $modelPartida->lstPartida($idPartida);
+        $times = $modelTime->lstTimes([
+            $timesParticipantes[0]['id_time_casa'],
+            $timesParticipantes[0]['id_time_visitante']
+        ]);
+
+        $modelAcao = new acao();
+        $acoes = $modelAcao->lstAcao();
+        
+        return view('campeonatos.editaResultado', compact('idPartida', 'eventos', 'times', 'acoes'));
+    }
+
+    public function validaAlterarResultado(Request $request)
+    {
+        $modelSumula = new sumula();
+        $eventos =  $modelSumula->lstEventosPorPartida($request['hdPartida']);
+
+        $arrayEventos = array_column($eventos, 'idAcao');
+        
+        //dd($request, $eventos);
+        $aux = 0;
+        $golsTimeCasa = 0;
+        $golsTimeVisitante = 0;
+
+        $modelSumula = new sumula();
+        for ($i=0; $i<count($eventos); $i++) {
+            if (in_array($request['hdidSumula'.$i], $arrayEventos)) {
+                //atualiza ocorrencia na sumula
+                $modelSumula->updOcorrencia(
+                    $request['hdidSumula'.$i],
+                    $request['slAcaoExistente'.$i],
+                    $request['slTimeExistente'.$i],
+                    $request['inTempoExistente'.$i]
+                );
+                $aux++;
+            } else {
+                //remove ocorrencia da sumula
+                //dd($request, $i, $arrayEventos[$i]);
+                $modelSumula->excluiOcorrencia($arrayEventos[$i]);
+            }
+        }
+
+        $count = ((count($request->query())) - 4 - (4 * $aux)) / 3;
+
+        for($i=1; $i<=$count; $i++){
+            $modelSumula->insAcao(
+                $request['hdPartida'],
+                $request['slAcao'.$i],
+                $request['slTime'.$i],
+                $request['inTempo'.$i]
+            );
+        }
+        $sumula = $modelSumula->lstEventosPorPartida($request['hdPartida']);
+
+        foreach($sumula as $valor){
+            if($valor['id_acao'] == 1 && $valor['id_time'] == $request['hdTimeCasa']
+            || $request['id_acao'] == 2 && $request['id_time'] == $request['hdTimeVisitante']
+            ){
+                $golsTimeCasa++;
+            }
+
+            if($valor['id_acao'] == 1 && $valor['id_time'] == $request['hdTimeVisitante']
+            || $valor['id_acao'] == 2 && $valor['id_time'] == $request['hdTimeCasa']
+            ){
+                $golsTimeVisitante++;
+            }
+        }
+
+        $modelPartida = new partida();
+        $modelPartida->atualizaResultado($request['hdPartida'], $golsTimeCasa, $golsTimeVisitante);
+
+        $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);
+        $idCampeonato = intval($campeonato[0]);
+
+        $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
+        
+        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 
     public function trataDataHora($stringData, $stringHora)
@@ -478,10 +659,5 @@ class CampeonatosController extends Controller
         $minuto = substr($stringHora, 3, 2);
         $segundo = substr($stringHora, 6, 2);
         return Carbon::create($ano, $mes, $dia, $hora, $minuto, $segundo, -2);
-    }
-
-    public function editarResultado($idPartida)
-    {
-        dd($idPartida);
     }
 }

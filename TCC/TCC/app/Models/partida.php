@@ -37,7 +37,7 @@ class partida extends Model
 
     public function lstPartidasPorIdCampeonato($idCampeonato)
     {
-        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa', 
+        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
             'time2.nome as timeVisitante','local.endereco', 'dataHora','status',
             'gols_time_casa', 'gols_time_visitante'
             )
@@ -59,7 +59,7 @@ class partida extends Model
     {
         return partida::select('id_campeonato')
         ->where('id', '=', $idPartida)
-        ->get()->toArray();   
+        ->get()->toArray();
     }
 
     public function encerraPartida($idPartida, $golsTimeCasa, $golsTimeVistante)
@@ -82,6 +82,46 @@ class partida extends Model
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
         ->join('local', 'local.id', '=', 'partidas.id_local')
         ->where('partidas.id', '=', $idPartida)
+        ->get()->toArray();
+    }
+
+    public function updPartida($id, $idTimeCasa, $idTimeVisitante, $idLocal, $dataHora)
+    {
+        partida::where(['id'=>$id])->update([
+            'id_time_casa'=>$idTimeCasa,
+            'id_time_visitante'=>$idTimeVisitante,
+            'id_local' => $idLocal,
+            'dataHora' => $dataHora
+        ]);
+
+        return true;
+    }
+
+    public function atualizaResultado($idPartida, $golsTimeCasa, $golsTimeVistante)
+    {
+        //dd($idPartida, $golsTimeCasa, $golsTimeVistante);
+        return partida::where(['id'=>$idPartida])->update([
+            'gols_time_casa' => $golsTimeCasa,
+            'gols_time_visitante' => $golsTimeVistante
+        ]);
+    }
+
+    public function lstSaldoGolPorTimeCasa($arrayIdTime, $idCampeonato)
+    {
+        //->selectRaw('id_time, count(id_jogador) as total')
+        return partida::selectRaw('id_time_casa, SUM(gols_time_casa) as saldoGols')
+        ->where('partidas.id_campeonato', '=', $idCampeonato)
+        ->whereIn('partidas.id_time_casa', $arrayIdTime)
+        ->groupby('id_time_casa')
+        ->get()->toArray();
+    }
+
+    public function lstSaldoGolPorTimeVisitante($arrayIdTime, $idCampeonato)
+    {
+        return partida::selectRaw('id_time_visitante, SUM(gols_time_visitante) as saldoGols')
+        ->where('partidas.id_campeonato', '=', $idCampeonato)
+        ->whereIn('partidas.id_time_casa', $arrayIdTime)
+        ->groupby('id_time_visitante')
         ->get()->toArray();
     }
 }

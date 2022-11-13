@@ -86,6 +86,9 @@ Route::post('/campeonato/pesquisar/', CAMPEONATOS_CONTROLLER.'@pesquisar')
 Route::get('/campeonato/{idCampeonato}/salvaPartida/', CAMPEONATOS_CONTROLLER.'@salvaPartida')
     ->name("campeonato.salvaPartida");
 
+Route::get('/campeonato/{idPartida}/editaPartida/', CAMPEONATOS_CONTROLLER.'@editaPartida')
+    ->name("campeonato.editaPartida");
+
 Route::get('/campeonato/{idPartida}/encerraPartida/', CAMPEONATOS_CONTROLLER.'@encerraPartida')
     ->name("campeonato.encerraPartida");
 
@@ -97,6 +100,9 @@ Route::get('/campeonato/{idPartida}/detalhesPartida/', CAMPEONATOS_CONTROLLER.'@
 
 Route::get('/campeonato/{idPartida}/editarResultado/', CAMPEONATOS_CONTROLLER.'@editarResultado')
     ->name("campeonato.editarResultado");
+
+Route::get('/campeonato/validaAlterarResultado/', CAMPEONATOS_CONTROLLER.'@validaAlterarResultado')
+    ->name("campeonato.validaAlterarResultado");
 
 Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 

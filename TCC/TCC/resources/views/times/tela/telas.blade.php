@@ -110,7 +110,13 @@ $('form').on('click', '.btn-apagar', function () {
 	var button_id = $(this).attr("id");
 	$('#teste' + button_id + '').remove();
 });
+</script>
 
+<script>
+  $('form').on('click', '.btn-remover-acao', function () {
+    var button_id = $(this).attr("id");
+	  $('#enventoCadastrado' + button_id + '').remove();
+});
 </script>
 
 </body>

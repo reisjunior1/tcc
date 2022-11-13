@@ -125,6 +125,10 @@ class CadastroUsuarioController extends Controller
 
     public function tipoUsuario()
     {
+        if (session_status() !== PHP_SESSION_ACTIVE ){
+            session_start();
+        }
+        
         $modelUsuario = new usuario();
         $usuarios = $modelUsuario->lstUsuario();
 
@@ -133,6 +137,7 @@ class CadastroUsuarioController extends Controller
 
     public function validaTipoUsuario(Request $request)
     {
+        
         $modelUsuario = new usuario();
         $modelUsuario->upTipo(
             $request['slUsuario'],
