@@ -89,4 +89,36 @@
 				<label class="text-center">Não há times participando deste campeonato</label>
         	@endif
     	</div>
+
+		<!-- Tabela Classificacao -->
+		<div>
+		@if(!empty($tabela))
+				<div class="col-8 m-auto">
+					<table class="table text-center">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">Time</th>
+								<th scope="col">Pontos</th>
+								<th scope="col">Partidas</th>
+								<th scope="col">Vitorias</th>
+								<th scope="col">Empates</th>
+								<th scope="col">Derrotas</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($times as $time)
+								<tr>
+									<th scope="row">{{$time['nome']}}</th>
+									<td> {{$tabela[$time['id']]['pontos']}} </td>
+									<td> {{$tabela[$time['id']]['partidas']}} </td>
+									<td> {{$tabela[$time['id']]['vitorias']}} </td>
+									<td> {{$tabela[$time['id']]['empates']}} </td>
+									<td> {{$tabela[$time['id']]['derrotas']}} </td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+        	@endif
+		</div>
    @endsection

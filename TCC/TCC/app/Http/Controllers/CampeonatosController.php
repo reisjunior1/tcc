@@ -140,33 +140,41 @@ class CampeonatosController extends Controller
         
         $arrayId = array_column($times, 'id');
         $modelPartida = new partida();
-        if($campeonato[0]['formato'] == 'PC'){
-            $saldoGolCasa = array_column(
-                $modelPartida->lstSaldoGolPorTimeCasa($arrayId, $id),
-                'saldoGols',
-                'id_time_casa'
-            );
-            
-            $saldoGolFora = array_column(
-                $modelPartida->lstSaldoGolPorTimeVisitante($arrayId, $id),
-                'saldoGols',
-                'id_time_visitante'
-            );
 
-            $salGols = array_walk($saldoGolCasa, function($valor){
-                //if()
-            });
-            //dd($saldoGolCasa, $saldoGolFora);
+        $tabela = null;
+        if ($campeonato[0]['formato'] == 'PC') {
+            foreach ($times as $time) {
+                $vitoriasEmCasa = $modelPartida->lstVitorias($time, $campeonato[0]['id']);
+                $vitoriasFora = $modelPartida->lstVitorias($time, $campeonato[0]['id'], false);
+
+                $empatesEmCasa = $modelPartida->lstVitorias($time, $campeonato[0]['id'], true, true);
+                $empatesFora = $modelPartida->lstVitorias($time, $campeonato[0]['id'], false, true);
+                
+                $vitorias = $vitoriasEmCasa + $vitoriasFora;
+                $empates = $empatesEmCasa + $empatesFora;
+
+                $numeroPartidasCasa = $modelPartida->lstNumeroPartidas($time, $campeonato[0]['id']);
+                $numeroPartidasVisitante = $modelPartida->lstNumeroPartidas($time, $campeonato[0]['id'], false);
+                $numeroPartidas = $numeroPartidasCasa + $numeroPartidasVisitante;
+
+                $tabela[$time['id']] = [
+                    'pontos' => $vitorias * 3 + $empates,
+                    'partidas' => $numeroPartidas,
+                    'vitorias' => $vitorias,
+                    'empates' => $empates,
+                    'derrotas' => $numeroPartidas - ($vitorias + $empates)
+                ];
+            }
         }
-        //dd($tabela);
-        
+
         return view(
-            'campeonatos/exibir', 
+            'campeonatos/exibir',
             compact(
                 'campeonato',
                 'times',
                 'numeroJogadores',
-                'numeroTimes'
+                'numeroTimes',
+                'tabela'
             )
         );
     }
@@ -407,6 +415,7 @@ class CampeonatosController extends Controller
 
     public function salvaPartida(PartidasRequest $request)
     {
+        
         $idCampeonato = $request['hdIdCampeonato'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
         $dados['slTimeVizitante'] = $request['slTimeVizitante'];
@@ -429,6 +438,7 @@ class CampeonatosController extends Controller
             //dd($dataHora);
 
             $modelPartida = new partida();
+
             $modelPartida->insPartida(
                 $request['hdIdCampeonato'],
                 $request['slTimeCasa'],
@@ -504,10 +514,13 @@ class CampeonatosController extends Controller
         $timesParticipantes = $modelPartida->lstPartida($idPartida);
 
         $modelTime =  new time();
-        $times = $modelTime->lstTimes([
-            $timesParticipantes[0]['id_time_casa'],
+        $timesCasa = $modelTime->lstTimes([
+            $timesParticipantes[0]['id_time_casa']
+        ]);
+        $timesVisitante = $modelTime->lstTimes([
             $timesParticipantes[0]['id_time_visitante']
         ]);
+        $times = array_merge($timesCasa, $timesVisitante);
 
         return view('campeonatos.encerraPartida', compact('idPartida', 'acoes','times'));
     }
@@ -528,7 +541,7 @@ class CampeonatosController extends Controller
                 $request['slTime'.$i],
                 $request['inTempo'.$i]
             );
-
+            
             if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeCasa']
             || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeVisitante']
             ){
@@ -585,6 +598,7 @@ class CampeonatosController extends Controller
 
     public function validaAlterarResultado(Request $request)
     {
+        dd($request);
         $modelSumula = new sumula();
         $eventos =  $modelSumula->lstEventosPorPartida($request['hdPartida']);
 

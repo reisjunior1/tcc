@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Constraint\Count;
+use Illuminate\Support\Facades\DB;
 
 class partida extends Model
 {
@@ -123,5 +125,43 @@ class partida extends Model
         ->whereIn('partidas.id_time_casa', $arrayIdTime)
         ->groupby('id_time_visitante')
         ->get()->toArray();
+    }
+
+    public function lstVitorias($idTime, $campeonato, $emCasa = true, $empate =  false)
+    {
+        if ($emCasa) {
+            $time = 'partidas.id_time_casa';
+            $operador = '>';
+        } else {
+            $time = 'partidas.id_time_visitante';
+            $operador = '<';
+        }
+
+        if ($empate) {
+            $operador = '=';
+        }
+
+        $query = partida::where($time, $idTime)
+        ->where('id_campeonato', '=', $campeonato)
+        ->where('status', '=', 1)
+        ->where('gols_time_casa', $operador, 'gols_time_visitante')
+        ->count();
+
+        return $query;
+    }
+
+    public function lstNumeroPartidas($idTime, $campeonato, $emCasa = true)
+    {
+        if ($emCasa) {
+            $time = 'partidas.id_time_casa';
+        } else {
+            $time = 'partidas.id_time_visitante';
+        }
+        $query = partida::where($time, $idTime)
+        ->where('id_campeonato', '=', $campeonato)
+        ->where('status', '=', 1)
+        ->count();
+
+        return $query;
     }
 }
