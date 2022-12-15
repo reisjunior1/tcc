@@ -3,79 +3,104 @@
 @section('parte')
 
 <title>Cadastro</title>
-  </head>
-  <body>
-<div class="container">
-<div class="conterner py-4">
-  <?php //var_dump($usuario->cpf); die(); ?>
-@if(isset($errors) && count($errors)>0)
-    <div class="class= text-danger text-center mt-4 mb-4 p-2 ">
-        @foreach($errors->all() as $erro)
-            {{$erro}}<br>
-        @endforeach
-    </div>
-@endif
+</head>
+<body>
+	@if(isset($errors) && count($errors)>0)
+	<div class="class= text-danger text-center mt-4 mb-4 p-2 ">
+		@foreach($errors->all() as $erro)
+		{{$erro}}<br>
+		@endforeach
+	</div>
+	@endif
+	
+	@if(session('mensagem'))
+	<div class="alert alert-success text-center mt-4 mb-4 p-2">
+		<p>{{session('mensagem')}}</p>
+	</div>
+	@endif
+	
+	<div class="text-left mt-3 mb-4">
+		@if(!empty($usuario))
+			<form class="row g-7" name="formEdit" id="formEdit" method="post" action="{{url("usuario/$usuario->id")}}">
+		@method('PUT')
 
-@if(session('mensagem'))
-    <div class="alert alert-success text-center mt-4 mb-4 p-2">
-        <p>{{session('mensagem')}}</p>
-    </div>
-@endif
+		@else
+			<form class="row g-7" name="formCadastro" id="formCadastro" method="post" action="{{url('usuario')}}">
+		@endif
 
-@if(!empty($usuario))
-  <form class="row g-7" name="formEdit" id="formEdit" method="post" action="{{url("usuario/$usuario->id")}}">
-  @method('PUT')
+			@csrf
+				<div class="col-8 m-auto">
+					<label for="nome" class="form-label">Nome Completo:</label>
+					<input
+						type="text"
+						class="text45Left form-control"
+						id="inNome"
+						name='inNome'
+						value="{{$usuario->nome ?? ''}}"
+						placeholder="Nome Sobrenome"
+					>
 
-@else
-  <form class="row g-7" name="formCadastro" id="formCadastro" method="post" action="{{url('usuario')}}"> 
-@endif
+					<label for="cpf" class="form-label">CPF:</label>
+					<input
+						type="cpf"
+						class="text45Left form-control cpf"
+						id="inCpf"
+						name='inCpf'
+						value="{{$usuario->cpf ?? ''}}"
+						placeholder="CPF"
+					>
 
-<form class="row g-3"  method="post"  action="{{url('usuario')}}"  >
+					<label for="telefone" class="form-label">Telefone:</label>
+					<input
+						type="text"
+						class="text45Left form-control telefone"
+						id="inTelefone"
+						name='inTelefone'
+						value="{{$usuario->telefone ?? ''}}"
+						placeholder="( ) - ---- ----"
+					>
 
-@csrf
-<div class="col-12">
-    <label for="nome" class="form-label">Nome Completo:</label>
-    <input type="text" class="form-control" id="inNome" name='inNome' value="{{$usuario->nome ?? ''}}"  placeholder="Nome Sobrenome">
-  </div>
-  <div class="col-md-6">
-    <label for="cpf" class="form-label">CPF:</label>
-    <input type="cpf" class="form-control cpf" id="inCpf" name='inCpf' value="{{$usuario->cpf ?? ''}}" placeholder="CPF">
-  </div>
-  <div class="col-md-6">
-    <label for="telefone" class="form-label">Telefone:</label>
-    <input type="text" class="form-control telefone" id="inTelefone" name='inTelefone' value="{{$usuario->telefone ?? ''}}" placeholder="( ) - ---- ----">
-  </div>
+					<label for="email" class="form-label">Email:</label>
+					<input
+						type="email"
+						class="text45Left form-control"
+						id="inEmail"
+						name='inEmail'
+						value="{{$usuario->email ?? ''}}"
+						placeholder="exemplo@mail.com"
+					>
 
+				<?php if(empty($usuario)): ?>
+					<div class="col-md-6" >
+					<label for="senha" class="form-label">Senha:</label>
+					<input type="text" class="form-control" id="inSenha" name='inSenha'  placeholder="Crie uma senha">
+					<input type="text" class="form-control" id="inSenha2" name='inSenha2'  placeholder="Confime a senha">
+					</div>
+				<?php endif; ?>
 
-  <div class="col-md-6">
-    <label for="email" class="form-label">Email:</label>
-    <input type="email" class="form-control" id="inEmail" name='inEmail' value="{{$usuario->email ?? ''}}" placeholder="exemplo@mail.com">
-  </div>
- 
-  <?php if(empty($usuario)): ?>
-    <div class="col-md-6" >
-      <label for="senha" class="form-label">Senha:</label>
-      <input type="text" class="form-control" id="inSenha" name='inSenha'  placeholder="Crie uma senha">
-      <input type="text" class="form-control" id="inSenha2" name='inSenha2'  placeholder="Confime a senha">
-    </div>
-  <?php endif; ?>
-  
-  <?php if(!empty($usuario)): ?>
-    <div class="col-md-6" >
-      <p>
-        <span class="ml-auto"><a href="{{ route('usuario.atualizarSenha', ['idUsuario' => $usuario->id]) }}" class="atualizarSenha">Atualizar Senha</a></span> 
-      </p>
-    </div>
-  <?php endif; ?>
+				<?php if(!empty($usuario)): ?>
+					<p>
+						<span class="ml-auto">
+							<a
+								href="{{ route('usuario.atualizarSenha', ['idUsuario' => $usuario->id]) }}"
+								class="atualizarSenha"
+							>
+								Atualizar Senha
+							</a>
+						</span>
+					</p>
+				<?php endif; ?>
 
-  <div class="col-12">
-      <button type="submit" class="btn btn-primary">Salvar</button>
-  </div>
-</form>
-<?php if(!empty($usuario)): ?>
-  <a href="{{route("usuario.sair")}}">
-    <button class="btn btn-danger">Sair</button>
-  </a>
-<?php endif; ?>
+				<div class="btn-size-90-margin-top">
+					<button type="submit" class="btn btn-primary">Salvar</button>
+				</div>
+			</form>
 
-@endsection
+			<?php if(!empty($usuario)): ?>
+				<div class="btn-size-90-margin-top">
+					<a href="{{route("usuario.sair")}}">
+						<button class="btn btn-danger">Sair</button>
+					</a>
+				</div>
+			<?php endif; ?>
+	@endsection
