@@ -396,7 +396,7 @@ class CampeonatosController extends Controller
     {
         $modelPartida = new partida();
         $partida = $modelPartida->lstPartida($idPartida);
-        //dd($partida);
+        
         $modelTimes = new timesParticipantes();
         $times = $modelTimes->lstTimesParticipantes(array($partida[0]['id_campeonato']));
         
@@ -435,7 +435,6 @@ class CampeonatosController extends Controller
         }else{
             $this->validate($request, ['inHora' => new ValidaHora]);
             $dataHora = $this->trataDataHora($request['inData'], $request['inHora']);
-            //dd($dataHora);
 
             $modelPartida = new partida();
 
@@ -468,7 +467,6 @@ class CampeonatosController extends Controller
     public function editaPartida(PartidasRequest $request, $idPartida)
     {
 
-        //dd($request);
         $idCampeonato = $request['hdIdCampeonato'];
         $idCampeonato = $request['hdIdCampeonato'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
@@ -573,7 +571,6 @@ class CampeonatosController extends Controller
         $modelSumula = new sumula();
         $eventos = $modelSumula->lstEventosPorPartida($idPartida);
 
-        //dd($partida, $eventos);
         return view('campeonatos.detalhesPartida', compact('partida', 'eventos'));
     }
 
@@ -598,13 +595,11 @@ class CampeonatosController extends Controller
 
     public function validaAlterarResultado(Request $request)
     {
-        dd($request);
         $modelSumula = new sumula();
         $eventos =  $modelSumula->lstEventosPorPartida($request['hdPartida']);
 
         $arrayEventos = array_column($eventos, 'idAcao');
         
-        //dd($request, $eventos);
         $aux = 0;
         $golsTimeCasa = 0;
         $golsTimeVisitante = 0;
@@ -622,7 +617,6 @@ class CampeonatosController extends Controller
                 $aux++;
             } else {
                 //remove ocorrencia da sumula
-                //dd($request, $i, $arrayEventos[$i]);
                 $modelSumula->excluiOcorrencia($arrayEventos[$i]);
             }
         }

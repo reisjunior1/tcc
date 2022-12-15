@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="theme-color">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    >
     <link rel="stylesheet" href=" /style.css" >
-
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ asset('json/manifest.json') }}" rel="manifest" >
+    <link rel="apple-touch-icon" href="images/logo192.png">
 </head>
 <body>
 
@@ -78,6 +86,7 @@
 
 <script src="{{asset('vendor/jquery/jquery-3.6.1.min.js')}}"></script>
 <script src="{{asset('vendor/jquery-mask/jquery.mask.min.js')}}"></script>
+<script src="{{asset('js/index.js')}}"></script>
 
 <?php 
   if(!isset($acoes)){
@@ -100,7 +109,7 @@ var i=1;
 $("#add-campo").click(function(){
   $( ".campo" ).append('<div class="teste" id="teste'+i+'"><label for="slAcao'+i+'" '
   + 'class="form-label">Ação:</label><select name="slAcao'+i
-  +'"  id="slAcao'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($acoes as $acao): var_dump(@acao); <option value= {{$acao["id"]}}>{{$acao["descricao"]}}</option> @endforeach </select><label for="slTime'+i+'" class="form-label">Time:</label><select name="slTime'+i+'"  id="slTime'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($times as $time)<option value= {{$time["id"]}}>{{$time["nome"]}}</option>@endforeach</select><label for="inTempo'+i+' class="form-label">Minutos*</label><input type="text" class="form-control minutos" name="inTempo'+i+'" id="inTempo'+i+'" placeholder="Minutos"><button type="button" class="btn-apagar btn btn-danger" id="'+i+'">-</button>');
+  +'"  id="slAcao'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($acoes as $acao): var_dump(@acao); <option value= {{$acao["id"]}}>{{$acao["descricao"]}}</option> @endforeach </select><label for="slTime'+i+'" class="form-label">Time:</label><select name="slTime'+i+'"  id="slTime'+i+'" class="form-select"><option selected>Selecione...</option>@foreach($times as $time)<option value= {{$time["id"]}}>{{$time["nome"]}}</option>@endforeach</select><label for="inTempo'+i+' class="form-label">Minutos*</label><input type="text" class="form-control minutos" name="inTempo'+i+'" id="inTempo'+i+'" placeholder="Minutos"><button type="button" class="btn-apagar btn btn-danger btn-margin-top" id="'+i+'">-</button>');
   $('.minutos').mask('000:00', {reverse: true} );
   
   i++;
@@ -117,6 +126,27 @@ $('form').on('click', '.btn-apagar', function () {
     var button_id = $(this).attr("id");
 	  $('#enventoCadastrado' + button_id + '').remove();
 });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('[data-toggle="toggle"]').change(function(){
+      $(this).parents().next('.hide').toggle();
+    });
+    document.getElementById("element").style.display = "none";
+  });
+</script>
+
+<script>
+  function naoExibir() {
+	  document.getElementById("mainFrameOne").style.display="none";
+  }
+</script>
+
+<script>
+  function exibir() {
+	  document.getElementById("mainFrameOne").style.display="contents";
+  }
 </script>
 
 </body>

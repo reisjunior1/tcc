@@ -23,7 +23,7 @@
     	</div>
 	@endif
 
-	<div class="col-4 m-auto">
+	<div class="col-6 m-auto">
 		<div class="container">
   			<div class="row">
     			<div class="col">
