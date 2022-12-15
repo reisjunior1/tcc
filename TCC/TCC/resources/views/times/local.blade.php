@@ -16,7 +16,7 @@
 				<input type="text" class="text45Left form-control" id="inNome" name='inNome'   placeholder="Nome">
 
 				<label for="cep" class="form-label">CEP:</label>
-				<input type="text" class="text45Left form-control" id="incep">
+				<input type="text" class="text45Left form-control cep" id="incep" placeholder="00000-000">
 
 				<label for="endereco" class="form-label">Endereço:</label>
 				<input type="text" class="text45Left form-control" id="inendereco" placeholder="Rua:..">
@@ -29,8 +29,7 @@
 
 				<label for="estado" class="form-label">Estado:</label>
 				<select id="slestado" class="text45Left form-select">
-					<option selected>...</option>
-					<option>...</option>
+					<option selected>Selecione...</option>
 					<option>MG</option>
 					<option>ES</option>
 				</select>

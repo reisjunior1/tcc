@@ -101,6 +101,7 @@
     $('.cpf').mask('000.000.000-00');
     $('.telefone').mask('(00) 00000-0000');
     $('.minutos').mask('000:00', {reverse: true});
+    $('.cep').mask('00000-000');
     
 </script>
 
@@ -124,7 +125,7 @@ $('form').on('click', '.btn-apagar', function () {
 <script>
   $('form').on('click', '.btn-remover-acao', function () {
     var button_id = $(this).attr("id");
-	  $('#enventoCadastrado' + button_id + '').remove();
+    $('#enventoCadastrado' + button_id + '').remove();
 });
 </script>
 

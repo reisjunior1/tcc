@@ -21,13 +21,13 @@
 				id="inNome"
 				name='inNome'
 				value="{{$usuario->nome ?? ''}}"
-				placeholder="Nome/Sobrenome"
+				placeholder="Nome Sobrenome"
 			>
 
 			<label for="cpf" class="form-label">CPF:</label>
 			<input
 				type="cpf"
-				class="text45Left form-control"
+				class="text45Left form-control cpf"
 				id="inCpf"
 				name='inCpf'
 				value="{{$usuario->cpf ?? ''}}"
@@ -37,7 +37,7 @@
 			<label for="telefone" class="form-label">Telefone:</label>
 			<input
 				type="text"
-				class="text45Left form-control"
+				class="text45Left form-control telefone"
 				id="inTelefone"
 				name='inTelefone'
 				value="{{$usuario->telefone ?? ''}}"

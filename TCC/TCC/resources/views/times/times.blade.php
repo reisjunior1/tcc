@@ -17,7 +17,7 @@
 				<input type="sigla" class="text45Left form-control" id="insigla"  placeholder=" Siglado Time">
 
 				<label for="telefonetime" class="form-label">Telefone de Contato:</label>
-				<input type="text" class="text45Left form-control" id="intelefonetime"  placeholder="( ) - ---- ----">
+				<input type="text" class="text45Left form-control telefone" id="intelefonetime"  placeholder="( ) - ---- ----">
 
 				<!--
 				<div class="col-md-6">
@@ -37,7 +37,7 @@
 				-->
 
 				<label for="cep" class="form-label">CEP:</label>
-				<input type="text" class="text45Left form-control" id="incep">
+				<input type="text" class="text45Left form-control cep" id="incep">
 
 				<label for="endereco" class="form-label">Endereço:</label>
 				<input type="text" class="text45Left form-control" id="inendereco" placeholder="Rua:..">
@@ -50,8 +50,7 @@
 
 				<label for="estado" class="form-label">Estado:</label>
 				<select id="slestado" class="text45Left form-select">
-					<option selected>...</option>
-					<option>...</option>
+					<option selected>Selecione</option>
 					<option>MG</option>
 				</select>
 			</div>
