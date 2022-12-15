@@ -94,3 +94,10 @@ width: 20em;
     margin-bottom: 10px;
     width: 5em;
 }
+
+.text45Left {
+    display: block;
+    margin: 0;
+    margin-bottom: 10px;
+    width: 45%;
+}
