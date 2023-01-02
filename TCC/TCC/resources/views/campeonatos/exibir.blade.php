@@ -86,7 +86,45 @@
 				<br>
 				<label class="text-center">Não há times participando deste campeonato</label>
 			@endif
-		</div>
+		</div class="col-8 m-auto">
+
+		@if (sizeof($ultimasPartidas) > 0 && sizeof($proximasPartidas) > 0)
+			<div class="grid-container col-10 m-auto">
+				<div class="grid-child list-group">
+					<ul>
+						<li class="list-group-item list-group-item-primary text-center"> Últimas Partidas</li>
+						@foreach($ultimasPartidas as $ultima)
+							<li class="list-group-item">
+								{{$ultima['timeCasa']}} <b>{{$ultima['gols_time_casa']}}
+								X {{$ultima['gols_time_visitante']}} </b> {{$ultima['timeVisitante']}}
+							</li>
+						@endforeach
+					
+						<?php $camp = $campeonato[0]['id']; ?>
+						<a
+							href="{{url("campeonato/$camp/partidas")}}"
+							class="list-group-item list-group-item-action list-group-item-success text-center"
+						>
+							Ver Mais
+						</a>
+					</ul>
+				</div>
+				<div class="grid-child list-group">
+					<ul>
+						<li class="list-group-item list-group-item-primary text-center"> Próximas Partidas</li>
+						@foreach($proximasPartidas as $proximas)
+							<li class="list-group-item">{{$ultima['timeCasa']}} X {{$ultima['timeVisitante']}}</li>
+						@endforeach
+						<a
+							href="{{url("campeonato/$camp/partidas")}}"
+							class="list-group-item list-group-item-action list-group-item-success text-center"
+						>
+							Ver Mais
+						</a>
+					</ul>
+				</div>
+			</div>
+		@endif
 
 		<!-- Tabela Classificacao -->
 		<div class = "col-10 m-auto" style="overflow-x:auto;">
@@ -162,4 +200,5 @@
 				</table>
 			@endif
 		</div>
+
 	@endsection

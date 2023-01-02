@@ -167,6 +167,10 @@ class CampeonatosController extends Controller
             }
         }
 
+        $modelPartida = new partida();
+        $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
+        $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
+
         return view(
             'campeonatos/exibir',
             compact(
@@ -174,7 +178,9 @@ class CampeonatosController extends Controller
                 'times',
                 'numeroJogadores',
                 'numeroTimes',
-                'tabela'
+                'tabela',
+                'ultimasPartidas',
+                'proximasPartidas'
             )
         );
     }

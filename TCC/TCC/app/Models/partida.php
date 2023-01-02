@@ -164,4 +164,34 @@ class partida extends Model
 
         return $query;
     }
+
+    public function lstUltimasPartidas($idCampeonato)
+    {
+        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
+            'time2.nome as timeVisitante', 'dataHora', 'status',
+            'gols_time_casa', 'gols_time_visitante'
+            )
+        ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
+        ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
+        ->join('local', 'local.id', '=', 'partidas.id_local')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->where('status', '=', 1)
+        ->orderBy('dataHora', 'DESC')
+        ->take(4)->get()->toArray();
+    }
+
+    public function lstProximasPartidas($idCampeonato)
+    {
+        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
+            'time2.nome as timeVisitante', 'dataHora', 'status',
+            'gols_time_casa', 'gols_time_visitante'
+            )
+        ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
+        ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
+        ->join('local', 'local.id', '=', 'partidas.id_local')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->where('status', '=', 0)
+        ->orderBy('dataHora', 'ASC')
+        ->take(4)->get()->toArray();
+    }
 }
