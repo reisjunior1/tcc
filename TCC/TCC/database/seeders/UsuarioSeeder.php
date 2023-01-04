@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\usuario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -18,13 +19,13 @@ class UsuarioSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('usuarios')->insert([
-            'cpf' => rand(10000000,100000000),
-            'nome' => Str::random(20),
-            'telefone' => rand(10000000000,90000000000),
-            'email' => Str::random(10).'@gmail.com',
-            'tipo' => Str::random(2),
-            'senha' => Hash::make('password'),
-        ]);
+        usuario::create([
+            'cpf' => '12345678934',
+            'nome' => 'Jean',
+            'telefone' => '(31) 99898-8888',
+            'email' => 'jean@gmail.com',
+            'tipo' => 'UC',
+            'senha' => Hash::make('senha'),
+        ])->roles()->attach(2);
     }
 }

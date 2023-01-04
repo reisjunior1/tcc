@@ -108,4 +108,5 @@ Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Login
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name("login.login");
-Route::post('/login/entrar', 'App\Http\Controllers\LoginController@entrar')->name("login.entrar");
+Route::post('login', [ 'as' => 'login', 'uses' => 'LoginController@entrar']);
+//  Route::post('/login/entrar', 'App\Http\Controllers\LoginController@entrar')->name("login.entrar");

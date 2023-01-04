@@ -34,6 +34,9 @@ class CampeonatosController extends Controller
         $this->objTime = new time();
         $this->objCampeonato = new campeonato();
         $this->objJogaEm = new joga_em();
+
+        //$this->middleware(['auth:sanctum']);
+        //$this->middleware(['can:cadastrarCampeonato'])->only('cadastrarCampeonato');
     }
 
     public function index()
