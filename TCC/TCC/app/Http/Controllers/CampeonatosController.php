@@ -21,8 +21,7 @@ use App\Models\sumula;
 use App\Rules\ValidaHora;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
-
-
+use Auth;
 
 class CampeonatosController extends Controller
 {
@@ -34,10 +33,14 @@ class CampeonatosController extends Controller
         $this->objTime = new time();
         $this->objCampeonato = new campeonato();
         $this->objJogaEm = new joga_em();
+
+        $this->middleware('auth');
+        $this->middleware(['role:AdminCampeonato']);
     }
 
     public function index()
     {
+        //var_dump(Auth::user()->name); die();
         if (session_status() !== PHP_SESSION_ACTIVE ){
             session_start();
         }
