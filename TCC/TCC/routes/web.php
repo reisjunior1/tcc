@@ -17,13 +17,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\PaginaInicial@index')->name("PaginaInicial");
 
 //Rotas de Usuario
-Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastrar')->name("usuario.cadastrar");
-Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')->name("usuario.editar");
-Route::get('/usuario/{idUsuario}/atualizarSenha', 'App\Http\Controllers\CadastroUsuarioController@atualizarSenha')->name("usuario.atualizarSenha");
-Route::get('/usuario/validaAlterarSenha/', 'App\Http\Controllers\CadastroUsuarioController@validaAlterarSenha')->name("usuario.validaAlterarSenha");
-Route::get('/usuario/sair/', 'App\Http\Controllers\CadastroUsuarioController@sair')->name("usuario.sair");
-Route::get('/usuario/tipoUsuario/', 'App\Http\Controllers\CadastroUsuarioController@tipoUsuario')->name("usuario.tipo");
-Route::get('/usuario/validaTipoUsuario/', 'App\Http\Controllers\CadastroUsuarioController@validaTipoUsuario')->name("usuario.validaTipoUsuario");
+Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastrar')
+    ->name("usuario.cadastrar");
+
+Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')
+    ->name("usuario.editar");
+
+Route::get('/usuario/{idUsuario}/atualizarSenha', 'App\Http\Controllers\CadastroUsuarioController@atualizarSenha')
+    ->name("usuario.atualizarSenha");
+
+Route::get('/usuario/validaAlterarSenha/', 'App\Http\Controllers\CadastroUsuarioController@validaAlterarSenha')
+    ->name("usuario.validaAlterarSenha");
+
+Route::get('/usuario/sair/', 'App\Http\Controllers\CadastroUsuarioController@sair')
+    ->name("usuario.sair");
+
+Route::get('/usuario/tipoUsuario/', 'App\Http\Controllers\CadastroUsuarioController@tipoUsuario')
+    ->name("usuario.tipo");
+
+Route::get('/usuario/validaTipoUsuario/', 'App\Http\Controllers\CadastroUsuarioController@validaTipoUsuario')
+    ->name("usuario.validaTipoUsuario");
+
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');
 
@@ -108,5 +122,13 @@ Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Login
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name("login.login");
-Route::post('login', [ 'as' => 'login', 'uses' => 'LoginController@entrar']);
-//  Route::post('/login/entrar', 'App\Http\Controllers\LoginController@entrar')->name("login.entrar");
+Route::post('/login/entrar', 'App\Http\Controllers\LoginController@entrar')->name("login.entrar");
+Route::get('login', 'App\Http\Controllers\LoginController@index')->name("login.login");
+Route::post('/login/entrar', 'App\Http\Controllers\LoginController@entrar')->name("login.entrar");
+//Route::post('login', [ 'as' => 'login', 'uses' => 'LoginController@index']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'perfil'])->name('login.perfil');
+//Route::post('login', [ 'as' => 'login.login', 'uses' => 'LoginController@do']);

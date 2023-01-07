@@ -17,6 +17,8 @@
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" type="text/css" >
     <link href="{{ asset('json/manifest.json') }}" rel="manifest" >
     <link rel="apple-touch-icon" href="images/logo192.png">
+
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
 
@@ -45,7 +47,12 @@
             <?php
               $texto = !empty($_SESSION) ? 'Perfil' : 'Login';
             ?>
-            <a class="nav-link" href="{{ route('login.login') }}"> {{$texto}}</a>
+            @guest
+              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            @else
+              <a class="nav-link" href="{{ route('login.perfil') }}"  v-pre> {{Auth::user()->name}}</a>
+              <!-- <a href="#" role="button">{{ Auth::user()->name }}</a> -->
+            @endguest
           </li>
 
 		  @if(!empty($_SESSION) && $_SESSION['dados']['tipo'] == 'AG')

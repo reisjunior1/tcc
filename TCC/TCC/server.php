@@ -2,9 +2,11 @@
 
 /**
  * Laravel - A PHP Framework For Web Artisans
+ *
  * @package  Laravel
- * @author   Rodrigo Paz<www.tpns.com.br>
+ * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
+
 $uri = urldecode(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );
