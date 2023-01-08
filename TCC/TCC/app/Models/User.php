@@ -45,4 +45,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function lstDadosUsuarioPorId($id)
+    {
+        return User::where('id', '=', $id)
+            ->get();
+    }
+
+    public function updUsuario($id, $nome, $cpf, $telefone, $email)
+    {
+        User::where(['id'=>$id])->update([
+            'name'=>$nome,
+            'cpf'=>$cpf,
+            'telefone' => $telefone,
+            'email' => $email
+        ]);
+        return true;
+    }
+
+    public function updSenha($idUsuario, $novaSenha)
+    {
+        User::where(['id'=>$idUsuario])->update([
+            'password'=>$novaSenha
+        ]);
+        return true;
+    }
 }

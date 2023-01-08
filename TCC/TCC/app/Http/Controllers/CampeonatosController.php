@@ -35,7 +35,7 @@ class CampeonatosController extends Controller
         $this->objJogaEm = new joga_em();
 
         $this->middleware('auth');
-        $this->middleware(['role:AdminCampeonato']);
+        //$this->middleware(['role:AdminCampeonato']);
     }
 
     public function index()

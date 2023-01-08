@@ -36,7 +36,7 @@
 						class="text45Left form-control"
 						id="inNome"
 						name='inNome'
-						value="{{$usuario->nome ?? ''}}"
+						value="{{trim($usuario->name) ?? ''}}"
 						placeholder="Nome Sobrenome"
 					>
 
@@ -91,16 +91,17 @@
 					</p>
 				<?php endif; ?>
 
-				<div class="btn-size-90-margin-top">
+				<div class="btn-size-160">
 					<button type="submit" class="btn btn-primary">Salvar</button>
 				</div>
 			</form>
 
-			<?php if(!empty($usuario)): ?>
-				<div class="btn-size-90-margin-top">
-					<a href="{{route("usuario.sair")}}">
-						<button class="btn btn-danger">Sair</button>
-					</a>
-				</div>
-			<?php endif; ?>
+			@if(!empty($usuario))
+				<form class="row g-7" id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+					@csrf
+					<div class="btn-size-160">
+						<button type="submit" class="btn btn-danger">Sair</button>
+					</div>
+				</form>
+			@endif
 	@endsection

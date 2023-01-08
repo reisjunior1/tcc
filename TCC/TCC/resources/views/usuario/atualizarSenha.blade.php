@@ -4,6 +4,13 @@
 	<title>Atualizar Senha</title>
 	</head>
 	<body>
+		@if(isset($errors) && count($errors)>0)
+		<div class="class= text-danger text-center mt-4 mb-4 p-2 ">
+			@foreach($errors->all() as $erro)
+			{{$erro}}<br>
+			@endforeach
+		</div>
+		@endif
 		<form action={{route("usuario.validaAlterarSenha")}} method='PUT'>
 		@csrf
 			<div class="text-left mt-3 mb-4">
