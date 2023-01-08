@@ -5,17 +5,17 @@
     <body>
         <hr>
         <h2 class="text-center">Campeonatos</h2>
-        <hr>
         @if(session('mensagem'))
             <div class="alert alert-success text-center mt-4 mb-4 p-2">
                 <p>{{session('mensagem')}}</p>
             </div>
         @endif
 
-        <div class="text-center mt-3 mb-4">
-            <h3 class="text-center">Filtrar por</h3>
+        <div class="mt-3 mb-4">
+            
             <div class="col-8 m-auto">
-                <div input-group class="caixa-pesquisa">
+                <div input-group class="card">
+                    <div class="card-header text-left">{{ __('Pesquisar') }}</div>
                     <form
                         method = "POST"
                         action="{{route('campeonato.pesquisar')}}"
@@ -23,26 +23,27 @@
                         placeholder="Filtrar por"
                     >
                         @csrf
-                        <label for="slFormato" class="form-label">Formato</label>
-                        <select id="slFormato" name="slFormato" class="form-select">
-                            <option selected>Selecione...</option>
-                            <option
+                        <div class="col-6 mx-auto">
+                            <label for="slFormato" class="form-label">Formato</label>
+                            <select id="slFormato" name="slFormato" class="form-select">
+                                <option selected>Selecione...</option>
+                                <option
                                 value="PC" {{isset($formato)
                                     ? ($formato == 'PC' ? 'selected' : '')
                                     : ''}}
-                            >
-                                Pontos Corridos
-                            </option>
-                            <option value="CP" {{isset($formato) ? ($formato == 'CP' ? 'selected' : '') : ''}}>
-                                Copa
-                            </option>
-                            <option value="MM" {{isset($formato) ? ($formato == 'MM' ? 'selected' : '') : ''}}>
-                                Mata a mata
-                            </option>
-                        </select>
-                        <br>
-                
-                        <div class="col-12">
+                                    >
+                                    Pontos Corridos
+                                </option>
+                                <option value="CP" {{isset($formato) ? ($formato == 'CP' ? 'selected' : '') : ''}}>
+                                    Copa
+                                </option>
+                                <option value="MM" {{isset($formato) ? ($formato == 'MM' ? 'selected' : '') : ''}}>
+                                    Mata a mata
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-6 mx-auto">
                             <label for="inDataInicio" class="form-label">Periodo</label>
                             <div class="col-3 input-group">
                                 <input
@@ -63,22 +64,25 @@
                                 >
                             </div>
                         </div>
-                        <br>
-                        <label for="slTime" class="form-label">Time:</label>
-                        <select name="slTime"  id="slTime" class="form-select">
-                            <option selected>Selecione...</option>
-                            @foreach($times as $time)
+                        
+                        <div class="col-6 mx-auto">
+                            <label for="slTime" class="form-label">Time:</label>
+                            <select name="slTime"  id="slTime" class="form-select">
+                                <option selected>Selecione...</option>
+                                @foreach($times as $time)
                                 <option
-                                    value= {{$time['id']}} {{isset($slTime)
-                                        ? ($slTime == $time['id'] ? 'selected' : '')
-                                        : ''}}
+                                value= {{$time['id']}} {{isset($slTime)
+                                    ? ($slTime == $time['id'] ? 'selected' : '')
+                                    : ''}}
                                     >
                                     {{$time['nome']}}
                                 </option>
-                            @endforeach
-                        </select>
-                        <br>
-                        <button type="submit"class="btn btn-success">Pesquisar</button>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="text-center mt-3 mb-4">
+                            <button type="submit"class="btn btn-success">Pesquisar</button>
+                        </div>
                     </form>
                 </div>
             </div>
