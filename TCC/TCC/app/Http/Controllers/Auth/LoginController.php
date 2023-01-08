@@ -37,4 +37,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function username()
+    {
+        $loginType = request()->input('telefone');
+        $this->telefone = filter_var($loginType, FILTER_VALIDATE_EMAIL) ? 'email' : 'telefone';
+        request()->merge([$this->telefone => $loginType]);
+
+        return property_exists($this, 'telefone') ? $this->telefone : 'email';
+    }
+
+    public function credentials()
+    {
+        $credencial = filter_var(request()->input('telefone'), FILTER_VALIDATE_EMAIL)
+            ? request()->input('telefone')
+            : montaTelefone(request()->input('telefone'));
+        return [
+            $this->username() => $credencial,
+            'password' => request()->input('password')
+        ];
+    }
 }

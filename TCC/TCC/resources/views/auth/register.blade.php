@@ -3,6 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+    @if(session('mensagem'))
+            <div class="alert alert-success text-center mt-4 mb-4 p-2">
+                <p>{{session('mensagem')}}</p>
+            </div>
+        @endif
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Cadastrar-se') }}</div>

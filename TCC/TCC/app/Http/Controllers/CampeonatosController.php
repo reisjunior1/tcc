@@ -36,7 +36,7 @@ class CampeonatosController extends Controller
 
 
         $this->middleware('auth');
-        $this->middleware(['role:AdminCampeonato']);
+        //$this->middleware(['role:AdminCampeonato']);
     }
 
     public function index()

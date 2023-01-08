@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -28,6 +30,9 @@ class HomeController extends Controller
 
     public function perfil()
     {
-        return view('times/cadastrar');
+        $modelUser =  new User();
+        $usuario = $modelUser->lstDadosUsuarioPorId(Auth::user()->id);
+        $usuario = $usuario[0];
+        return view('times/cadastrar', compact('usuario'));
     }
 }
