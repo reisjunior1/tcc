@@ -117,7 +117,7 @@
 					<ul>
 						<li class="list-group-item list-group-item-primary text-center"> Próximas Partidas</li>
 						@foreach($proximasPartidas as $proximas)
-							<li class="list-group-item">{{$ultima['timeCasa']}} X {{$ultima['timeVisitante']}}</li>
+							<li class="list-group-item">{{$proximas['timeCasa']}} X {{$proximas['timeVisitante']}}</li>
 						@endforeach
 						<a
 							href="{{url("campeonato/$camp/partidas")}}"
