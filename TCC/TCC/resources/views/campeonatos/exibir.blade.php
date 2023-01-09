@@ -27,15 +27,16 @@
 			</div>
 		</div>
 
-
-		<div class="text-center mt-3 mb-4">
-			<a
-				style= "<?php echo $style ?>"
-				href="{{ route("campeonato.adicionarTime", ['idCampeonato' => $campeonato[0]['id']]) }}"
-			>
-				<button type="button " class="btn btn-success" <?php echo $disabled ?>>Adicionar Time</button>
-			</a>
-		</div>
+		@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+			<div class="text-center mt-3 mb-4">
+				<a
+					style= "<?php echo $style ?>"
+					href="{{ route("campeonato.adicionarTime", ['idCampeonato' => $campeonato[0]['id']]) }}"
+				>
+					<button type="button " class="btn btn-success" <?php echo $disabled ?>>Adicionar Time</button>
+				</a>
+			</div>
+		@endif
 
 		<!-- Tabela que exibe os times participantes -->
 		<div class="col-8 m-auto">
@@ -45,7 +46,9 @@
 						<tr>
 							<th scope="col">Time</th>
 							<th scope="col">Nº de Jogadores</th>
-							<th scope="col">Ação</th>
+							@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+								<th scope="col">Ação</th>
+							@endif
 						</tr>
 					</thead>
 					<tbody>
@@ -53,31 +56,32 @@
 							<tr>
 								<th scope="row">{{$time['nome']}}</th>
 								<td>{{!is_null($numeroJogadores) ? $numeroJogadores[$time['id']] : '0'}}</td>
-								<td>
-									<form
-										id="submit-form"
-										action={{route("campeonato.buscaJogadores")}}
-										method='PUT'
-										class="hidden"
-									>
-										@csrf
-										@method('PUT')
-										<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]['id']}}">
-										<input type="hidden" id="slTime" name="slTime" value="{{$time['id']}}">
-										<input type="hidden" id="hdApagarDados" name="hdApagarDados" value="1">
-										<button type="submit" class="btn btn-primary btn-size-90">Editar</button>
-									</form>
-							
-									<form id="submit-form" action={{route("campeonato.apagaTimesCampeonato")}} method='PUT' class="hidden">
-										@csrf
-										@method('PUT')
-										<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]['id']}}">
-										<input type="hidden" id="slTime" name="slTime" value="{{$time['id']}}">
-										<input type="hidden" id="hdApagarDados" name="hdApagarDados" value="1">
-										<button type="submit" class="btn btn-danger btn-size-90">Deletar</button>
-									</form>
-
-								</td>
+								@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+									<td>
+										<form
+											id="submit-form"
+											action={{route("campeonato.buscaJogadores")}}
+											method='PUT'
+											class="hidden"
+										>
+											@csrf
+											@method('PUT')
+											<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]['id']}}">
+											<input type="hidden" id="slTime" name="slTime" value="{{$time['id']}}">
+											<input type="hidden" id="hdApagarDados" name="hdApagarDados" value="1">
+											<button type="submit" class="btn btn-primary btn-size-90">Editar</button>
+										</form>
+								
+										<form id="submit-form" action={{route("campeonato.apagaTimesCampeonato")}} method='PUT' class="hidden">
+											@csrf
+											@method('PUT')
+											<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]['id']}}">
+											<input type="hidden" id="slTime" name="slTime" value="{{$time['id']}}">
+											<input type="hidden" id="hdApagarDados" name="hdApagarDados" value="1">
+											<button type="submit" class="btn btn-danger btn-size-90">Deletar</button>
+										</form>
+									</td>
+								@endif
 							</tr>
 						@endforeach
 					</tbody>

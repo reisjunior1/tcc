@@ -24,9 +24,11 @@
                 </div>
             @endif
 
-            <a href="{{route("campeonato.criarPartida", ['idCampeonato' => $idCampeonato])}}">
-                <button class="btn btn-success">Adicionar Partida</button>
-            </a>
+            @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+                <a href="{{route("campeonato.criarPartida", ['idCampeonato' => $idCampeonato])}}">
+                    <button class="btn btn-success">Adicionar Partida</button>
+                </a>
+            @endif
         </div>
 
         <!-- tabelas partidas -->
@@ -74,19 +76,20 @@
                                     <a href="{{route("campeonato.detalhesPartida", ['idPartida' => $partida['id']])}}">
                                         <button class="btn btn-secondary btn-size-160">Detalhes</button>
                                     </a>
-                                    
-                                    @if($partida['status'] == 0)
-                                        <a href="{{
-                                            route("campeonato.editarPartida", ['idCampeonato' => $partida['id']])
-                                        }}">
-                                            <button class="btn btn-primary btn-size-160">Editar</button>
+                                    @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+                                        @if($partida['status'] == 0)
+                                            <a href="{{
+                                                route("campeonato.editarPartida", ['idCampeonato' => $partida['id']])
+                                            }}">
+                                                <button class="btn btn-primary btn-size-160">Editar</button>
+                                            </a>
+                                        @endif
+                                        
+                                        <a href="{{$href}}">
+                                            <button class="btn btn-{{$propriedade}} btn-size-160">{{$btn}}</button>
                                         </a>
                                     @endif
                                 </div>
-                                
-                                    <a href="{{$href}}">
-                                        <button class="btn btn-{{$propriedade}} btn-size-160">{{$btn}}</button>
-                                    </a>
                             </td>
                         </tr>
                     </tbody>
