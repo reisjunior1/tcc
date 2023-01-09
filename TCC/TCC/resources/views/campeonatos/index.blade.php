@@ -88,11 +88,13 @@
             </div>
         <div>
 
-        <div class="text-center mt-3 mb-4">
-            <a href="{{route('campeonato.cadastrar')}}">
-                <button class="btn btn-success">Cadastrar</button>
-            </a>
-        </div>
+        @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+            <div class="text-center mt-3 mb-4">
+                <a href="{{route('campeonato.cadastrar')}}">
+                    <button class="btn btn-success">Cadastrar</button>
+                </a>
+            </div>
+        @endif
 
         <div class="col-8 m-auto">
             <table class="table text-center">
@@ -101,7 +103,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Formato</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,15 +123,17 @@
                                     </a>
                                 </div>
                                 
-                                <div input-group>
-                                    <a href="{{url("campeonato/$campeonato->id/edit")}}">
-                                        <button class="btn btn-primary btn-size-120">Editar</button>
-                                    </a>
-                                    
-                                    <a href="{{url("#")}}">
-                                        <button type="button" class="btn btn-danger btn-size-120">Excluir</button>
-                                    </a>
-                                </div>
+                                @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+                                    <div input-group>
+                                        <a href="{{url("campeonato/$campeonato->id/edit")}}">
+                                            <button class="btn btn-primary btn-size-120">Editar</button>
+                                        </a>
+                                
+                                        <a href="{{url("#")}}">
+                                            <button type="button" class="btn btn-danger btn-size-120">Excluir</button>
+                                        </a>
+                                    </div>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

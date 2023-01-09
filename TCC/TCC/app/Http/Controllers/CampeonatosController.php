@@ -34,17 +34,14 @@ class CampeonatosController extends Controller
         $this->objCampeonato = new campeonato();
         $this->objJogaEm = new joga_em();
 
-        $this->middleware('auth');
+        //  $this->middleware('auth');
         //$this->middleware(['role:AdminCampeonato']);
+        $this->middleware(['role:AdminCampeonato'])
+            ->except('index', 'pesquisar', 'show', 'partidas', 'detalhesPartida');
     }
 
     public function index()
-    {
-        //var_dump(Auth::user()->name); die();
-        if (session_status() !== PHP_SESSION_ACTIVE ){
-            session_start();
-        }
-        
+    {   
         $modelCampeonato = new campeonato();
         $campeonatos = $modelCampeonato->lstCampeonatos();
         

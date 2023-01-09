@@ -19,8 +19,8 @@ class JogaEmSeeder extends Seeder
     public function run()
     {
         DB::table('joga_em')->insert([
-            'id_jogador' => rand(0,10),
-            'id_time' => rand(8,12),
+            'id_jogador' => rand(0,25),
+            'id_time' => rand(0,4),
             'Eexcluido' => rand(0,0),
         ]);
     }
