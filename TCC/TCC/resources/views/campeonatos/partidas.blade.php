@@ -48,7 +48,7 @@
                         $golsTimeVisitante = $partida['gols_time_visitante'];
                         $href = route("campeonato.editarResultado", ['idPartida' => $partida['id']]);
                         $btn = 'Editar Sumula';
-                        $propriedade = 'success';
+                        $propriedade = 'primary';
                     }
                 ?>
                 <table class="table text-center">
@@ -74,7 +74,7 @@
                             <td style="width:80px">
                                 <div input-group>
                                     <a href="{{route("campeonato.detalhesPartida", ['idPartida' => $partida['id']])}}">
-                                        <button class="btn btn-secondary btn-size-160">Detalhes</button>
+                                        <button class="btn btn-success btn-size-160">Detalhes</button>
                                     </a>
                                     @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
                                         @if($partida['status'] == 0)
