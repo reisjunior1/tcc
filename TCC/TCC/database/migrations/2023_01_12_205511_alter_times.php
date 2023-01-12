@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        /*Schema::table('users', function (Blueprint $table) {
-            $table->string('cpf', 14)->unique()->nullable(false)->after('id');
-            $table->string('telefone', 20)->nullable(true)->after('name');
-            $table->tinyInteger('tipo')->nullable(false)->after('email');
-        });*/
+        Schema::table('times', function (Blueprint $table) {
+            $table->string('complemento', 100)->nullable(true)->change();
+            $table->string('cep', 9)->nullable(false)->change();
+        });
     }
 
     /**
@@ -27,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('times', function (Blueprint $table) {
+            $table->dropColumn('id_local');
+        });
+    
     }
 };

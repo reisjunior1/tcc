@@ -46,10 +46,23 @@ Route::get('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLoca
 Route::post('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
 
 //Rotas de Times
-Route::get('/times', 'App\Http\Controllers\CadastroTimeController@cadastrarTimes')->name("time.cadastrar");
-Route::post('/times', 'App\Http\Controllers\CadastroTimeController@store')->name("time.cadastrar");
-//Route::resource('/times', 'App\Http\Controllers\CadastroTimeController');
+define("TIMES_CONTROLLER", 'App\Http\Controllers\TimeController');
 
+Route::get('/time', TIMES_CONTROLLER.'@index')
+    ->name("time.index");
+    
+Route::get('/time/{idTime}/gerenciar', TIMES_CONTROLLER.'@gerenciar')
+    ->name("time.gerenciar");
+
+Route::get('/time/cadastrar', TIMES_CONTROLLER.'@cadastrar')
+    ->name("time.cadastrar");
+
+Route::post('/time/{idUsuario}/salvar', TIMES_CONTROLLER.'@salvar')
+    ->name("time.salvar");
+
+Route::resource('/time', TIMES_CONTROLLER);
+
+//Rotas Jogador
 Route::get('/jogador', function () {
     return view(view:'times.jogadors');
 })->name('jogadors');

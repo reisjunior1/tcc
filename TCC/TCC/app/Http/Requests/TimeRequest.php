@@ -24,33 +24,31 @@ class TimeRequest extends FormRequest
     public function rules()
     {
         return [
-
-
-            'innome'=>'required',
-            //'incpf'=>'required', 
-            'insigla'=>'required',
-            'inendereco'=>'required',
-            'incidade'=>'required',
-            'inbairro'=>'required',
-           // 'incomplemento'=>'required',
-            'incep'=>'required',
-            'slestado'=>'required',
-            //'id_usuario'=>'required',
-
-            //
+            "inNometime" => 'required|max:100',
+            "inSigla" => 'required|max:3',
+            "inTelefone" => 'required|max:15',
+            "inCep" => 'required|max:15',
+            "inEndereco" => 'required|max:100',
+            "inComplemento" => 'required|max:100',
+            "inCidade" => 'required|max:100',
+            "slEstado" => 'required|max:100',
         ];
-  
-  
-  }
+    }
 
 
 
-  public function messages()
+    public function messages()
     {
         return [
-            'innome.required' => 'O campo Nome é obrigatório!',
-            'insigla.required' => 'O campo Sigla é obrigatório!',
-            
+            'inNometime.required' => 'O campo Nome do Campeonato é obrigatório!',
+            'inNometime.max:' => 'O campo Nome deve conter até 100 caracteres!',
+            /*'inSigla.required|max:3',
+            'inTelefone.required|max:15',
+            'inCep.required|max:15',
+            'inEndereco.required|max:100',
+            'inComplemento;required|max:100',
+            'inCidade.required|max:100',
+            'slEstado.required|max:100',*/
 
         ];
     }

@@ -7,18 +7,35 @@
 
 	<div class="text-left mt-3 mb-4" >
 		<div class="col-8 m-auto">
-			<form class="row g-3"  method="put"  action={(route("time.cadastrar"))}>
-				<!--<form class="row g-3"  method="post"  action="{{url('times')}}"  >-->
+			<form class="row g-7" name="formCadastro" id="formCadastro" method="post" action="{{url('time')}}">
 				@csrf
 				<label for="nometime" class="form-label">Nome do Time:</label>
-				<input type="text" class="text45Left form-control" id="isnometime" placeholder="NomeTime">
+				<input
+					type="text"
+					class="text45Left form-control"
+					name="inNometime"
+					id="inNometime"
+					placeholder="NomeTime"
+				>
 
 				<label for="sigla" class="form-label">Sigla:</label>
-				<input type="sigla" class="text45Left form-control" id="insigla"  placeholder=" Siglado Time">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inSigla"
+					name = "inSigla"
+					placeholder="Siglado Time"
+				>
 
-				<label for="telefonetime" class="form-label">Telefone de Contato:</label>
-				<input type="text" class="text45Left form-control telefone" id="intelefonetime"  placeholder="( ) - ---- ----">
-
+				<label for="telefone" class="form-label">Telefone:</label>
+					<input
+						type="text"
+						class="text45Left form-control telefone"
+						id="inTelefone"
+						name='inTelefone'
+						value="{{$usuario->telefone ?? ''}}"
+						placeholder="( ) - ---- ----"
+					>
 				<!--
 				<div class="col-md-6">
 					<label for="emailtime" class="form-label">Email:</label>
@@ -37,29 +54,58 @@
 				-->
 
 				<label for="cep" class="form-label">CEP:</label>
-				<input type="text" class="text45Left form-control cep" id="incep">
+				<input
+					type="text"
+					class="text45Left form-control cep"
+					id="inCep"
+					name= "inCep"
+					placeholder="_____ - __"
+				>
 
 				<label for="endereco" class="form-label">Endereço:</label>
-				<input type="text" class="text45Left form-control" id="inendereco" placeholder="Rua:..">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inEndereco"
+					name="inEndereco"
+					placeholder="Rua:"
+				>
+
+				<label for="bairo" class="form-label">Bairro:</label>
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inBairro"
+					name="inBairro"
+					placeholder="Bairo:"
+				>
 
 				<label for="complemento" class="form-label">Complemento:</label>
-				<input type="text" class="text45Left form-control" id="incomplemento" placeholder="Apartamento, quadra...">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inComplemento"
+					name="inComplemento"
+					placeholder="Apartamento, quadra..."
+				>
 
 				<label for="cidade" class="form-label">Cidade:</label>
-				<input type="text" class="text45Left form-control" id="incidade">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inCidade"
+					name="inCidade"
+				>
 
 				<label for="estado" class="form-label">Estado:</label>
-				<select id="slestado" class="text45Left form-select">
+				<select id="slEstado" name="slEstado" class="text45Left form-select">
 					<option selected>Selecione</option>
 					<option>MG</option>
 				</select>
-			</div>
-
-
-			<div class="col-8 m-auto"> <p></p>
-				<button type="submit" class="btn btn-primary">Salvar</button>
-				<button class="btn btn-danger">Cancelar</button>
-			</div>
-
-		</form>
+				
+				<button type="submit" class="btn btn-success">Salvar</button>
+				<!--<button class="btn btn-danger">Cancelar</button>-->
+			</form>
+		</div>
+	</div>
 	@endsection

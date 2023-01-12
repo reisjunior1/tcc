@@ -35,7 +35,7 @@
             <a class="nav-link" href="{{ route('local.cadastrar') }}">local</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"   href="{{ route('time.cadastrar') }}" >  Times</a>
+            <a class="nav-link"   href="{{ route('time.index') }}" >  Times</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"  href="{{ route('jogadors') }}"  > Jogador</a>

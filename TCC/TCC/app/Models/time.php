@@ -9,11 +9,19 @@ class time extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome',
-    'id-User',
-    'Local',
-    'Sigla',
-    'Eexcluido',
+    protected $fillable = [	
+        'id_usuario',
+        'sigla',
+        'nome',
+        'id_local',
+        'Eexcluido',
+        'endereco',
+        'cidade',
+        'bairro',
+        'complemento',
+        'cep',
+        'estado',
+
     ];
 
     public function time()
@@ -35,5 +43,10 @@ class time extends Model
             ->get()->toArray();
     }
 
-    
+    public function lstTimesPorIdUsuario($idUsurio)
+    {
+        return time::select('id', 'sigla', 'nome', 'Eexcluido')
+            ->where('id_usuario', '=', $idUsurio)
+            ->get()->toArray();
+    }
 }
