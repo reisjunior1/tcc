@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('times.tela.telas')
 
-@section('content')
+@section('parte')
 <div class="container">
     <div class="row justify-content-center">
     @if(session('mensagem'))

@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('times.tela.telas')
 
-@section('content')
+@section('parte')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -11,19 +11,6 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <!--<div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>-->
                         <div class="row mb-3">
                             <label for="telefone" class="col-md-4 col-form-label text-md-end">{{ __('E-mail ou Telefone') }}</label>
 
@@ -76,6 +63,13 @@
                                     </a>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                            @if (Route::has('register'))
+                                <a class="btn btn-link" href="{{ route('register') }}">{{ __('Cadastrar-se') }}</a>
+                            @endif
                         </div>
                     </form>
                 </div>
