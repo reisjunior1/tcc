@@ -1,7 +1,7 @@
 @extends('times.tela.telas')
 
 @section('parte')
-	<title>Atualizar Senha</title>
+	<title>Gerenciar Papeis</title>
 	</head>
 	<body>
 		<form action={{route("usuario.validaTipoUsuario")}} method='PUT'>
@@ -18,21 +18,31 @@
 					<select name="slUsuario"  id="slUsuario" class="form-select">
 						<option selected>Selecione...</option>
 						@foreach($usuarios as $usuario)
-							<option value= {{$usuario['id']}}>{{$usuario['nome']}}</option>
+							<option
+								value= {{$usuario['id']}} {{isset($dados['slUsuario'])
+                                            ? ($dados['slUsuario'] == $usuario['id'] ? 'selected' : '')
+                                            : ''
+                                        }}
+							>{{$usuario['name']}}</option>
 						@endforeach
 					</select>
 
-					<label for="slTipo" class="form-label">Tipo:</label>
-					<select name="slTipo"  id="slTipo" class="form-select">
+					<label for="slPapel" class="form-label">Papel:</label>
+					<select name="slPapel"  id="slPapel" class="form-select">
 						<option selected>Selecione...</option>
-						<option value='UC'>Usuário Comum</option>
-						<option value='AT'>Administrador Time</option>
-						<option value='AC'>Administrador Campeonato</option>
+						@foreach($papeis as $papel)
+							<option
+								value= {{$papel['name']}} {{isset($dados['slPapel'])
+                                            ? ($dados['slPapel'] == $papel['name'] ? 'selected' : '')
+                                            : ''
+                                        }}
+							>{{$papel['name']}}</option>
+						@endforeach
 					</select>
 				</div>
 
 				<div class="col-6 m-auto">
-					<button type="submit" class="btn btn-primary btn-margin-top">Finalizar</button>
+					<button type="submit" class="btn btn-primary btn-margin-top">Dar Permissão</button>
 				</div>
 			</div>
 		</form>

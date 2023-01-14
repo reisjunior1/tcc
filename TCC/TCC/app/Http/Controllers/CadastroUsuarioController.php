@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\usuario;
 use App\Http\Requests\UsuarioRequest;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class CadastroUsuarioController extends Controller
 
@@ -19,40 +20,6 @@ class CadastroUsuarioController extends Controller
     {
         $this->objUsuario = new usuario();
         
-    }
-
-
-
-    public function index()
-    {
-        return view(view:'times.cadastrar');
-
-    }
-
-    public function cadastrar()
-    {
-        return view(view:'times.cadastrar');
-
-    }
-   
-
-
-
-
-
-    public function store(UsuarioRequest $request)
-    { 
-        $cadastro=$this->objUsuario->create([
-            'nome'=>$request->inNome,
-            'cpf'=>$request->inCpf,
-            'email' => $request->inEmail,
-            'telefone' => $request->inTelefone,
-            'tipo'=>'UC',
-            'senha'=> password_hash($request->inSenha, PASSWORD_DEFAULT)
-        ]);
-        if($cadastro){
-            return redirect('usuario');
-        }
     }
 
     public function update(Request $request, $id)
@@ -121,26 +88,32 @@ class CadastroUsuarioController extends Controller
 
     public function tipoUsuario()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE ){
-            session_start();
-        }
-        
-        $modelUsuario = new usuario();
-        $usuarios = $modelUsuario->lstUsuario();
+        $modelUsuario = new User();
+        $usuarios = $modelUsuario->ltsTodosUsuario();
 
-        return view('usuario/gerenciarTipo', compact('usuarios'));
+        $papeis = \Spatie\Permission\Models\Role::all();
+
+        return view('usuario/gerenciarTipo', compact('usuarios', 'papeis'));
     }
 
     public function validaTipoUsuario(Request $request)
     {
-        
-        $modelUsuario = new usuario();
-        $modelUsuario->upTipo(
-            $request['slUsuario'],
-            $request['slTipo']
-        );
-
-        return redirect()->route('usuario.tipo');
+        //dd($request);
+        $modelUser = new User();
+        $user = $modelUser->lstDadosUsuarioPorId($request->slUsuario);
+        if ($user[0]->hasAnyRole([$request->slPapel])) {
+            $modelUsuario = new User();
+            $usuarios = $modelUsuario->ltsTodosUsuario();
+            $papeis = \Spatie\Permission\Models\Role::all();
+            $dados['slUsuario'] = $request->slUsuario;
+            $dados['slPapel'] = $request->slPapel;
+            //dd($dados);
+            session()->flash('mensagem', 'O usuário já possui este papel!');
+        } else {
+            $user[0]->assignRole($request->slPapel);
+        }
+        //dd($dados['slUsuario']);
+        return view('usuario/gerenciarTipo', compact('usuarios', 'papeis', 'dados'));
 
     }
 

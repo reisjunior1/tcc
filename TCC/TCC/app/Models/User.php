@@ -70,4 +70,9 @@ class User extends Authenticatable
         ]);
         return true;
     }
+
+    public function ltsTodosUsuario()
+    {
+        return User::get()->toArray();
+    }
 }

@@ -51,11 +51,10 @@
               <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
             @else
               <a class="nav-link" href="{{ route('login.perfil') }}"  v-pre> {{Auth::user()->name}}</a>
-              <!-- <a href="#" role="button">{{ Auth::user()->name }}</a> -->
             @endguest
           </li>
 
-		  @if(!empty($_SESSION) && $_SESSION['dados']['tipo'] == 'AG')
+      @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminGeral']))
 		  <li class="nav-item">
             <a class="nav-link"  href="{{ route('usuario.tipo') }}"> Gerenciar Usuários</a>
           </li>

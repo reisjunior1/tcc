@@ -73,6 +73,6 @@ class RegisterController extends Controller
             'cpf'=> $data['cpf'],
             'telefone' => $data['telefone'],
             'tipo' => 1
-        ]);
+        ])->roles()->attach(1);
     }
 }
