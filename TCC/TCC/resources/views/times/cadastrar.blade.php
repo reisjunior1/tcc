@@ -2,7 +2,7 @@
 
 @section('parte')
 
-<title>Cadastro</title>
+<title>Meu Perfil</title>
 </head>
 <body>
 	@if(isset($errors) && count($errors)>0)
