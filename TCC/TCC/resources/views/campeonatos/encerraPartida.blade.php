@@ -1,7 +1,7 @@
 @extends('times.tela.telas')
 
 @section('parte')
-	<title>Atualizar Senha</title>
+	<title>Encerrar Partida</title>
 	</head>
 	<body>
 		<form action={{route("campeonato.validaEncerrarPartida")}} method='PUT'>

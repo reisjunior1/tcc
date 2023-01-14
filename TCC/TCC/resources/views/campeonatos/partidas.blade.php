@@ -1,7 +1,7 @@
 @extends('times.tela.telas')
 
 @section('parte')
-    <title>Cadastro</title>
+    <title>Partidas</title>
     </head>
     <body>
         <div class="text-center col-8 m-auto">
@@ -54,8 +54,8 @@
                 <table class="table text-center">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Time1</th>
-                            <th scope="col">Time2</th>
+                            <th scope="col">Time <br> Casa</th>
+                            <th scope="col">Time <br> Visitante</th>
                             <th scope="col">Data</th>
                             <th scope="col">Local</th>
                             <th scope="col">Status</th>

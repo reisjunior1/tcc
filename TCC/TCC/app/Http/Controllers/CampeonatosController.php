@@ -170,7 +170,6 @@ class CampeonatosController extends Controller
         $modelPartida = new partida();
         $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
         $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
-
         return view(
             'campeonatos/exibir',
             compact(
@@ -242,8 +241,8 @@ class CampeonatosController extends Controller
         $modelTimesParticipantes = new timesParticipantes();
         $participantes = $modelTimesParticipantes->lstTimesParticipantes($idCampeonato);
 
-        foreach($todosTimes as $time){
-            if(!in_array($time, $participantes)){
+        foreach ($todosTimes as $time) {
+            if (!in_array($time, $participantes)) {
                 $times[] = $time;
             }
         }
@@ -256,7 +255,13 @@ class CampeonatosController extends Controller
         $idCampeonato = $request->hdCampeonato;
         $idTime = $request->slTime;
         $apagarDados = $request->hdApagarDados;
-
+        if ($idTime == 0) {
+            session()->flash(
+                'mensagem',
+                "Selecione um time!"
+            );
+            return redirect()->route('campeonato.adicionarTime', ['idCampeonato' => $idCampeonato]);
+        }
         $modelCampeonato = new campeonato();
         $campeonato = $modelCampeonato->lstCampeonatosPorId(array($idCampeonato));
         $campeonato = array($campeonato[0]);
@@ -369,6 +374,21 @@ class CampeonatosController extends Controller
     {
         $modelTimesParticipantes = new timesParticipantes();
         $modelJogadoresParticipantes = new jogadoresParticipantes();
+
+        //verifica se o time participa de alguma partida
+        //em caso positivo nao permite excluir o time do campeonato
+
+        $modelPartida = new partida();
+        $participaCampeonato = $modelPartida->lstPartidasPorIdCampeonatoIdTime(
+            $request->hdCampeonato,
+            $request->slTime,
+        );
+
+        if (!empty($participaCampeonato)) {
+            session()->flash('mensagem', 'Não é possivel excluir o time do campeonato pois ele
+                disputa partidas nesse campeonato. Exclua as partidas e tente novamente.');
+            return redirect("campeonato/$request->hdCampeonato");
+        }
 
         $modelTimesParticipantes->delTimesParticipantes($request->slTime);
         $modelJogadoresParticipantes->delJogadoresParticipantesPorTime(

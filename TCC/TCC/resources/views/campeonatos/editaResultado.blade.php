@@ -1,7 +1,7 @@
 @extends('times.tela.telas')
 
 @section('parte')
-	<title>Atualizar Senha</title>
+	<title>Editar Sumula</title>
     </head>
     <body>
 		<form action={{route("campeonato.validaAlterarResultado")}} method='PUT'>

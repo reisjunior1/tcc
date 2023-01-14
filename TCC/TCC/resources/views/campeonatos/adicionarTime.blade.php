@@ -2,11 +2,16 @@
 @extends('times.tela.telas')
 
 @section('parte')
-	<title>@if(isset($campeonato)) Editar @else Cadastrar @endif</title>
+	<title>Adicionar Time ao Campeonato</title>
 	</head>
 	<body>
 	<form action={{route("campeonato.buscaJogadores")}} method='PUT'>
 		@csrf
+		@if(session('mensagem'))
+			<div class="alert alert-danger text-center mt-4 mb-4 p-2 col-8 m-auto">
+				<p>{{session('mensagem')}}</p>
+			</div>
+		@endif
 		<div class="col-10 m-auto">
 			<div input-group class="card">
                 <div class="card-header text-left">{{  __('Adicionar Time') }}</div>
@@ -14,9 +19,9 @@
 					<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]->id}}">
 					<label for="slTime" class="form-label">Selecione um Time*</label>
 					<select name="slTime"  id="slTime" class="form-select select20em">
-						<option selected>Selecione...</option>
+						<option value="0" selected>Selecione...</option>
 						@foreach($times as $time)
-						<option value= {{$time['id']}}>{{$time['nome']}}</option>
+							<option value= {{$time['id']}}>{{$time['nome']}}</option>
 						@endforeach
 					</select>
 				</div>

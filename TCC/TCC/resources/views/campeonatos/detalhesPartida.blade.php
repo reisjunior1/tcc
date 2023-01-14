@@ -1,7 +1,7 @@
 @extends('times.tela.telas')
 
 @section('parte')
-	<title>Cadastro</title>
+	<title>Detalhes</title>
 	</head>
   	<body>
   	<hr>

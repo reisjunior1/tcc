@@ -1,6 +1,6 @@
 @extends('times.tela.telas')
 @section('parte')
-    <title>Cadastro</title>
+    <title>Campeonatos</title>
     </head>
     <body>
         <hr>

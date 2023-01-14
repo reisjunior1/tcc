@@ -22,6 +22,12 @@
     margin-top: 10px;
 }
 
+.btn-size-90-10-margin{
+    width: 90px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .box {
     margin-top: 5px;
     margin-left: 15px;

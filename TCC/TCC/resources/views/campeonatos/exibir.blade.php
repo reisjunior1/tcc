@@ -7,7 +7,6 @@
 	?>
 	<title>Visualizar Campeonato</title>
 	</head>
-	<?php // ?>
 	<body>
 		<div class="text-left mt-3 mb-4">
 			@if(session('mensagem'))
@@ -15,15 +14,21 @@
 					<p>{{session('mensagem')}}</p>
 				</div>
 			@endif
-			<div class="col-8 m-auto box">
-				<label class="form-label">Nome: </label> {{$campeonato[0]['nome']}}
-				<br>
-				<label class="form-label">Formato: </label> {{$campeonato[0]['formato']}}
-
-				<label class="form-label">Times Participantes: </label> {{$campeonato[0]['numeroTimes']}}
-				<br>
-				<label class="form-label">Perído:</label> {{$campeonato[0]['dataInicio']}}
-				<label> a </label> {{$campeonato[0]['dataFim']}}
+			<div class="col-10 m-auto">
+				<div input-group class="card">
+					<div class="card-header text-left">{{ 'Informações:' }}</div>
+					
+					<div class="col-10 m-auto box">
+						<label class="form-label">Nome: </label> {{$campeonato[0]['nome']}}
+						<br>
+						<label class="form-label">Formato: </label> {{$campeonato[0]['formato']}}
+						<br>
+						<label class="form-label">Times Participantes: </label> {{$campeonato[0]['numeroTimes']}}
+						<br>
+						<label class="form-label">Perído:</label> {{$campeonato[0]['dataInicio']}}
+						<label> a </label> {{$campeonato[0]['dataFim']}}
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -92,7 +97,7 @@
 			@endif
 		</div class="col-8 m-auto">
 
-		@if (sizeof($ultimasPartidas) > 0 && sizeof($proximasPartidas) > 0)
+		@if (sizeof($ultimasPartidas) > 0 || sizeof($proximasPartidas) > 0)
 			<div class="grid-container col-10 m-auto">
 				<div class="grid-child list-group">
 					<ul>

@@ -194,4 +194,13 @@ class partida extends Model
         ->orderBy('dataHora', 'ASC')
         ->take(4)->get()->toArray();
     }
+
+    public function lstPartidasPorIdCampeonatoIdTime($idCampeonato, $idTime)
+    {
+        return partida::select('partidas.id', 'id_campeonato', 'partidas.id_time_casa',
+            'partidas.id_time_visitante')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->whereRaw('id_time_casa = ? or id_time_visitante = ?', [$idTime, $idTime])
+        ->get()->toArray();
+    }
 }
