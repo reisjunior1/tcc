@@ -7,7 +7,7 @@
 	?>
 	<title>Visualizar Campeonato</title>
 	</head>
-
+	<?php // ?>
 	<body>
 		<div class="text-left mt-3 mb-4">
 			@if(session('mensagem'))
