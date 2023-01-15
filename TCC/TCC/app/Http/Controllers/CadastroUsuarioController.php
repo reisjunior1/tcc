@@ -98,24 +98,112 @@ class CadastroUsuarioController extends Controller
 
     public function validaTipoUsuario(Request $request)
     {
-        //dd($request);
+        $dados['slUsuario'] = $request->slUsuario;
+        $dados['slPapel'] = $request->slPapel;
+
         $modelUser = new User();
-        $user = $modelUser->lstDadosUsuarioPorId($request->slUsuario);
-        if ($user[0]->hasAnyRole([$request->slPapel])) {
-            $modelUsuario = new User();
-            $usuarios = $modelUsuario->ltsTodosUsuario();
-            $papeis = \Spatie\Permission\Models\Role::all();
-            $dados['slUsuario'] = $request->slUsuario;
-            $dados['slPapel'] = $request->slPapel;
-            //dd($dados);
-            session()->flash('mensagem', 'O usuário já possui este papel!');
+        $usuarios = $modelUser->ltsTodosUsuario();
+        $papeis = \Spatie\Permission\Models\Role::all();
+
+        if ($dados['slUsuario'] != 0 && $dados['slPapel'] != 0) {
+            $user = $modelUser->lstDadosUsuarioPorId($dados['slUsuario']);
+            if ($user[0]->hasAnyRole([$dados['slPapel']])) {
+                session()->flash('mensagem', 'O usuário já possui este papel!');
+            } else {
+                session()->flash('mensagem', 'Papel cadastrado ao usuário com sucesso!');
+                $user[0]->assignRole($dados['slPapel']);
+            }
         } else {
-            $user[0]->assignRole($request->slPapel);
+            session()->flash('mensagem', 'Selecione um usuário e um papel!');
         }
-        //dd($dados['slUsuario']);
         return view('usuario/gerenciarTipo', compact('usuarios', 'papeis', 'dados'));
 
     }
 
+    public function pesquisarPapel(Request $request, $pesquisar = null, $recuperaDados = null)
+    {
+        $modelUsuario = new User();
+        $usuarios = $modelUsuario->ltsTodosUsuario();
+        $papeis = \Spatie\Permission\Models\Role::all();
+
+        $dados['slUsuario'] = $request->slUsuario;
+        $dados['slPapel'] = $request->slPapel;
+
+        if ($recuperaDados) {
+            $arrayDados = unserialize(base64_decode($recuperaDados));
+            $dados['slUsuario'] = $arrayDados['slUsuario'];
+            $dados['slPapel'] = $arrayDados['slPapel'];
+        }
+
+
+        if ($pesquisar && ($dados['slUsuario'] != 0 || $dados['slPapel'] != 0)) {
+            if ($dados['slUsuario'] != 0 && $dados['slPapel'] == 0) {
+                $objUser = \App\Models\User::find($dados['slUsuario']);
+                $objPapeis = $objUser->getRoleNames();
+
+                $arrayUsuer[0] = json_decode(json_encode($objUser), true);
+            }
+
+            if ($dados['slUsuario'] == 0 && $dados['slPapel'] != 0) {
+                $nome = $dados['slPapel'];
+                $objUser = User::whereHas(
+                    "roles",
+                    function ($x) use ($nome) { $x->where("name", $nome); }
+                )->get();
+                $objPapeis = [$dados['slPapel']];
+
+                $arrayUsuer = json_decode(json_encode($objUser), true);
+            }
+
+            if ($dados['slUsuario'] != 0 && $dados['slPapel'] != 0) {
+                $objPapeis = null;
+                $objUser = \App\Models\User::find($dados['slUsuario']);
+                $aux = $objUser->getRoleNames();
+                foreach ($aux as $a) {
+                    if ($a == $dados['slPapel']) {
+                        $objPapeis[] = $a;
+                    }
+                }
+                $arrayUsuer[0] = json_decode(json_encode($objUser), true);
+            }
+            $arrayPapeis = json_decode(json_encode($objPapeis), true);
+
+            $i = 0;
+
+            if(!is_null($arrayPapeis)) {
+                foreach ($arrayUsuer as $u) {
+                    foreach ($arrayPapeis as $p) {
+                        $arrayTabela[$i]['usuarioId'] = $u['id'];
+                        $arrayTabela[$i]['usuario'] = $u['name'];
+                        $arrayTabela[$i]['papel'] = $p;
+                        $i++;
+                    }
+                }
+            }
+            $arrayDados = base64_encode(serialize($dados));
+
+        }
+        //dd($arrayTabela);
+        if (isset($arrayTabela)) {
+            return view(
+                'usuario/pesquisarPapelUsuario',
+                compact('usuarios', 'papeis', 'arrayTabela', 'dados', 'arrayDados')
+            );
+        }
+
+        return view('usuario/pesquisarPapelUsuario', compact('usuarios', 'papeis', 'dados'));
+    }
+
+    public function removePapel($idUsuario, $papel, $parametros)
+    {
+        $modelUser = new User();
+        $user = $modelUser->lstDadosUsuarioPorId($idUsuario);
+        $user[0]->removeRole($papel);
+
+        return redirect()->route('usuario.pesquisarPapel', [
+            'pesquisar' => 1,
+            'recuperarDados' => $parametros,
+        ]);
+    }
 }
 

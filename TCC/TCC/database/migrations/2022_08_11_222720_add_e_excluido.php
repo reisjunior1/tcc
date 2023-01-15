@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('times', function (Blueprint $table) {
-            $table->tinyInteger('Eexcluido')->nullable(false)->after('id_local');
+            $table->tinyInteger('Eexcluido')->nullable(false)->after('nome');
         });
     }
 

@@ -35,8 +35,17 @@ Route::get('/usuario/sair/', 'App\Http\Controllers\CadastroUsuarioController@sai
 Route::get('/usuario/tipoUsuario/', 'App\Http\Controllers\CadastroUsuarioController@tipoUsuario')
     ->name("usuario.tipo");
 
+Route::get('/usuario/pesquisarPapel/{pesquisar?}/{recuperarDados?}', 'App\Http\Controllers\CadastroUsuarioController@pesquisarPapel')
+    ->name("usuario.pesquisarPapel");
+
+Route::post('/usuario/pesquisarPapel/{pesquisar?}/{recuperarDados?}', 'App\Http\Controllers\CadastroUsuarioController@pesquisarPapel')
+    ->name("usuario.pesquisarPapel");
+
 Route::get('/usuario/validaTipoUsuario/', 'App\Http\Controllers\CadastroUsuarioController@validaTipoUsuario')
     ->name("usuario.validaTipoUsuario");
+
+Route::get('/usuario/removePapel/{usuarioId}/{papel}/{dados}', 'App\Http\Controllers\CadastroUsuarioController@removePapel')
+    ->name("usuario.removePapel");
 
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');

@@ -56,7 +56,7 @@
 
       @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminGeral']))
 		  <li class="nav-item">
-            <a class="nav-link"  href="{{ route('usuario.tipo') }}"> Gerenciar Usuários</a>
+            <a class="nav-link"  href="{{ route('usuario.pesquisarPapel') }}"> Gerenciar Usuários</a>
           </li>
 		  @endif
 

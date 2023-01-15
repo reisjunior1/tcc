@@ -16,7 +16,7 @@
 				<div class="col-6 m-auto">
 					<label for="slUsuario" class="form-label">Usuário:</label>
 					<select name="slUsuario"  id="slUsuario" class="form-select">
-						<option selected>Selecione...</option>
+						<option value=0 selected>Selecione...</option>
 						@foreach($usuarios as $usuario)
 							<option
 								value= {{$usuario['id']}} {{isset($dados['slUsuario'])
@@ -29,7 +29,7 @@
 
 					<label for="slPapel" class="form-label">Papel:</label>
 					<select name="slPapel"  id="slPapel" class="form-select">
-						<option selected>Selecione...</option>
+						<option value=0 selected>Selecione...</option>
 						@foreach($papeis as $papel)
 							<option
 								value= {{$papel['name']}} {{isset($dados['slPapel'])

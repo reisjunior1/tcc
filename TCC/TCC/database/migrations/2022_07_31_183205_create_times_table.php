@@ -31,7 +31,7 @@ return new class extends Migration
         });
 
         Schema::table('times', function($table) {
-            $table->foreign('id_usuario')->references('id')->on('usuarios');
+            $table->foreign('id_usuario')->references('id')->on('users');
         });
 
     }

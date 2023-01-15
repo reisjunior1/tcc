@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('times', function (Blueprint $table) {
+        /*Schema::table('times', function (Blueprint $table) {
             $table->dropForeign(['id_usuario']);
             $table->foreign('id_usuario')->references('id')->on('users');
-        });
+        });*/
     }
 
     /**
