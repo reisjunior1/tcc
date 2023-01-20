@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <td colspan="1" class="tableitem">Data</td>
-                <td colspan="1" class="tableitem">{{substr($partida[0]['dataHora'], 0, 10)}}</td>
+                <td colspan="1" class="tableitem">{{date( 'd/m/Y' , strtotime($partida[0]['dataHora']))}}</td>
                 <td colspan="1" style="width: 15%;" class="tableitem">Hora</td>
                 <td colspan="1" class="tableitem">{{substr($partida[0]['dataHora'], 10)}}</td>
             </tr>

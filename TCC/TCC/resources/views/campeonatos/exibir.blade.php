@@ -25,8 +25,8 @@
 						<br>
 						<label class="form-label">Times Participantes: </label> {{$campeonato[0]['numeroTimes']}}
 						<br>
-						<label class="form-label">Perído:</label> {{$campeonato[0]['dataInicio']}}
-						<label> a </label> {{$campeonato[0]['dataFim']}}
+						<label class="form-label">Período:</label> {{date( 'd/m/Y' , strtotime($campeonato[0]['dataInicio']))}}
+						<label> a </label> {{date( 'd/m/Y' , strtotime($campeonato[0]['dataFim']))}}
 					</div>
 				</div>
 			</div>

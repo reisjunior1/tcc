@@ -67,7 +67,7 @@
                         <tr style="width:150px">
                             <th style="width:80px" scope="row">{{$partida['timeCasa']}}</th>
                             <td style="width:80px">{{$partida['timeVisitante']}}</td>
-                            <td style="width:100px">{{$partida['dataHora']}}</td>
+                            <td style="width:100px">{{date( 'd/m/Y H:i' , strtotime($partida['dataHora']))}}</td>
                             <td style="width:120px">{{$partida['endereco']}}</td>
                             <td style="width:80px">{{$status}}</td>
                             <td style="width:80px">{{$golsTimeCasa . ' x '. $golsTimeVisitante}}</td>
