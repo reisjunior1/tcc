@@ -83,6 +83,12 @@
                                             }}">
                                                 <button class="btn btn-primary btn-size-160">Editar</button>
                                             </a>
+                                        @else
+                                        <a href="{{
+                                                route("campeonato.geraPDF", ['idPartida' => $partida['id']])
+                                            }}" target="_blank">
+                                                <button class="btn btn-danger btn-size-160">Gerar PDF</button>
+                                            </a>
                                         @endif
                                         
                                         <a href="{{$href}}">

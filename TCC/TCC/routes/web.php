@@ -140,6 +140,9 @@ Route::get('/campeonato/{idPartida}/editarResultado/', CAMPEONATOS_CONTROLLER.'@
 Route::get('/campeonato/validaAlterarResultado/', CAMPEONATOS_CONTROLLER.'@validaAlterarResultado')
     ->name("campeonato.validaAlterarResultado");
 
+Route::get('/campeonato/geraSumulaPdf/{idPartida}', CAMPEONATOS_CONTROLLER.'@geraSumulaPdf')
+    ->name("campeonato.geraPDF");
+
 Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Login

@@ -78,11 +78,12 @@ class partida extends Model
         return partida::select('partidas.id', 'id_campeonato', 'time1.id as idTimeCasa',
             'time1.nome as timeCasa', 'time2.id as idTimeVisitante',
             'time2.nome as timeVisitante','local.endereco', 'dataHora','status',
-            'gols_time_casa', 'gols_time_visitante'
+            'gols_time_casa', 'gols_time_visitante', 'campeonatos.nome'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
         ->join('local', 'local.id', '=', 'partidas.id_local')
+        ->join('campeonatos', 'campeonatos.id', 'partidas.id_campeonato')
         ->where('partidas.id', '=', $idPartida)
         ->get()->toArray();
     }

@@ -22,6 +22,9 @@ use App\Rules\ValidaHora;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Auth;
+//use Dompdf\Dompdf;
+//use Dompdf\Options;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CampeonatosController extends Controller
 {
@@ -237,10 +240,11 @@ class CampeonatosController extends Controller
 
         $modelTime = new time();
         $todosTimes = $modelTime->sltTimes();
-
         $modelTimesParticipantes = new timesParticipantes();
         $participantes = $modelTimesParticipantes->lstTimesParticipantes($idCampeonato);
 
+        empty($todosTimes) ? $times = [] : null;
+        
         foreach ($todosTimes as $time) {
             if (!in_array($time, $participantes)) {
                 $times[] = $time;
@@ -693,5 +697,26 @@ class CampeonatosController extends Controller
         $minuto = substr($stringHora, 3, 2);
         $segundo = substr($stringHora, 6, 2);
         return Carbon::create($ano, $mes, $dia, $hora, $minuto, $segundo, -2);
+    }
+
+    public function geraSumulaPdf($idPartida)
+    {
+        /*$options = new Options();
+        $options->setChroot(__DIR__);
+        $domPdf = new Dompdf($options);
+        $domPdf->loadHtmlFile(__DIR__.'/sumula.html');
+        $domPdf->render();
+        header("Content-type:application/pdf");
+        $domPdf->stream();*/
+
+        $modelPartida = new partida();
+        $partida =  $modelPartida->lstDadosPartidaPorIdPartida($idPartida);
+
+        $modelSumula = new sumula();
+        $dadosSumula = $modelSumula->lstEventosPorPartida($idPartida);
+        //dd($dadosSumula);
+        //dd($partida);
+        $pdf = PDF::loadView('campeonatos.sumulaPDF', compact('partida', 'dadosSumula'));
+        return $pdf->setPaper('A4')->stream('sumula.pdf');
     }
 }

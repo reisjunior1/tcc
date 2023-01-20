@@ -35,8 +35,10 @@ class sumula extends Model
 
     public function lstEventosPorPartida($idPartida)
     {
-        return sumula::select('sumula.id as idAcao', 'id_partida', 'id_acao', 'acao.descricao', 'id_time', 'minutos')
+        return sumula::select('sumula.id as idAcao', 'id_partida', 'id_acao', 'acao.descricao',
+            'id_time', 'minutos', 'times.nome as time')
         ->join('acao', 'acao.id', '=', 'sumula.id_acao')
+        ->join('times', 'times.id', '=', 'sumula.id_time')
         ->where('id_partida', '=', $idPartida)
         ->get()->toArray();
     }
