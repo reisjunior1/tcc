@@ -555,14 +555,15 @@ class CampeonatosController extends Controller
 
     public function validaEncerrarPartida(Request $request)
     {
-        $count = ((count($request->query())) - 4) / 3;
+        $count = count($request->query());
+        $qtdAcoes = (($count - 4) / 3);
 
         $modelSumula = new sumula();
 
         $golsTimeCasa = 0;
         $golsTimeVisitante = 0;
 
-        for($i=0; $i<$count; $i++){
+        for($i=0; $i<$qtdAcoes; $i++){
             $modelSumula->insAcao(
                 $request['hdPartida'],
                 $request['slAcao'.$i],
