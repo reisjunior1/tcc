@@ -161,6 +161,7 @@ class CampeonatosController extends Controller
                 $numeroPartidas = $numeroPartidasCasa + $numeroPartidasVisitante;
 
                 $tabela[$time['id']] = [
+                    'time' => $time['id'],
                     'pontos' => $vitorias * 3 + $empates,
                     'partidas' => $numeroPartidas,
                     'vitorias' => $vitorias,
@@ -169,7 +170,8 @@ class CampeonatosController extends Controller
                 ];
             }
         }
-
+        array_multisort(array_column($tabela, "pontos"), SORT_DESC, $tabela);
+        $arrayTimes = array_column($times, 'nome', 'id');
         $modelPartida = new partida();
         $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
         $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
@@ -182,7 +184,8 @@ class CampeonatosController extends Controller
                 'numeroTimes',
                 'tabela',
                 'ultimasPartidas',
-                'proximasPartidas'
+                'proximasPartidas',
+                'arrayTimes'
             )
         );
     }

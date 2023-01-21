@@ -6,6 +6,7 @@
 		$disabled = ($numeroTimes[0]['total']) >= $campeonato[0]['numeroTimes'] ? "disabled" : null;
 	?>
 	<title>Visualizar Campeonato</title>
+	<script type="text/javascript" src="https://kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 	</head>
 	<body>
 		<div class="text-left mt-3 mb-4">
@@ -155,12 +156,12 @@
 						?>
 						@for($i = 0; $i < $aux; $i++)
 							<tr>
-								<th scope="row">{{$times[$i]['nome']}}</th>
-								<td> {{$tabela[$times[$i]['id']]['pontos']}} </td>
-								<td> {{$tabela[$times[$i]['id']]['partidas']}} </td>
-								<td> {{$tabela[$times[$i]['id']]['vitorias']}} </td>
-								<td> {{$tabela[$times[$i]['id']]['empates']}} </td>
-								<td> {{$tabela[$times[$i]['id']]['derrotas']}} </td>
+								<th scope="row">{{$arrayTimes[$tabela[$i]['time']]}}</th>
+								<td> {{$tabela[$i]['pontos']}} </td>
+								<td> {{$tabela[$i]['partidas']}} </td>
+								<td> {{$tabela[$i]['vitorias']}} </td>
+								<td> {{$tabela[$i]['empates']}} </td>
+								<td> {{$tabela[$i]['derrotas']}} </td>
 							</tr>
 						@endfor
 						@if($i < count($times))
@@ -183,12 +184,12 @@
 						<tbody class="hide" style="display: none">
 							@for($i = $aux; $i < count($times); $i++)
 								<tr>
-									<th scope="row">{{$times[$i]['nome']}}</th>
-									<td> {{$tabela[$times[$i]['id']]['pontos']}} </td>
-									<td> {{$tabela[$times[$i]['id']]['partidas']}} </td>
-									<td> {{$tabela[$times[$i]['id']]['vitorias']}} </td>
-									<td> {{$tabela[$times[$i]['id']]['empates']}} </td>
-									<td> {{$tabela[$times[$i]['id']]['derrotas']}} </td>
+									<th scope="row">{{$arrayTimes[$tabela[$i]['time']]}}</th>
+									<td> {{$tabela[$i]['pontos']}} </td>
+									<td> {{$tabela[$i]['partidas']}} </td>
+									<td> {{$tabela[$i]['vitorias']}} </td>
+									<td> {{$tabela[$i]['empates']}} </td>
+									<td> {{$tabela[$i]['derrotas']}} </td>
 								</tr>
 							@endfor
 								<tr class="verMenos">
