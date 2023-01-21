@@ -18,6 +18,8 @@ use App\Models\local;
 use App\Models\partida;
 use App\Models\acao;
 use App\Models\sumula;
+use App\Models\Grupos;
+use App\Models\TimeParticipaGrupo;
 use App\Rules\ValidaHora;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
@@ -144,7 +146,7 @@ class CampeonatosController extends Controller
         $arrayId = array_column($times, 'id');
         $modelPartida = new partida();
 
-        $tabela = null;
+        $tabela = $arrayTimes = $grupos = null;
         if ($campeonato[0]['formato'] == 'PC') {
             foreach ($times as $time) {
                 $vitoriasEmCasa = $modelPartida->lstVitorias($time, $campeonato[0]['id']);
@@ -169,9 +171,15 @@ class CampeonatosController extends Controller
                     'derrotas' => $numeroPartidas - ($vitorias + $empates)
                 ];
             }
+            array_multisort(array_column($tabela, "pontos"), SORT_DESC, $tabela);
+            $arrayTimes = array_column($times, 'nome', 'id');
         }
-        array_multisort(array_column($tabela, "pontos"), SORT_DESC, $tabela);
-        $arrayTimes = array_column($times, 'nome', 'id');
+
+        if ($campeonato[0]['formato'] == 'CP') {
+            $modelGrupos = new Grupos();
+            $grupos = $modelGrupos->lstGruposPorIdCampeonato($id);
+
+        }
         $modelPartida = new partida();
         $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
         $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
@@ -185,7 +193,8 @@ class CampeonatosController extends Controller
                 'tabela',
                 'ultimasPartidas',
                 'proximasPartidas',
-                'arrayTimes'
+                'arrayTimes',
+                'grupos'
             )
         );
     }
@@ -255,6 +264,101 @@ class CampeonatosController extends Controller
         }
 
         return view('campeonatos/adicionarTime', compact('campeonato', 'times'));
+    }
+
+    public function criarGrupo($idCampeonato)
+    {
+        return view('campeonatos/criarGrupo', compact('idCampeonato'));
+    }
+
+    public function salvarGrupo(Request $request, $idCampeonato)
+    {
+        $modelGrupos = new Grupos();
+        $modelGrupos->inGrupo($request->inNome, $idCampeonato, $request->inNumeroTimes);
+
+        session()->flash(
+            'mensagem',
+            "Grupo criado com sucesso!"
+        );
+        return redirect("campeonato/$request->hdCampeonato");
+    }
+
+    public function verGrupo($idGrupo)
+    {
+        $modelGrupo = new Grupos();
+        $grupos = $modelGrupo->lstDadosGrupo($idGrupo);
+
+        $modelTimeParticipaGrupo = new TimeParticipaGrupo();
+        $times =  $modelTimeParticipaGrupo->lstTimesPorGrupo($idGrupo);
+
+        $numeroTimes = $modelTimeParticipaGrupo->lstQtdTimesParticipantes($idGrupo);
+        return view('campeonatos/verGrupo', compact('idGrupo', 'grupos', 'times', 'numeroTimes'));
+    }
+
+    public function apagarGrupo(Request $request)
+    {
+        $modelGrupo = new Grupos();
+        $modelGrupo->delGrupo($request->hdIdGrupo);
+
+        session()->flash('mensagem', 'Time excluido do grupo com sucesso!');
+            return redirect("campeonato/$request->hdCampeonato");
+    }
+
+    public function apagaTimeGrupo(Request $request)
+    {
+        //dd($request);
+        $modelTimeParticipaGrupo = new TimeParticipaGrupo();
+        $modelTimeParticipaGrupo->delTimeGrupo($request->slTime, $request->hdGrupo);
+
+        session()->flash('mensagem', 'Time excluido do grupo com sucesso!');
+            return redirect("campeonato/$request->hdCampeonato");
+    }
+
+    public function adicionarTimeGrupo($idGrupo)
+    {
+        $modelGrupo = new Grupos();
+        $grupo =  $modelGrupo->lstDadosGrupo($idGrupo);
+        
+        $campeonato = $grupo[0]['id_campeonato'];
+        
+        $modelTimesParticipantes = new timesParticipantes();
+        $todosTimes = $modelTimesParticipantes->lstTimesParticipantes($campeonato);
+
+        $modelTimesParticipaGrupo = new TimeParticipaGrupo();
+        $arrayTimesParticipantes = $modelTimesParticipaGrupo->lstTimesPorGrupo($idGrupo);
+        $participantes = array_column($arrayTimesParticipantes, 'id_time');
+
+        empty($todosTimes) ? $times = [] : null;
+        
+        foreach ($todosTimes as $time) {
+            if (!in_array($time['id'], $participantes)) {
+                $times[] = $time;
+            }
+        }
+        //dd($todosTimes, $participantes);
+        return view('campeonatos/adicionarTimeGrupo', compact('grupo', 'times'));
+    }
+
+    public function validaSalvaTimeGrupo(Request $request)
+    {
+        $idGrupo = $request->hdGrupo;
+        $idTime = $request->slTime;
+        //dd($idGrupo, $idTime);
+        if ($idTime == 0) {
+            session()->flash(
+                'mensagem',
+                "Selecione um time!"
+            );
+            return redirect()->route('campeonato.adicionarTimeGrupo', ['idGrupo' => $idGrupo]);
+        }
+        $modelTimeParticipaGrupo = new TimeParticipaGrupo();
+        $modelTimeParticipaGrupo->inTime($idGrupo, $idTime);
+
+        session()->flash(
+            'mensagem',
+            "Time adicionado com sucesso!"
+        );
+        return redirect()->route('campeonato.adicionarTimeGrupo', ['idGrupo' => $idGrupo]);
     }
 
     public function buscaJogadores(Request $request)

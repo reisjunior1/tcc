@@ -42,6 +42,17 @@
 					<button type="button " class="btn btn-success" <?php echo $disabled ?>>Adicionar Time</button>
 				</a>
 			</div>
+
+			@if ($campeonato[0]['formato'] === 'CP')
+				<div class="text-center mt-3 mb-4">
+					<a
+						style= "<?php echo $style ?>"
+						href="{{ route("campeonato.criarGrupo", ['idCampeonato' => $campeonato[0]['id']]) }}"
+					>
+						<button type="button " class="btn btn-success" <?php echo $disabled ?>>Criar Grupo</button>
+					</a>
+				</div>
+			@endif
 		@endif
 
 		<!-- Tabela que exibe os times participantes -->
@@ -206,6 +217,40 @@
 									</td>
 								</tr>
 						</tbody>
+					</tbody>
+				</table>
+			@endif
+		</div>
+
+		<!-- Grupos -->
+		<div class = "col-10 m-auto" style="overflow-x:auto;">
+			@if(!empty($grupos))
+				<table class="table text-center">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Nome</th>
+							<th scope="col">Qtde Times</th>
+							<th scope="col">Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($grupos as $grupo)
+							<tr>
+								<th scope="row">{{$grupo['nome']}}</th>
+								<td>{{$grupo['numeroTimes']}}</td>
+								<td>
+									<a href="{{route("campeonato.verGrupo", ['idGrupo' => $grupo['id']])}}">
+                                        <button class="btn btn-primary btn-size-120">Ver Mais</button>
+                                    </a>
+									<form id="submit-form" action={{route("campeonato.apagarGrupo")}} method='PUT' class="hidden">
+											@csrf
+											@method('PUT')
+											<input type="hidden" id="hdIdGrupo" name="hdIdGrupo" value="{{$grupo['id']}}">
+											<button type="submit" class="btn btn-danger btn-size-90">Deletar</button>
+									</form>
+								</td>
+							</tr>
+						@endforeach
 					</tbody>
 				</table>
 			@endif

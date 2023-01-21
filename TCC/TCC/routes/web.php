@@ -143,6 +143,28 @@ Route::get('/campeonato/validaAlterarResultado/', CAMPEONATOS_CONTROLLER.'@valid
 Route::get('/campeonato/geraSumulaPdf/{idPartida}', CAMPEONATOS_CONTROLLER.'@geraSumulaPdf')
     ->name("campeonato.geraPDF");
 
+Route::get('/campeonato/criarGrupo/{idCampeonato}', CAMPEONATOS_CONTROLLER.'@criarGrupo')
+    ->name("campeonato.criarGrupo");
+
+
+Route::get('/campeonato/salvarGrupo/{idCampeonato}', CAMPEONATOS_CONTROLLER.'@salvarGrupo')
+    ->name("campeonato.salvarGrupo");
+
+Route::get('/campeonato/verGrupo/{idGrupo}', CAMPEONATOS_CONTROLLER.'@verGrupo')
+    ->name("campeonato.verGrupo");
+
+Route::get('/campeonato/{idGrupo}/adicionarTimeGrupo/', CAMPEONATOS_CONTROLLER.'@adicionarTimeGrupo')
+    ->name("campeonato.adicionarTimeGrupo");
+
+Route::get('/campeonato/validaSalvaTimeGrupo/', CAMPEONATOS_CONTROLLER.'@validaSalvaTimeGrupo')
+->name("campeonato.validaSalvaTimeGrupo");
+
+Route::get('/campeonato/apagaTimeGrupo/', CAMPEONATOS_CONTROLLER.'@apagaTimeGrupo')
+->name("campeonato.apagaTimeGrupo");
+
+Route::get('/campeonato/apagarGrupo/', CAMPEONATOS_CONTROLLER.'@apagarGrupo')
+->name("campeonato.apagarGrupo");
+
 Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Login

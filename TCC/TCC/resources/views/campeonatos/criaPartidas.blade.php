@@ -29,7 +29,7 @@
             @if(isset($partida))
                 <form
                     method = "PUT"
-                    action="{{ route("campeonato.editaPartida", ['idPartida' => $partida[0]['id']]) }}" name="formBusca"
+                    action="{{ route("campeonato.editaPartida", ['idCampeonato' => $idCampeonato]) }}" name="formBusca"
                     placeholder="Filtrar por"
                 >
             @else
