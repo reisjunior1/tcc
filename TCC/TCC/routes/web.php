@@ -165,6 +165,12 @@ Route::get('/campeonato/apagaTimeGrupo/', CAMPEONATOS_CONTROLLER.'@apagaTimeGrup
 Route::get('/campeonato/apagarGrupo/', CAMPEONATOS_CONTROLLER.'@apagarGrupo')
 ->name("campeonato.apagarGrupo");
 
+Route::get('/campeonato/chave/', 'App\Http\Controllers\MataMataController@verCampeonato')
+    ->name("campeonato.chave");
+
+Route::get('/campeonato/proximaEtapa/', 'App\Http\Controllers\MataMataController@proximaEtapa')
+    ->name("campeonato.proximaEtapa");
+
 Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Login

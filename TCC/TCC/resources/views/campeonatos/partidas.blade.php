@@ -25,8 +25,28 @@
             @endif
 
             @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
-                <a href="{{route("campeonato.criarPartida", ['idCampeonato' => $idCampeonato])}}">
-                    <button class="btn btn-success">Adicionar Partida</button>
+                <?php
+                    if ($formato == 'MM' and $numeroPartidas == ($numeroTimes/2)) {
+                        $style = "pointer-events: none";
+                        $disabled = "disabled";
+                    } else {
+                        $style = null;
+                        $disabled = null;
+                    }
+                ?>
+                <a
+                    style= "<?php echo $style ?>"
+                    href="{{route("campeonato.criarPartida", ['idCampeonato' => $idCampeonato])}}"
+                >
+                    <button class="btn btn-success" <?php echo $disabled ?>>Adicionar Partida</button>
+                </a>
+            @endif
+        </div>
+        
+        <div class="text-center">
+            @if ($formato == 'MM')
+                <a href="{{route("campeonato.proximaEtapa")}}">
+                    <button class="btn btn-success">Próxima Etapa</button>
                 </a>
             @endif
         </div>

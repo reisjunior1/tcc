@@ -21,7 +21,7 @@
 
 					<label for="slAcao{{$i}}" class="form-label">Ação:</label>
 					<select name="slAcao{{$i}}"  id="slAcao{{$i}}" class="form-select">
-						<option selected>Selecione...</option>
+						<option selected value=0>Selecione...</option>
 						@foreach($acoes as $acao)
 							<option value= {{$acao['id']}}>{{$acao['descricao']}}</option>
 						@endforeach
@@ -29,7 +29,7 @@
 
 					<label for="slTime{{$i}}" class="form-label">Time:</label>
 					<select name="slTime{{$i}}"  id="slTime{{$i}}" class="form-select">
-						<option selected>Selecione...</option>
+						<option selected value=0>Selecione...</option>
 						@foreach($times as $time)
 							<option value= {{$time['id']}}>{{$time['nome']}}</option>
 						@endforeach

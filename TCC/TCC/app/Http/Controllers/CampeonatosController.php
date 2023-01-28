@@ -515,7 +515,22 @@ class CampeonatosController extends Controller
     {
         $modelPartida = new partida();
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
-        return view('campeonatos.partidas', compact('idCampeonato', 'partidas'));
+
+        $modelCampeonato = new campeonato();
+        $dados = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
+        $formato = $dados[0]->formato;
+        $numeroTimes = $dados[0]->numeroTimes;
+
+        $numeroPartidas = null;
+        if ($formato == 'MM') {
+            $numeroPartidas = sizeof($partidas);
+        }
+
+        //dd($formato, $numeroPartidas, $dados);
+        return view(
+            'campeonatos.partidas',
+            compact('idCampeonato', 'partidas', 'formato', 'numeroTimes', 'numeroPartidas')
+        );
     }
 
     public function criarPartida($idCampeonato)
@@ -525,8 +540,11 @@ class CampeonatosController extends Controller
         
         $modelLocal = new local();
         $locais = $modelLocal->lstLocais();
-        
-        return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais'));
+
+        $modelCampeonato = new campeonato();
+        $dados = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
+        $formato = ($dados[0]->formato);
+        return view('campeonatos.criaPartidas', compact('idCampeonato', 'times', 'locais', 'formato'));
     }
 
     public function editarPartida($idPartida)
@@ -552,7 +570,7 @@ class CampeonatosController extends Controller
 
     public function salvaPartida(PartidasRequest $request)
     {
-        
+        //dd($request);
         $idCampeonato = $request['hdIdCampeonato'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
         $dados['slTimeVizitante'] = $request['slTimeVizitante'];
@@ -575,12 +593,15 @@ class CampeonatosController extends Controller
 
             $modelPartida = new partida();
 
+            $etapa = $request->hdFormato == 'MM' ? 1 : null;
+
             $modelPartida->insPartida(
                 $request['hdIdCampeonato'],
                 $request['slTimeCasa'],
                 $request['slTimeVizitante'],
                 $request['slLocal'],
-                $dataHora
+                $dataHora,
+                $etapa
             );
 
             return Redirect("campeonato/$idCampeonato/partidas");
@@ -603,7 +624,6 @@ class CampeonatosController extends Controller
 
     public function editaPartida(PartidasRequest $request, $idPartida)
     {
-
         $idCampeonato = $request['hdIdCampeonato'];
         $idCampeonato = $request['hdIdCampeonato'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
@@ -670,7 +690,11 @@ class CampeonatosController extends Controller
         $golsTimeCasa = 0;
         $golsTimeVisitante = 0;
 
-        for($i=0; $i<$qtdAcoes; $i++){
+        for ($i=0; $i<$qtdAcoes; $i++) {
+            if ($request['slAcao'.$i] == 0 || $request['slTime'.$i] == 0 || is_null($request['inTempo'.$i])) {
+                session()->flash('mensagem', "Dados inválidos!");
+                return redirect()->route('campeonato.encerraPartida', ['idPartida' => $request['hdPartida']]);
+            }
             $modelSumula->insAcao(
                 $request['hdPartida'],
                 $request['slAcao'.$i],
@@ -698,7 +722,11 @@ class CampeonatosController extends Controller
 
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
         
-        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+        $modelCampeonato = new campeonato();
+        $dados = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
+        $formato = ($dados[0]->formato);
+        return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
+        //return view('campeonatos.partidas', compact('idCampeonato','partidas', 'formato'));
     }
 
     public function detalhesPartida($idPartida)
@@ -792,8 +820,8 @@ class CampeonatosController extends Controller
         $idCampeonato = intval($campeonato[0]);
 
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
-        
-        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+        return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
+        //return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 
     public function trataDataHora($stringData, $stringHora)
@@ -826,5 +854,10 @@ class CampeonatosController extends Controller
         //dd($partida);
         $pdf = PDF::loadView('campeonatos.sumulaPDF', compact('partida', 'dadosSumula'));
         return $pdf->setPaper('A4')->stream('sumula.pdf');
+    }
+
+    public function chave()
+    {
+        return view('campeonatos.chaveamento');
     }
 }

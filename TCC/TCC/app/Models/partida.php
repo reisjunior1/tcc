@@ -11,7 +11,8 @@ class partida extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_campeonato','id_time_casa' ,'id_time_visitante', 'id_local', 'dataHora', 'status'];
+    protected $fillable = ['id_campeonato','id_time_casa' ,
+        'id_time_visitante', 'id_local', 'dataHora', 'status', 'etapa'];
 
     public function partida()
     {
@@ -24,7 +25,7 @@ class partida extends Model
         ->get()->toArray();
     }
 
-    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $dataHora, $status = 0)
+    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $dataHora, $etapa, $status = 0)
     {
         $objPartida = new partida();
         return $objPartida->create([
@@ -33,7 +34,8 @@ class partida extends Model
             'id_time_visitante'=>$timeFora,
             'id_local' => $local,
             'dataHora' => $dataHora,
-            'status' => $status
+            'status' => $status,
+            'etapa' => $etapa
         ]);
     }
 
@@ -41,7 +43,7 @@ class partida extends Model
     {
         return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
             'time2.nome as timeVisitante','local.endereco', 'dataHora','status',
-            'gols_time_casa', 'gols_time_visitante'
+            'gols_time_casa', 'gols_time_visitante', 'partidas.etapa'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
@@ -202,6 +204,41 @@ class partida extends Model
             'partidas.id_time_visitante')
         ->where('id_campeonato', '=', $idCampeonato)
         ->whereRaw('id_time_casa = ? or id_time_visitante = ?', [$idTime, $idTime])
+        ->get()->toArray();
+    }
+
+    public function getMaiorStatus($idCampeonato)
+    {
+        return partida::selectRaw('max(etapa) as etapa')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->get()->toArray();
+    }
+
+    public function lstPartidasPorIdCampeonatoEtapa($idCampeonato, $etapa)
+    {
+        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
+        'time2.nome as timeVisitante', 'status',
+        'gols_time_casa', 'gols_time_visitante', 'partidas.etapa'
+        )
+        ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
+        ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->where('etapa', '=', $etapa)
+        ->orderBy('id')
+        ->get()->toArray();
+    }
+
+    public function lstVencedoresEtapa($idCampeonato, $etapa)
+    {
+        return partida::select('partidas.id', 'id_campeonato', 'time1.id as timeCasa',
+        'time2.id as timeVisitante', 'status',
+        'gols_time_casa', 'gols_time_visitante', 'partidas.etapa'
+        )
+        ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
+        ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
+        ->where('id_campeonato', '=', $idCampeonato)
+        ->where('etapa', '=', $etapa)
+        ->orderBy('id')
         ->get()->toArray();
     }
 }
