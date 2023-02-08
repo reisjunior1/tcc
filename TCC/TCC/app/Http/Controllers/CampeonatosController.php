@@ -146,7 +146,7 @@ class CampeonatosController extends Controller
         $arrayId = array_column($times, 'id');
         $modelPartida = new partida();
 
-        $tabela = $arrayTimes = $grupos = null;
+        $tabela = $arrayTimes = $grupos = $tabelaGrupos = $nomeGrupo = null;
         if ($campeonato[0]['formato'] == 'PC') {
             foreach ($times as $time) {
                 $vitoriasEmCasa = $modelPartida->lstVitorias($time, $campeonato[0]['id']);
@@ -178,11 +178,49 @@ class CampeonatosController extends Controller
         if ($campeonato[0]['formato'] == 'CP') {
             $modelGrupos = new Grupos();
             $grupos = $modelGrupos->lstGruposPorIdCampeonato($id);
+            $arrayGrupo = array_column($grupos, 'id');
+            $nomeGrupo = array_column($grupos, 'nome', 'id');
+            //dd($grupos, $arrayGrupo, $nomeGrupo);
 
+            foreach ($arrayGrupo as $grupo) {
+                $times = null;
+                $tabelaGP = null;
+                $modelTimeParticipaGrupo = new TimeParticipaGrupo();
+                $times = $modelTimeParticipaGrupo->lstTimesPorGrupo($grupo);
+                foreach ($times as $time) {
+                    $vitoriasEmCasa = $modelPartida->lstVitorias($time['id'], $campeonato[0]['id'], true, false, $grupo);
+                    $vitoriasFora = $modelPartida->lstVitorias($time['id'], $campeonato[0]['id'], false, false, $grupo);
+
+                    $empatesEmCasa = $modelPartida->lstVitorias($time['id'], $campeonato[0]['id'], true, true, $grupo);
+                    $empatesFora = $modelPartida->lstVitorias($time['id'], $campeonato[0]['id'], false, true, $grupo);
+                    
+                    $vitorias = $vitoriasEmCasa + $vitoriasFora;
+                    $empates = $empatesEmCasa + $empatesFora;
+
+                    $numeroPartidasCasa = $modelPartida->lstNumeroPartidas($time['id'], $campeonato[0]['id'], true, $grupo);
+                    $numeroPartidasVisitante = $modelPartida->lstNumeroPartidas($time['id'], $campeonato[0]['id'], false, $grupo);
+                    $numeroPartidas = $numeroPartidasCasa + $numeroPartidasVisitante;
+
+                    $tabelaGP[$time['id']] = [
+                        'time' => $time['id'],
+                        'pontos' => $vitorias * 3 + $empates,
+                        'partidas' => $numeroPartidas,
+                        'vitorias' => $vitorias,
+                        'empates' => $empates,
+                        'derrotas' => $numeroPartidas - ($vitorias + $empates)
+                    ];
+                }
+                array_multisort(array_column($tabelaGP, "pontos"), SORT_DESC, $tabelaGP);
+                $tabelaGrupos[$grupo] = $tabelaGP;
+                $arrayTimes[] = array_column($times, 'nome', 'id');
+            }
         }
+        //dd($tabelaGrupos);
+
         $modelPartida = new partida();
         $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
         $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
+
         return view(
             'campeonatos/exibir',
             compact(
@@ -194,7 +232,9 @@ class CampeonatosController extends Controller
                 'ultimasPartidas',
                 'proximasPartidas',
                 'arrayTimes',
-                'grupos'
+                'grupos',
+                'tabelaGrupos',
+                'nomeGrupo'
             )
         );
     }
@@ -515,36 +555,34 @@ class CampeonatosController extends Controller
     {
         $modelPartida = new partida();
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
-
-        $modelCampeonato = new campeonato();
-        $dados = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
-        $formato = $dados[0]->formato;
-        $numeroTimes = $dados[0]->numeroTimes;
-
-        $numeroPartidas = null;
-        if ($formato == 'MM') {
-            $numeroPartidas = sizeof($partidas);
-        }
-
-        //dd($formato, $numeroPartidas, $dados);
-        return view(
-            'campeonatos.partidas',
-            compact('idCampeonato', 'partidas', 'formato', 'numeroTimes', 'numeroPartidas')
-        );
+        return view('campeonatos.partidas', compact('idCampeonato', 'partidas'));
     }
 
-    public function criarPartida($idCampeonato)
+    public function criarPartida($idCampeonato, $grupo = null)
     {
-        $modelTimes = new timesParticipantes();
-        $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
-        
-        $modelLocal = new local();
-        $locais = $modelLocal->lstLocais();
-
         $modelCampeonato = new campeonato();
         $dados = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
         $formato = ($dados[0]->formato);
-        return view('campeonatos.criaPartidas', compact('idCampeonato', 'times', 'locais', 'formato'));
+
+        if ($formato == 'CP' && is_null($grupo)) {
+            $modelGrupo = new Grupos();
+            $grupos = $modelGrupo->lstGruposPorIdCampeonato($idCampeonato);
+            return view('campeonatos.selecionarGrupo', compact('idCampeonato', 'formato', 'grupos'));
+        }
+
+        if ($formato == 'CP') {
+            $modelTimes = new TimeParticipaGrupo();
+            $times = $modelTimes->lstTimesPorGrupo($grupo);
+
+        } else {
+            $modelTimes = new timesParticipantes();
+            $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
+        }
+            
+            $modelLocal = new local();
+            $locais = $modelLocal->lstLocais();
+            
+        return view('campeonatos.criaPartidas', compact('idCampeonato', 'times', 'locais', 'formato', 'grupo'));
     }
 
     public function editarPartida($idPartida)
@@ -570,7 +608,7 @@ class CampeonatosController extends Controller
 
     public function salvaPartida(PartidasRequest $request)
     {
-        //dd($request);
+        
         $idCampeonato = $request['hdIdCampeonato'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
         $dados['slTimeVizitante'] = $request['slTimeVizitante'];
@@ -593,15 +631,14 @@ class CampeonatosController extends Controller
 
             $modelPartida = new partida();
 
-            $etapa = $request->hdFormato == 'MM' ? 1 : null;
-
             $modelPartida->insPartida(
                 $request['hdIdCampeonato'],
                 $request['slTimeCasa'],
                 $request['slTimeVizitante'],
                 $request['slLocal'],
                 $dataHora,
-                $etapa
+                $etapa,
+                $request->hdGrupo
             );
 
             return Redirect("campeonato/$idCampeonato/partidas");
@@ -624,6 +661,7 @@ class CampeonatosController extends Controller
 
     public function editaPartida(PartidasRequest $request, $idPartida)
     {
+
         $idCampeonato = $request['hdIdCampeonato'];
         $idCampeonato = $request['hdIdCampeonato'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
@@ -660,6 +698,14 @@ class CampeonatosController extends Controller
         }
     }
 
+    public function CriaPartidasGrupo(Request $request)
+    {
+        return redirect()->route('campeonato.criarPartida', [
+            'idCampeonato' => $request->hdCampeonato,
+            'idgrupo' => $request->slGrupo
+        ]);
+    }
+
     public function encerraPartida($idPartida)
     {
         $modelAcao = new acao();
@@ -690,11 +736,7 @@ class CampeonatosController extends Controller
         $golsTimeCasa = 0;
         $golsTimeVisitante = 0;
 
-        for ($i=0; $i<$qtdAcoes; $i++) {
-            if ($request['slAcao'.$i] == 0 || $request['slTime'.$i] == 0 || is_null($request['inTempo'.$i])) {
-                session()->flash('mensagem', "Dados inválidos!");
-                return redirect()->route('campeonato.encerraPartida', ['idPartida' => $request['hdPartida']]);
-            }
+        for($i=0; $i<$qtdAcoes; $i++){
             $modelSumula->insAcao(
                 $request['hdPartida'],
                 $request['slAcao'.$i],
@@ -722,11 +764,7 @@ class CampeonatosController extends Controller
 
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
         
-        $modelCampeonato = new campeonato();
-        $dados = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
-        $formato = ($dados[0]->formato);
-        return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
-        //return view('campeonatos.partidas', compact('idCampeonato','partidas', 'formato'));
+        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 
     public function detalhesPartida($idPartida)
@@ -820,8 +858,8 @@ class CampeonatosController extends Controller
         $idCampeonato = intval($campeonato[0]);
 
         $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
-        return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
-        //return view('campeonatos.partidas', compact('idCampeonato','partidas'));
+        
+        return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 
     public function trataDataHora($stringData, $stringHora)
@@ -854,10 +892,5 @@ class CampeonatosController extends Controller
         //dd($partida);
         $pdf = PDF::loadView('campeonatos.sumulaPDF', compact('partida', 'dadosSumula'));
         return $pdf->setPaper('A4')->stream('sumula.pdf');
-    }
-
-    public function chave()
-    {
-        return view('campeonatos.chaveamento');
     }
 }

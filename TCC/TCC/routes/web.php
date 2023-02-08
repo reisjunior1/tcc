@@ -107,7 +107,7 @@ Route::get('/campeonato/apagaTimesCampeonato/', CAMPEONATOS_CONTROLLER.'@apagaTi
 Route::get('/campeonato/{idCampeonato}/partidas/', CAMPEONATOS_CONTROLLER.'@partidas')
     ->name("campeonato.partidas");
 
-Route::get('/campeonato/{idCampeonato}/criarPartida/', CAMPEONATOS_CONTROLLER.'@criarPartida')
+Route::get('/campeonato/{idCampeonato}/criarPartida/{idgrupo?}', CAMPEONATOS_CONTROLLER.'@criarPartida')
     ->name("campeonato.criarPartida");
 
 Route::get('/campeonato/{idCampeonato}/editarPartida/', CAMPEONATOS_CONTROLLER.'@editarPartida')
@@ -164,6 +164,12 @@ Route::get('/campeonato/apagaTimeGrupo/', CAMPEONATOS_CONTROLLER.'@apagaTimeGrup
 
 Route::get('/campeonato/apagarGrupo/', CAMPEONATOS_CONTROLLER.'@apagarGrupo')
 ->name("campeonato.apagarGrupo");
+
+Route::get('/campeonato/{idGrupo}/selecionaGrupo/', CAMPEONATOS_CONTROLLER.'@selecionaGrupo')
+->name("campeonato.selecionaGrupo");
+
+Route::get('/campeonato/CriaPartidasGrupo/', CAMPEONATOS_CONTROLLER.'@CriaPartidasGrupo')
+    ->name("campeonato.CriaPartidasGrupo");
 
 Route::get('/campeonato/chave/', 'App\Http\Controllers\MataMataController@verCampeonato')
     ->name("campeonato.chave");

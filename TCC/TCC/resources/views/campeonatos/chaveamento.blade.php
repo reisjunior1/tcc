@@ -120,27 +120,39 @@ body {
     <div id="wrapper">
         <span class="label">Vencedor</span>
         <div class="branch lv1">
-			@for ($p = 0; $p < $loop; $p++)
 				<div class="entry">
-					<span class="label">{{isset($partidas[3]) ? $partidas[3][0][$aux[$p]] : 'Vencedor'}}</span>
+					<span class="label">{{isset($partidas[3]) ? $partidas[3][0][$aux[0]] : 'Vencedor'}}</span>
 					<div class="branch lv2">
-						@for ($o = 0; $o < $loop; $o++)
-							<div class="entry">
-								<span class="label">{{isset($partidas[2]) ? $partidas[2][$p][$aux[$o]] : 'Vencedor'}}</span>
-								<div class="branch lv3">
-									@for ($r = 0; $r < $loop; $r++)
-										<div class="entry">
-											<span class="label">{{isset($partidas[1]) ? $partidas[1][$i][$aux[$r]] : 'Vencedor'}}</span>
-										</div>
-									@endfor
+						<div class="entry">
+							<span class="label">{{isset($partidas[2]) ? $partidas[2][0][$aux[0]] : 'Vencedor'}}</span>
+							<div class="branch lv3">
+								<div class="entry">
+									<span class="label">{{isset($partidas[1]) ? $partidas[1][$i][$aux[0]] : 'Vencedor'}}</span>
 								</div>
-								<?php $i++ ?>
+								<div class="entry">
+									<span class="label">{{isset($partidas[1]) ? $partidas[1][$i][$aux[1]] : 'Vencedor'}}</span>
+								</div>
 							</div>
-						@endfor
+						<div class="entry">
+							<span class="label">{{isset($partidas[2]) ? $partidas[2][1][$aux[1]] : 'Vencedor'}}</span>
+						</div>
 					</div>
 				</div>
-			@endfor
+				<div class="entry">
+					<span class="label">{{isset($partidas[3]) ? $partidas[3][0][$aux[1]] : 'Vencedor'}}</span>
         </div>
     </div>
+
+    <div id="wrapper">
+      <span class="label">Vencedor</span>
+        <div class="branch lv1">
+        @for ($r = 0; $r < $loop; $r++)
+					<div class="entry">
+						<span class="label">{{isset($partidas[1]) ? $partidas[1][0][$aux[0]] : 'Vencedor'}}</span>
+					</div>
+				@endfor
+            </div>
+        </div>
+    </div>    
 </body>
 </html>

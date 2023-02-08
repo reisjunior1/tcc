@@ -222,6 +222,41 @@
 			@endif
 		</div>
 
+		<!-- Tabela Classificacao Grupos -->
+		@foreach ($tabelaGrupos as $id => $grupo)
+		<?php
+			$aux = count($grupo);
+			$k = 0;
+		?>
+		<div class = "col-10 m-auto" style="overflow-x:auto;">
+			<h4 class="text-center">Grupo {{$nomeGrupo[$id]}}</h4>
+				<table class="table text-center">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Time</th>
+							<th scope="col">Pontos</th>
+							<th scope="col">Partidas</th>
+							<th scope="col">Vitorias</th>
+							<th scope="col">Empates</th>
+							<th scope="col">Derrotas</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ($k = 0; $k < $aux; $k++)
+						<tr>
+							<th scope="row">{{$arrayTimes[0][$grupo[$k]['time']]}}</th>
+							<td> {{$grupo[$k]['pontos']}} </td>
+							<td> {{$grupo[$k]['partidas']}} </td>
+							<td> {{$grupo[$k]['vitorias']}} </td>
+							<td> {{$grupo[$k]['empates']}} </td>
+							<td> {{$grupo[$k]['derrotas']}} </td>
+						</tr>
+						@endfor
+					</tbody>
+				</table>
+		</div>
+		@endforeach
+
 		<!-- Grupos -->
 		<div class = "col-10 m-auto" style="overflow-x:auto;">
 			@if(!empty($grupos))

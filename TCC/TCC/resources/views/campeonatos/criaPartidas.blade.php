@@ -47,7 +47,7 @@
 
                             <div class="col-6 mx-auto">
                                 <label for="slTimeCasa" class="form-label">Selecione o Time mandante*</label>
-                                <select name="slTimeCasa"  id="slTimeCasa" class="form-select" value="0">
+                                <select name="slTimeCasa"  id="slTimeCasa" class="form-select">
                                     <option selected>Selecione...</option>
                                     @foreach($times as $time)
                                     <option
@@ -64,7 +64,7 @@
 
                             <div class="col-6 mx-auto">
                                 <label for="slTimeVizitante" class="form-label">Selecione o Time visitante*</label>
-                                <select name="slTimeVizitante"  id="slTimeVizitante" class="form-select" value="0">
+                                <select name="slTimeVizitante"  id="slTimeVizitante" class="form-select">
                                     <option selected>Selecione...</option>
                                 @foreach($times as $time)
                                     <option value= {{
@@ -118,6 +118,8 @@
                     
                             <input type="hidden" id="hdIdCampeonato" name="hdIdCampeonato" value={{$idCampeonato}}>
                             <input type="hidden" id="hdFormato" name="hdFormato" value={{$formato}}>
+                            <input type="hidden" id="hdGrupo" name="hdGrupo" value={{$grupo}}>
+
                             
                             <div input-group class="my-auto mx-auto">
                                 <?php $botao = 'Cadastrar'; ?>
