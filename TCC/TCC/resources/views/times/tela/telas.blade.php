@@ -32,13 +32,13 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('local.cadastrar') }}">local</a>
+            <a class="nav-link" href="{{ route('local.index') }}">local</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"   href="{{ route('time.index') }}" >  Times</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"  href="{{ route('jogadors') }}"  > Jogador</a>
+            <a class="nav-link"  href="{{ route('jogador.index') }}"  > Jogador</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"  href="{{ route('campeonato.index') }}"> Campeonato</a>

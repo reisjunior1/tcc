@@ -31,7 +31,7 @@ class time extends Model
 
     public function lstTimes($arrayTimes)
     {
-        return time::select('id', 'nome')
+        return time::select('id', 'nome', 'Eexcluido')
             ->whereIn('id', $arrayTimes)
             ->get()->toArray();
     }

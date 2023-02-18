@@ -9,11 +9,15 @@ class local extends Model
 {
     use HasFactory;
 
+    protected $table = "local";
     protected $fillable = [
-    'Endereço',
-    'Bairro',
-    'Cidadede',
-    'CEP'
+        'nome',
+        'endereco',
+        'bairro',
+        'numero',
+        'cidade',
+        'cep',
+        'Eexcluido'
     ];
 
     public function local()
@@ -23,8 +27,16 @@ class local extends Model
 
     public function lstLocais()
     {
-        return local::select('id', 'endereco')
+        return local::select('id', 'nome', 'endereco', 'eExcluido')
             ->from('local')
+            ->orderby('nome')
+            ->get()->toArray();
+    }
+
+    public function lstLocalPorid($idLocal)
+    {
+        return local::from('local')
+            ->where('id', '=', $idLocal)
             ->get()->toArray();
     }
 

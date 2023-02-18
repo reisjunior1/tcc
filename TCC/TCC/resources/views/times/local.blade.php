@@ -5,30 +5,91 @@
 </head>
 <body>
 
+	@if(isset($errors) && count($errors)>0)
+		<div class="alert alert-danger text-center mt-4 mb-4 p-2">
+			@foreach($errors->all() as $erro)
+				{{$erro}}<br>
+			@endforeach
+		</div>
+	@endif
 	<div class="text-left mt-3 mb-4" >
 		<div class="col-8 m-auto">
+			{{var_dump($local, $id)}}
+			@if(isset($id))
+			<form class="row g-3"  method="put"  action="{{ route("local.edita", ['id' => $id]) }}">
+			@else
+				<form class="row g-3"  method="post"  action="{{route("local.salva")}}"  >
+			@endif
 
-		<form class="row g-3"  method="put"  action={(route("time.local"))}>
-		<form class="row g-3"  method="post"  action="{{url('local')}}"  >
 			@csrf
-
 				<label for="nome" class="form-label">Nome :</label>
-				<input type="text" class="text45Left form-control" id="inNome" name='inNome'   placeholder="Nome">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inNome"
+					name='inNome'
+					placeholder="Nome"
+					value="{{$local[0]['nome'] ?? ''}}"
+				>
 
 				<label for="cep" class="form-label">CEP:</label>
-				<input type="text" class="text45Left form-control cep" id="incep" placeholder="00000-000">
+				<input
+					type="text"
+					class="text45Left form-control cep"
+					id="inCep" name='inCep'
+					placeholder="00000-000"
+					value="{{$local[0]['cep'] ?? ''}}"
+				>
 
 				<label for="endereco" class="form-label">Endereço:</label>
-				<input type="text" class="text45Left form-control" id="inendereco" placeholder="Rua:..">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inEndereco"
+					name="inEndereco"
+					placeholder="Rua:.."
+					value="{{$local[0]['endereco'] ?? ''}}"
+				>
+
+				<label for="cidade" class="form-label">Numero:</label>
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inNumero"
+					name="inNumero"
+					value="{{$local[0]['numero'] ?? ''}}"
+				>
+
+				<label for="cidade" class="form-label">Bairro:</label>
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inBairro"
+					name="inBairro"
+					value="{{$local[0]['bairro'] ?? ''}}"
+				>
 
 				<label for="complemento" class="form-label">Complemento:</label>
-				<input type="text" class="text45Left form-control" id="incomplemento" placeholder="Apartamento, quadra...">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inComplemento"
+					name="inComplemento"
+					placeholder="Apartamento, quadra..."
+					value={{isset($local[0]['complemento']) ? $local[0]['complemento'] : ''}}
+				>
 
 				<label for="cidade" class="form-label">Cidade:</label>
-				<input type="text" class="text45Left form-control" id="incidade">
+				<input
+					type="text"
+					class="text45Left form-control"
+					id="inCidade"
+					name="inCidade"
+					value="{{$local[0]['cidade'] ?? ''}}"
+					>
 
 				<label for="estado" class="form-label">Estado:</label>
-				<select id="slestado" class="text45Left form-select">
+				<select id="slEstado" name="slEstado" class="text45Left form-select">
 					<option selected>Selecione...</option>
 					<option>MG</option>
 					<option>ES</option>

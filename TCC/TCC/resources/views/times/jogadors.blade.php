@@ -4,12 +4,13 @@
 <title>Jogador</title>
 
 	<div class="text-left mt-3 mb-4">
-		@if(!empty($usuario))
-			<form name="formEdit" id="formEdit" method="post" action="{{url("usuario/$usuario->id")}}">
+		@if(!empty($id))
+			<form name="formEdit" id="formEdit" method="put" action="{{ route("jogador.edita", ['id' => $id]) }}">
 				@method('PUT')
 		@else
-			<form name="formCadastro" id="formCadastro" method="post" action="{{url('cadastrojogador')}}">
+			<form name="formCadastro" id="formCadastro" method="post" action="{{route("jogador.salva")}}">
 		@endif
+		@csrf
 
 	<!-- <form class="row g-3 conterner"  method="post"  action="{{url('cadastrojogador')}}"  > -->
 
@@ -20,8 +21,18 @@
 				class="text45Left form-control"
 				id="inNome"
 				name='inNome'
-				value="{{$usuario->nome ?? ''}}"
+				value="{{$jogador[0]['nome'] ?? ''}}"
 				placeholder="Nome Sobrenome"
+			>
+
+			<label for="nome" class="form-label">Apelido:</label>
+			<input
+				type="text"
+				class="text45Left form-control"
+				id="inApelido"
+				name='inApelido'
+				value="{{$jogador[0]['apelido'] ?? ''}}"
+				placeholder="Apelido"
 			>
 
 			<label for="cpf" class="form-label">CPF:</label>
@@ -30,7 +41,7 @@
 				class="text45Left form-control cpf"
 				id="inCpf"
 				name='inCpf'
-				value="{{$usuario->cpf ?? ''}}"
+				value="{{$jogador[0]['cpf'] ?? ''}}"
 				placeholder="***.***.***-**"
 			>
 
@@ -40,7 +51,7 @@
 				class="text45Left form-control telefone"
 				id="inTelefone"
 				name='inTelefone'
-				value="{{$usuario->telefone ?? ''}}"
+				value="{{$jogador[0]['telefone'] ?? ''}}"
 				placeholder="( ) - ---- ----"
 			>
 
@@ -52,16 +63,6 @@
 				id="inData"
 				value="{{isset($dados['inData']) ? $dados['inData'] : null}}"
 				placeholder="DD/MM/AAAA"
-			>
-
-			<label for="email" class="form-label">Email:</label>
-			<input
-				type="email"
-				class="text45Left form-control"
-				id="inEmail"
-				name='inEmail'
-				value="{{$usuario->email ?? ''}}"
-				placeholder="....@email.com"
 			>
 		</div>
 

@@ -13,65 +13,87 @@ class CadastroLocalController extends Controller
     //
  //
 
- private $objUsuario;
- private $objLocal;
- 
+    private $objUsuario;
+    private $objLocal;
 
- public function __construct()
- {
+    public function __construct()
+    {
      //O erro 
-     $this->objLocal = new local();
-     
- }
- public function index()
- {
-     return view(view:'times.local');
+        $this->objLocal = new local();
+    }
 
- }
+    public function index()
+    {
+        $modelLocal = new local();
+        $locais = $modelLocal->lstLocais();
+        return view('times/listaLocais', compact('locais'));
+    }
 
+    public function cadastrarLocal($idLocal = null)
+    {
+        $modelLocal = new local();
+        $local = $modelLocal->lstLocalPorid($idLocal);
+        $id = null;
+        if (!empty($local)) {
+            $id = $local[0]['id'];
+        }
+        return view('times/local', compact('local', 'id'));
+    }
 
-
-
-
-
-
-public function cadastrarLocal ()
-{
- //var_dump('entrou'); die();
- return view(view:'times.local');
-
-
-}
-
-
-public function store(LocalRequest $request)
-{ //dd($request);
-   // die();
-    $cadastro=$this->objTime->create([
-        'nome'=>$request->innome,
-        'endereco'=>$request->inendereco,
-        'cidade'=>$request->incidade,
-        'bairro'=>$request->inbairro,
-       'complemento'=>$request->incomplemento,
-       'cep'=>$request->incep,
-       'estado'=>$request->slestado
-
-       //'id_usuario'=> $request->
-
-
+    public function store(LocalRequest $request)
+    {
+        $cadastro=$this->objLocal->create([
+            'nome'=>$request->inNome,
+            'endereco'=>$request->inEndereco,
+            'cidade'=>$request->inCidade,
+            'bairro'=>$request->inBairro,
+            //'complemento'=>$request->inComplemento,
+            'numero'=>$request->inNumero,
+            'cep'=>$request->inCep,
+            //'estado'=>$request->slEstado,
+            'Eexcluido'=>0
         ]);
         if($cadastro){
             return redirect('local');
         }
+    }
 
+    public function update(LocalRequest $request, $id)
+    {
+        $this->objLocal->where(['id'=>$id])->update([
+            'nome'=>$request->inNome,
+            'endereco'=>$request->inEndereco,
+            'cidade'=>$request->inCidade,
+            'bairro'=>$request->inBairro,
+            //'complemento'=>$request->inComplemento,
+            'numero'=>$request->inNumero,
+            'cep'=>$request->inCep,
+            //'estado'=>$request->slEstado,
+            'Eexcluido'=>0
+        ]);
+        session()->flash('mensagem', "O local $request->inNome foi editado!");
+        return redirect('local');
+    }
 
-        //$event->save();
-
-}
-
-
-
-
-
+    public function ativarDesativar($idLocal)
+    {
+        $modelLocal = new local();
+        $local = $modelLocal->lstLocalPorid([$idLocal]);
+        //dd($local);
+        $nomeLocal = $local[0]['nome'];
+        if ($local[0]['Eexcluido'] == 0) {
+            $this->objLocal->where(['id'=>$idLocal])->update([
+                'Eexcluido' => 1,
+            ]);
+            session()->flash('mensagem', "O $nomeLocal foi desativado!");
+            return redirect('local');
+        } else {
+            $this->objLocal->where(['id'=>$idLocal])->update([
+                'Eexcluido' => 0,
+            ]);
+            session()->flash('mensagem', "O $nomeLocal foi ativado!");
+            return redirect('local');
+        }
+    }
 
 }

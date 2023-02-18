@@ -51,8 +51,25 @@ Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuario');
 Route::resource('/usuario', 'App\Http\Controllers\CadastroUsuarioController');
 
 //Rotas de Local
-Route::get('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
-Route::post('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')->name("local.cadastrar");
+Route::get('/local', 'App\Http\Controllers\CadastroLocalController@index')
+    ->name("local.index");
+
+Route::get('/local/cadastrar/{idLocal?}', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')
+    ->name("local.cadastrarLocal");
+
+Route::put('/local', 'App\Http\Controllers\CadastroLocalController@cadastrarLocal')
+    ->name("local.cadastrar");
+
+Route::post('/local/salva/', 'App\Http\Controllers\CadastroLocalController@store')
+    ->name("local.salva");
+
+Route::get('/local/edita/{id}', 'App\Http\Controllers\CadastroLocalController@update')
+    ->name("local.edita");
+
+Route::get('/local/{idTime}/ativarDesativar', 'App\Http\Controllers\CadastroLocalController@ativarDesativar')
+    ->name("local.ativarDesativar");
+
+//Route::resource('/local', 'App\Http\Controllers\CadastroLocalController');
 
 //Rotas de Times
 define("TIMES_CONTROLLER", 'App\Http\Controllers\TimeController');
@@ -69,16 +86,46 @@ Route::get('/time/cadastrar', TIMES_CONTROLLER.'@cadastrar')
 Route::post('/time/{idUsuario}/salvar', TIMES_CONTROLLER.'@salvar')
     ->name("time.salvar");
 
+Route::get('/time/{idTime}/ativarDesativar', TIMES_CONTROLLER.'@ativarDesativar')
+    ->name("time.ativarDesativar");
+
+Route::get('/time/{idTime}/adicionaJogador', TIMES_CONTROLLER.'@adicionaJogador')
+    ->name("time.adicionaJogador");
+
+Route::get('/time/{idTime}/validaAdicionarJogador', TIMES_CONTROLLER.'@validaAdicionarJogador')
+    ->name("time.validaAdicionarJogador");
+
+Route::get('/time/{idTime}/removeJogador/{id}', TIMES_CONTROLLER.'@removeJogador')
+    ->name("time.removeJogador");
+
 Route::resource('/time', TIMES_CONTROLLER);
 
 //Rotas Jogador
-Route::get('/jogador', function () {
-    return view(view:'times.jogadors');
-})->name('jogadors');
+Route::get('/jogador', 'App\Http\Controllers\CadastroJagadoresController@index')
+    ->name("jogador.index");
 
-Route::get('/cadastrojogador', 'App\Http\Controllers\CadastroJogadoresController@cadastrarJogar')->name("time.cadastrajogadors");
-Route::post('/cadastrojogadorr', 'App\Http\Controllers\CadastroJagadoresController@salvejogador')->name("time.salvajagadors");
-Route::resource('/cadastrojogador', 'App\Http\Controllers\CadastrojogadoresController');
+Route::get('/jogador/cadastrar/{idJogador?}', 'App\Http\Controllers\CadastroJagadoresController@cadastrar')
+    ->name("jogador.cadastrar");
+
+/*Route::get('/cadastrojogador', 'App\Http\Controllers\CadastroJogadoresController@cadastrarJogar')
+    ->name("time.cadastrajogadors");
+Route::post('/cadastrojogadorr', 'App\Http\Controllers\CadastroJagadoresController@salvejogador')
+    ->name("time.salvajagadors");*/
+//Route::resource('/cadastrojogador', 'App\Http\Controllers\CadastrojogadoresController');
+
+Route::get('/jogador/pesquisar/{pesquisar?}/{recuperarDados?}', 'App\Http\Controllers\CadastroJagadoresController@pesquisar')
+    ->name("jogador.pesquisar");
+
+Route::get('/jogador/{idJogador}/ativarDesativar/{dados?}', 'App\Http\Controllers\CadastroJagadoresController@ativarDesativar')
+    ->name("jogador.ativarDesativar");
+
+Route::post('/jogador/salva/', 'App\Http\Controllers\CadastroJagadoresController@store')
+    ->name("jogador.salva");
+
+Route::get('/jogador/edita/{id}', 'App\Http\Controllers\CadastroJagadoresController@update')
+    ->name("jogador.edita");
+
+//Route::resource('/jogador', 'App\Http\Controllers\CadastroJagadoresController');
 
 //Rotas Modulo Campeonato
 define("CAMPEONATOS_CONTROLLER", 'App\Http\Controllers\CampeonatosController');
