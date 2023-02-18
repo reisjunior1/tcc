@@ -26,7 +26,7 @@
 
             @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
                 <?php
-                    if ($formato == 'MM' and $numeroPartidas == ($numeroTimes/2)) {
+                    if ($formato == 'MM' && $numeroPartidas == ($numeroTimes/2)) {
                         $style = "pointer-events: none";
                         $disabled = "disabled";
                     } else {

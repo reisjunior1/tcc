@@ -44,7 +44,7 @@ class partida extends Model
     {
         return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
             'time2.nome as timeVisitante','local.endereco', 'dataHora','status',
-            'gols_time_casa', 'gols_time_visitante'
+            'gols_time_casa', 'gols_time_visitante', 'status', 'etapa'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
