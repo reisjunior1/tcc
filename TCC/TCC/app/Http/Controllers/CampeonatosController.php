@@ -751,30 +751,32 @@ class CampeonatosController extends Controller
     public function validaEncerrarPartida(Request $request)
     {
         $count = count($request->query());
-        $qtdAcoes = (($count - 4) / 3);
+        //dd($request);
+        $qtdAcoes = (($count - 4) / 4);
 
         $modelSumula = new sumula();
 
         $golsTimeCasa = 0;
         $golsTimeVisitante = 0;
 
-        for($i=0; $i<$qtdAcoes; $i++){
+        for ($i=0; $i<$qtdAcoes; $i++) {
             $modelSumula->insAcao(
                 $request['hdPartida'],
                 $request['slAcao'.$i],
                 $request['slTime'.$i],
+                $request['inNumero'.$i],
                 $request['inTempo'.$i]
             );
             
-            if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeCasa']
+            if ($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeCasa']
             || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeVisitante']
-            ){
+            ) {
                 $golsTimeCasa++;
             }
 
-            if($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeVisitante']
+            if ($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeVisitante']
             || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeCasa']
-            ){
+            ) {
                 $golsTimeVisitante++;
             }
         }
@@ -899,22 +901,65 @@ class CampeonatosController extends Controller
 
     public function geraSumulaPdf($idPartida)
     {
-        /*$options = new Options();
-        $options->setChroot(__DIR__);
-        $domPdf = new Dompdf($options);
-        $domPdf->loadHtmlFile(__DIR__.'/sumula.html');
-        $domPdf->render();
-        header("Content-type:application/pdf");
-        $domPdf->stream();*/
-
         $modelPartida = new partida();
         $partida =  $modelPartida->lstDadosPartidaPorIdPartida($idPartida);
 
         $modelSumula = new sumula();
-        $dadosSumula = $modelSumula->lstEventosPorPartida($idPartida);
-        //dd($dadosSumula);
-        //dd($partida);
-        $pdf = PDF::loadView('campeonatos.sumulaPDF', compact('partida', 'dadosSumula'));
+        $golsCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 1);
+        $golsVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 1);
+
+        $golsContraCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 2);
+        $golsContraVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 2);
+
+        $cartaoVermelhoCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 3);
+        $cartaoVermelhoVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 3);
+
+        $cartaoAmareloCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 4);
+        $cartaoAmareloVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 4);
+
+        if (count($golsCasa) >= count($golsVisitante)) {
+            $gols = count($golsCasa);
+        } else {
+            $gols = count($golsVisitante);
+        }
+
+        if (count($golsContraCasa) >= count($golsContraVisitante)) {
+            $golsContra = count($golsContraCasa);
+        } else {
+            $golsContra = count($golsContraVisitante);
+        }
+
+        if (count($cartaoVermelhoCasa) >= count($cartaoVermelhoVisitante)) {
+            $cartoesVermelhos = count($cartaoVermelhoCasa);
+        } else {
+            $cartoesVermelhos = count($cartaoVermelhoVisitante);
+        }
+
+        if (count($cartaoAmareloCasa) >= count($cartaoAmareloVisitante)) {
+            $cartoesAmarelos = count($cartaoAmareloCasa);
+        } else {
+            $cartoesAmarelos = count($cartaoAmareloVisitante);
+        }
+
+        //dd($gols, $golsCasa, $golsVisitante);
+        $pdf = PDF::loadView(
+            'campeonatos.sumulaPDF',
+            compact(
+                'partida',
+                'gols',
+                'golsContra',
+                'cartoesVermelhos',
+                'cartoesAmarelos',
+                'golsCasa',
+                'golsVisitante',
+                'golsContraCasa',
+                'golsContraVisitante',
+                'cartaoVermelhoCasa',
+                'cartaoVermelhoVisitante',
+                'cartaoAmareloCasa',
+                'cartaoAmareloVisitante'
+            )
+        );
         return $pdf->setPaper('A4')->stream('sumula.pdf');
     }
 }
