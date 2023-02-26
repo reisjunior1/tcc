@@ -171,8 +171,10 @@ class CampeonatosController extends Controller
                     'derrotas' => $numeroPartidas - ($vitorias + $empates)
                 ];
             }
-            array_multisort(array_column($tabela, "pontos"), SORT_DESC, $tabela);
-            $arrayTimes = array_column($times, 'nome', 'id');
+            if (!is_null($tabela)) {
+                array_multisort(array_column($tabela, "pontos"), SORT_DESC, $tabela);
+                $arrayTimes = array_column($times, 'nome', 'id');
+            }
         }
 
         if ($campeonato[0]['formato'] == 'CP') {
@@ -210,9 +212,12 @@ class CampeonatosController extends Controller
                         'derrotas' => $numeroPartidas - ($vitorias + $empates)
                     ];
                 }
-                array_multisort(array_column($tabelaGP, "pontos"), SORT_DESC, $tabelaGP);
-                $tabelaGrupos[$grupo] = $tabelaGP;
-                $arrayTimes[] = array_column($times, 'nome', 'id');
+
+                if (!is_null($tabelaGP)) {
+                    array_multisort(array_column($tabelaGP, "pontos"), SORT_DESC, $tabelaGP);
+                    $tabelaGrupos[$grupo] = $tabelaGP;
+                    $arrayTimes[] = array_column($times, 'nome', 'id');
+                }
             }
         }
         //dd($tabelaGrupos);
@@ -651,7 +656,7 @@ class CampeonatosController extends Controller
                 $modelPartida->lstPartidasPorIdCampeonato($idCampeonato),
                 'etapa'
             );
-            $etapa = max($partidas);
+            $etapa = empty($partidas) ? 0 : max($partidas);
 
             $modelPartida->insPartida(
                 $request['hdIdCampeonato'],
