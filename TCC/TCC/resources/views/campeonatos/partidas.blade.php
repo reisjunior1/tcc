@@ -24,7 +24,7 @@
                 </div>
             @endif
 
-            @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+            @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
                 <?php
                     if ($formato == 'MM' && $numeroPartidas == ($numeroTimes/2)) {
                         $style = "pointer-events: none";
@@ -96,7 +96,7 @@
                                     <a href="{{route("campeonato.detalhesPartida", ['idPartida' => $partida['id']])}}">
                                         <button class="btn btn-success btn-size-160">Detalhes</button>
                                     </a>
-                                    @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+                                    @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
                                         @if($partida['status'] == 0)
                                             <a href="{{
                                                 route("campeonato.editarPartida", ['idCampeonato' => $partida['id']])

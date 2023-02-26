@@ -18,6 +18,8 @@ class CadastroJagadoresController extends Controller
     public function __construct()
     {
         $this->objJogador = new jogador();
+        $this->middleware('auth');
+        $this->middleware(['role:AdminTime|AdminGeral']);
     }
 
     public function index()

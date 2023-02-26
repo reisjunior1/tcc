@@ -33,7 +33,7 @@
 			</div>
 		</div>
 
-		@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+		@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 			<div class="text-center mt-3 mb-4">
 				<a
 					style= "<?php echo $style ?>"
@@ -63,7 +63,7 @@
 						<tr>
 							<th scope="col">Time</th>
 							<th scope="col">Nº de Jogadores</th>
-							@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+							@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 								<th scope="col">Ação</th>
 							@endif
 						</tr>
@@ -73,7 +73,7 @@
 							<tr>
 								<th scope="row">{{$time['nome']}}</th>
 								<td>{{!is_null($numeroJogadores) ? $numeroJogadores[$time['id']] : '0'}}</td>
-								@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+								@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 									<td>
 										<form
 											id="submit-form"

@@ -19,7 +19,7 @@ class TimeController extends Controller
     {
         $this->objTime = new time();
         $this->middleware('auth');
-        $this->middleware(['role:AdminTime']);
+        $this->middleware(['role:AdminTime|AdminGeral']);
         
     }
     public function index()

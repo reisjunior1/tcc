@@ -89,7 +89,7 @@
             </div>
         <div>
 
-        @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+        @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
             <div class="text-center mt-3 mb-4">
                 <a href="{{route('campeonato.cadastrar')}}">
                     <button class="btn btn-success">Cadastrar</button>
@@ -124,7 +124,7 @@
                                     </a>
                                 </div>
                                 
-                                @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+                                @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
                                     <div input-group>
                                         <a href="{{url("campeonato/$campeonato->id/edit")}}">
                                             <button class="btn btn-primary btn-size-120">Editar</button>

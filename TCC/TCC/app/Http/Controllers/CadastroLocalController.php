@@ -18,8 +18,9 @@ class CadastroLocalController extends Controller
 
     public function __construct()
     {
-     //O erro 
         $this->objLocal = new local();
+        $this->middleware('auth');
+        $this->middleware(['role:AdminTime|AdminGeral']);
     }
 
     public function index()

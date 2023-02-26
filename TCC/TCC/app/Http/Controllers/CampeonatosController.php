@@ -27,6 +27,7 @@ use Auth;
 //use Dompdf\Dompdf;
 //use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Gate;
 
 class CampeonatosController extends Controller
 {
@@ -41,7 +42,8 @@ class CampeonatosController extends Controller
 
         //  $this->middleware('auth');
         //$this->middleware(['role:AdminCampeonato']);
-        $this->middleware(['role:AdminCampeonato'])
+        
+        $this->middleware(['role:AdminCampeonato|AdminGeral'])
             ->except('index', 'pesquisar', 'show', 'partidas', 'detalhesPartida');
     }
 

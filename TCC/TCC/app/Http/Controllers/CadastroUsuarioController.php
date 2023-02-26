@@ -14,8 +14,6 @@ class CadastroUsuarioController extends Controller
 { 
     private $objUsuario;
 
-
-
     public function __construct()
     {
         $this->objUsuario = new usuario();

@@ -17,7 +17,7 @@
 			@endif
 		</div>
 
-		@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+		@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 			<div class="text-center mt-3 mb-4">
 				<a
 					style= "<?php echo $style ?>"
@@ -35,7 +35,7 @@
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">Time</th>
-							@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+							@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 								<th scope="col">Ação</th>
 							@endif
 						</tr>
@@ -44,7 +44,7 @@
 						@foreach($times as $time)
 							<tr>
 								<th scope="row">{{$time['nome']}}</th>
-								@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato']))
+								@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 									<td>
 										<form id="submit-form" action={{route("campeonato.apagaTimeGrupo")}} method='PUT' class="hidden">
 											@csrf
