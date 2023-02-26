@@ -51,6 +51,16 @@
                             </option>
                             @endforeach
                         </select>
+
+                        <label for="inNumeroExistente{{$i}}" class="form-label">Número Camisa*</label>
+                        <input
+                            type="number"
+                            class="form-control minutos"
+                            name="inNumeroExistente{{$i}}"
+                            id="inNumeroExistente{{$i}}"
+                            value="{{isset($evento['numero_camisa']) ? $evento['numero_camisa'] : null}}"
+                            placeholder="00"
+                        >
                         
                         <label for="inTempoExistente{{$i}}" class="form-label">Minutos*</label>
                         <input
@@ -67,14 +77,13 @@
                         <?php $i++; ?>
                     </div>
             @endforeach
-            <div class="text-left col-6 m-auto campo">
-                <label for="code" class="text-left"></label><br>
-                <button type="button" class="btn btn-success add-campo btn-margin-top" id="add-campo"> + </button>
-                
-                <div>
-                    <button type="submit" class="btn btn-primary btn-margin-top">Finalizar</button>
-                </div>
-            </div>
+            <div class="text-left col-4 m-auto">
+				<label for="code" class="text-left"></label><br>
+				<button type="button" class="btn btn-success add-campo" id="add-campo"> + </button>
+			</div>
+			<div class="text-center col-4 m-auto">
+				<button type="submit" class="btn btn-primary btn-size-90-margin-top">Finalizar</button>
+			</div>
 		</form>
 
 	@endsection

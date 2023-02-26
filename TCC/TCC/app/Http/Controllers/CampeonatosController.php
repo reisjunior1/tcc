@@ -625,7 +625,6 @@ class CampeonatosController extends Controller
         $dados['inData'] =  (new Carbon($partida[0]['dataHora']))->format('Y-m-d');
         $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H:i:s');
         $idCampeonato = $partida[0]['id_campeonato'];
-
         return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados', 'partida'));
     }
 
@@ -831,6 +830,7 @@ class CampeonatosController extends Controller
 
     public function validaAlterarResultado(Request $request)
     {
+        //dd($request);
         $modelSumula = new sumula();
         $eventos =  $modelSumula->lstEventosPorPartida($request['hdPartida']);
 
@@ -848,6 +848,7 @@ class CampeonatosController extends Controller
                     $request['hdidSumula'.$i],
                     $request['slAcaoExistente'.$i],
                     $request['slTimeExistente'.$i],
+                    $request['inNumeroExistente'.$i],
                     $request['inTempoExistente'.$i]
                 );
                 $aux++;
@@ -857,14 +858,15 @@ class CampeonatosController extends Controller
             }
         }
 
-        $count = ((count($request->query())) - 4 - (4 * $aux)) / 3;
+        $count = ((count($request->query())) - 4 - (4 * $aux)) / 4;
 
-        for($i=1; $i<=$count; $i++){
+        for ($i=1; $i<=$count; $i++) {
             $modelSumula->insAcao(
-                $request['hdPartida'],
-                $request['slAcao'.$i],
-                $request['slTime'.$i],
-                $request['inTempo'.$i]
+                    $request['hdPartida'],
+                    $request['slAcao'.$i],
+                    $request['slTime'.$i],
+                    $request['inNumero'.$i],
+                    $request['inTempo'.$i]
             );
         }
         $sumula = $modelSumula->lstEventosPorPartida($request['hdPartida']);
