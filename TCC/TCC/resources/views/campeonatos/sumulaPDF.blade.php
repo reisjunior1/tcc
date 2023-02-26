@@ -197,7 +197,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4" class="tableitem">{{$partida[0]['observacao']}}</td>
             </tr>
         </tbody>
     </table>

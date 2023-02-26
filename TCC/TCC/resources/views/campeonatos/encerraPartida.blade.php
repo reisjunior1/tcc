@@ -62,6 +62,10 @@
 				<button type="button" class="btn btn-success add-campo" id="add-campo"> + </button>
 			</div>
 			<div class="text-center col-4 m-auto">
+				<label for="inObservacao">Observações*</label></p>
+				<textarea id="inObservacao" name="inObservacao" rows="4" cols="50"></textarea>
+			</div>
+			<div class="text-center col-4 m-auto">
 				<button type="submit" class="btn btn-primary btn-size-90-margin-top">Finalizar</button>
 			</div>
 		</div>

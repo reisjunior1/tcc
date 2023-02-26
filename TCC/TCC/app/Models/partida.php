@@ -67,12 +67,13 @@ class partida extends Model
         ->get()->toArray();
     }
 
-    public function encerraPartida($idPartida, $golsTimeCasa, $golsTimeVistante)
+    public function encerraPartida($idPartida, $golsTimeCasa, $golsTimeVistante, $observacao)
     {
         return partida::where(['id'=>$idPartida])->update([
             'status'=>1,
             'gols_time_casa' => $golsTimeCasa,
-            'gols_time_visitante' => $golsTimeVistante
+            'gols_time_visitante' => $golsTimeVistante,
+            'observacao' => $observacao
         ]);
     }
 
@@ -81,7 +82,7 @@ class partida extends Model
         return partida::select('partidas.id', 'id_campeonato', 'time1.id as idTimeCasa',
             'time1.nome as timeCasa', 'time2.id as idTimeVisitante',
             'time2.nome as timeVisitante','local.endereco', 'dataHora','status',
-            'gols_time_casa', 'gols_time_visitante', 'campeonatos.nome'
+            'gols_time_casa', 'gols_time_visitante', 'campeonatos.nome', 'partidas.observacao'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')

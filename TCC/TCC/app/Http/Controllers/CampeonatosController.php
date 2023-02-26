@@ -757,8 +757,7 @@ class CampeonatosController extends Controller
     public function validaEncerrarPartida(Request $request)
     {
         $count = count($request->query());
-        //dd($request);
-        $qtdAcoes = (($count - 4) / 4);
+        $qtdAcoes = (($count - 5) / 4);
 
         $modelSumula = new sumula();
 
@@ -787,7 +786,12 @@ class CampeonatosController extends Controller
             }
         }
         $modelPartida = new partida();
-        $modelPartida->encerraPartida($request['hdPartida'], $golsTimeCasa, $golsTimeVisitante);
+        $modelPartida->encerraPartida(
+            $request['hdPartida'],
+            $golsTimeCasa,
+            $golsTimeVisitante,
+            $request['inObservacao']
+        );
 
         $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);
         $idCampeonato = intval($campeonato[0]['id_campeonato']);
@@ -821,11 +825,12 @@ class CampeonatosController extends Controller
             $timesParticipantes[0]['id_time_casa'],
             $timesParticipantes[0]['id_time_visitante']
         ]);
+        $observacao = $timesParticipantes[0]['observacao'];
 
         $modelAcao = new acao();
         $acoes = $modelAcao->lstAcao();
         
-        return view('campeonatos.editaResultado', compact('idPartida', 'eventos', 'times', 'acoes'));
+        return view('campeonatos.editaResultado', compact('idPartida', 'eventos', 'times', 'acoes', 'observacao'));
     }
 
     public function validaAlterarResultado(Request $request)
@@ -858,7 +863,7 @@ class CampeonatosController extends Controller
             }
         }
 
-        $count = ((count($request->query())) - 4 - (4 * $aux)) / 4;
+        $count = ((count($request->query())) - 5 - (4 * $aux)) / 4;
 
         for ($i=1; $i<=$count; $i++) {
             $modelSumula->insAcao(
@@ -886,7 +891,12 @@ class CampeonatosController extends Controller
         }
 
         $modelPartida = new partida();
-        $modelPartida->atualizaResultado($request['hdPartida'], $golsTimeCasa, $golsTimeVisitante);
+        $modelPartida->encerraPartida(
+            $request['hdPartida'],
+            $golsTimeCasa,
+            $golsTimeVisitante,
+            $request['inObservacao']
+        );
 
         $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);
         $idCampeonato = intval($campeonato[0]['id_campeonato']);
