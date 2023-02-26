@@ -35,6 +35,16 @@
 						@endforeach
 					</select>
 
+					<label for="inNumero{{$i}}" class="form-label">Número Camisa*</label>
+					<input
+						type="number"
+						class="form-control minutos"
+						name="inNumero{{$i}}"
+						id="inNumero{{$i}}"
+						value="{{isset($dados['inNumero']) ? $dados['inNumero'] : null}}"
+						placeholder="00"
+					>
+
 					<label for="inTempo{{$i}}" class="form-label">Minutos*</label>
 					<input
 						type="text"
