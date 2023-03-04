@@ -40,6 +40,11 @@
           <li class="nav-item">
             <a class="nav-link"  href="{{ route('jogador.index') }}"  > Jogador</a>
           </li>
+          @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminGeral']))
+		      <li class="nav-item">
+            <a class="nav-link"  href="{{ route('arbrito.index') }}">Arbitragem</a>
+          </li>
+		      @endif
           <li class="nav-item">
             <a class="nav-link"  href="{{ route('campeonato.index') }}"> Campeonato</a>
           </li>

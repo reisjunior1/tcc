@@ -12,7 +12,8 @@ class partida extends Model
     use HasFactory;
 
     protected $fillable = ['id_campeonato','id_time_casa' ,
-        'id_time_visitante', 'id_local', 'dataHora', 'status', 'etapa', 'id_grupo'];
+        'id_time_visitante', 'id_local', 'dataHora', 'status', 'etapa', 'id_grupo',
+        'id_arbrito', 'id_auxiliar1', 'id_auxiliar2', 'id_mesario' ];
 
     public function partida()
     {
@@ -25,7 +26,21 @@ class partida extends Model
         ->get()->toArray();
     }
 
-    public function insPartida($idCampeonato, $timeCasa, $timeFora, $local, $dataHora, $etapa, $grupo, $status = 0)
+    public function insPartida(
+        $idCampeonato,
+        $timeCasa,
+        $timeFora,
+        $local,
+        $dataHora,
+        $etapa,
+        $grupo,
+        $arbrito = null,
+        $auxiliar1 = null,
+        $auxiliar2 = null,
+        $mesario = null,
+        $status = 0,
+        
+        )
     {
         $objPartida = new partida();
         return $objPartida->create([
@@ -36,7 +51,11 @@ class partida extends Model
             'dataHora' => $dataHora,
             'status' => $status,
             'etapa' => $etapa,
-            'id_grupo' => $grupo
+            'id_grupo' => $grupo,
+            'id_arbrito' => $arbrito,
+            'id_auxiliar1' => $auxiliar1,
+            'id_auxiliar2' => $auxiliar2,
+            'id_mesario' => $mesario
         ]);
     }
 
@@ -79,26 +98,47 @@ class partida extends Model
 
     public function lstDadosPartidaPorIdPartida($idPartida)
     {
-        return partida::select('partidas.id', 'id_campeonato', 'time1.id as idTimeCasa',
+        return partida::select('partidas.id as idPartida', 'id_campeonato as idCampeonato', 'time1.id as idTimeCasa',
             'time1.nome as timeCasa', 'time2.id as idTimeVisitante',
             'time2.nome as timeVisitante','local.endereco', 'dataHora','status',
-            'gols_time_casa', 'gols_time_visitante', 'campeonatos.nome', 'partidas.observacao'
+            'campeonatos.nome',
+            'partidas.id_arbrito','partidas.id_auxiliar1', 'partidas.id_auxiliar2', 'partidas.id_mesario',
+            'arbitro.nome as arbritoNome','aux1.nome as aux1Nome', 'aux2.nome as aux2Nome',
+            'mesario.nome as mesarioNome'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
         ->join('local', 'local.id', '=', 'partidas.id_local')
         ->join('campeonatos', 'campeonatos.id', 'partidas.id_campeonato')
+        ->leftJoin('arbitro', 'arbitro.id', 'partidas.id_arbrito')
+        ->leftJoin('arbitro as aux1', 'aux1.id', 'partidas.id_auxiliar1')
+        ->leftJoin('arbitro as aux2', 'aux2.id', 'partidas.id_auxiliar2')
+        ->leftJoin('arbitro as mesario', 'mesario.id', 'partidas.id_mesario')
         ->where('partidas.id', '=', $idPartida)
         ->get()->toArray();
     }
 
-    public function updPartida($id, $idTimeCasa, $idTimeVisitante, $idLocal, $dataHora)
+    public function updPartida(
+        $id,
+        $idTimeCasa,
+        $idTimeVisitante,
+        $idLocal,
+        $dataHora,
+        $arbrito,
+        $auxiliar1,
+        $auxiliar2,
+        $mesario,
+        )
     {
         partida::where(['id'=>$id])->update([
             'id_time_casa'=>$idTimeCasa,
             'id_time_visitante'=>$idTimeVisitante,
             'id_local' => $idLocal,
-            'dataHora' => $dataHora
+            'dataHora' => $dataHora,
+            'id_arbrito' => $arbrito,
+            'id_auxiliar1' => $auxiliar1,
+            'id_auxiliar2' => $auxiliar2,
+            'id_mesario' => $mesario
         ]);
 
         return true;

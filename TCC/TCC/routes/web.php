@@ -157,10 +157,10 @@ Route::get('/campeonato/{idCampeonato}/partidas/', CAMPEONATOS_CONTROLLER.'@part
 Route::get('/campeonato/{idCampeonato}/criarPartida/{idgrupo?}', CAMPEONATOS_CONTROLLER.'@criarPartida')
     ->name("campeonato.criarPartida");
 
-Route::get('/campeonato/{idCampeonato}/editarPartida/', CAMPEONATOS_CONTROLLER.'@editarPartida')
+Route::get('/campeonato/{idPartida}/editarPartida/{idgrupo?}', CAMPEONATOS_CONTROLLER.'@editarPartida')
     ->name("campeonato.editarPartida");
 
-Route::get('/campeonato/{idCampeonato}/excluirPartida/', CAMPEONATOS_CONTROLLER.'@excluirPartida')
+Route::get('/campeonato/{idPartida}/excluirPartida/', CAMPEONATOS_CONTROLLER.'@excluirPartida')
     ->name("campeonato.excluirPartida");
 
 Route::post('/campeonato/pesquisar/', CAMPEONATOS_CONTROLLER.'@pesquisar')
@@ -225,6 +225,23 @@ Route::get('/campeonato/proximaEtapa/', 'App\Http\Controllers\MataMataController
     ->name("campeonato.proximaEtapa");
 
 Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
+
+//Rotas Abritos
+define("ARBRITO_CONTROLLER", 'App\Http\Controllers\ArbritoController');
+Route::get('/arbrito/index/', ARBRITO_CONTROLLER . '@index')
+    ->name("arbrito.index");
+
+Route::get('/arbrito/cadastrar/{id?}', ARBRITO_CONTROLLER.'@cadastrar')
+    ->name("arbrito.cadastrar");
+
+Route::post('/arbrito/salva/', ARBRITO_CONTROLLER .'@store')
+    ->name("arbrito.salva");
+
+Route::get('/arbrito/edita/{id}', ARBRITO_CONTROLLER .'@update')
+    ->name("arbrito.edita");
+
+Route::get('/arbrito/{idArbrito}/ativarDesativar', ARBRITO_CONTROLLER . '@ativarDesativar')
+    ->name("arbrito.ativarDesativar");
 
 //Rotas Login
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name("login.login");
