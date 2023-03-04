@@ -86,13 +86,12 @@ class partida extends Model
         ->get()->toArray();
     }
 
-    public function encerraPartida($idPartida, $golsTimeCasa, $golsTimeVistante, $observacao)
+    public function encerraPartida($idPartida, $golsTimeCasa, $golsTimeVistante)
     {
         return partida::where(['id'=>$idPartida])->update([
             'status'=>1,
             'gols_time_casa' => $golsTimeCasa,
             'gols_time_visitante' => $golsTimeVistante,
-            'observacao' => $observacao
         ]);
     }
 

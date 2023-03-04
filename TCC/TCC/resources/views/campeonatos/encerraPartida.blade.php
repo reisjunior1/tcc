@@ -1,10 +1,18 @@
 @extends('times.tela.telas')
 
 @section('parte')
-	<title>Encerrar Partida</title>
+	@if($dadosPartida[0]['status'] == 1)
+		<title>Editar Resultado Partida</title>
+	@else
+		<title>Encerrar Partida</title>
+	@endif
 	</head>
 	<body>
-		<form action={{route("campeonato.validaEncerrarPartida")}} method='PUT'>
+		@if($dadosPartida[0]['status'] == 1)
+			<form action={{route("campeonato.validaAlterarResultado")}} method='PUT'>
+		@else
+			<form action={{route("campeonato.validaEncerrarPartida")}} method='PUT'>
+		@endif
 			@csrf
 			<div class="text-center mt-3 mb-4">
 				@if(session('mensagem'))
@@ -19,56 +27,32 @@
 					<input type="hidden" id="hdTimeCasa" name="hdTimeCasa" value="{{$times[0]['id']}}">
 					<input type="hidden" id="hdTimeVisitante" name="hdTimeVisitante" value="{{$times[1]['id']}}">
 
-					<label for="slAcao{{$i}}" class="form-label">Ação:</label>
-					<select name="slAcao{{$i}}"  id="slAcao{{$i}}" class="form-select">
-						<option selected value=0>Selecione...</option>
-						@foreach($acoes as $acao)
-							<option value= {{$acao['id']}}>{{$acao['descricao']}}</option>
-						@endforeach
-					</select>
-
-					<label for="slTime{{$i}}" class="form-label">Time:</label>
-					<select name="slTime{{$i}}"  id="slTime{{$i}}" class="form-select">
-						<option selected value=0>Selecione...</option>
-						@foreach($times as $time)
-							<option value= {{$time['id']}}>{{$time['nome']}}</option>
-						@endforeach
-					</select>
-
-					<label for="inNumero{{$i}}" class="form-label">Número Camisa*</label>
-					<input
-						type="number"
-						class="form-control minutos"
-						name="inNumero{{$i}}"
-						id="inNumero{{$i}}"
-						value="{{isset($dados['inNumero']) ? $dados['inNumero'] : null}}"
-						placeholder="00"
-					>
-
-					<label for="inTempo{{$i}}" class="form-label">Minutos*</label>
-					<input
-						type="text"
-						class="form-control minutos"
-						name="inTempo{{$i}}"
-						id="inTempo{{$i}}"
-						value="{{isset($dados['inHora']) ? $dados['inHora'] : null}}"
-						placeholder="Hora de início"
-					>
+					<h2 class="text-center">{{$times[0]['nome']}} X {{$times[1]['nome']}}</h2>
+					<hr>
+					<div class="col-6 mx-auto">
+						<label for="inGolsTimeCasa" class="form-label">Gols do Time {{$times[0]['nome']}}*</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="inGolsTimeCasa"
+                                id="inGolsTimeCasa"
+                                value="{{isset($dadosPartida[0]['gols_time_casa']) ? $dadosPartida[0]['gols_time_casa'] : null}}"
+                            >
+                    </div>
+					<div class="col-6 mx-auto">
+						<label for="inGolsTimeVisitante" class="form-label">Gols do Time {{$times[1]['nome']}}*</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="inGolsTimeVisitante"
+                                id="inGolsTimeVisitante"
+                                value="{{isset($dadosPartida[0]['gols_time_visitante']) ? $dadosPartida[0]['gols_time_visitante'] : null}}"
+                            >
+                    </div>
 				</div>
-			</div>
-
-			<div class="text-left col-4 m-auto">
-				<label for="code" class="text-left"></label><br>
-				<button type="button" class="btn btn-success add-campo" id="add-campo"> + </button>
-			</div>
-			<div class="text-center col-4 m-auto">
-				<label for="inObservacao">Observações*</label></p>
-				<textarea id="inObservacao" name="inObservacao" rows="4" cols="50"></textarea>
-			</div>
-			<div class="text-center col-4 m-auto">
-				<button type="submit" class="btn btn-primary btn-size-90-margin-top">Finalizar</button>
-			</div>
-		</div>
+				<div input-group class="my-auto mx-auto">
+					<button type="submit" class="btn btn-success btn-size-90-10-margin">Salvar</button>
+				</div>
 		</form>
 
 	@endsection

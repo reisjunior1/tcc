@@ -181,7 +181,7 @@ Route::get('/campeonato/validaEncerrarPartida/', CAMPEONATOS_CONTROLLER.'@valida
 Route::get('/campeonato/{idPartida}/detalhesPartida/', CAMPEONATOS_CONTROLLER.'@detalhesPartida')
     ->name("campeonato.detalhesPartida");
 
-Route::get('/campeonato/{idPartida}/editarResultado/', CAMPEONATOS_CONTROLLER.'@editarResultado')
+Route::get('/campeonato/{idPartida}/editarResultado/', CAMPEONATOS_CONTROLLER.'@encerraPartida')
     ->name("campeonato.editarResultado");
 
 Route::get('/campeonato/validaAlterarResultado/', CAMPEONATOS_CONTROLLER.'@validaAlterarResultado')

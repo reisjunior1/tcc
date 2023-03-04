@@ -779,70 +779,33 @@ class CampeonatosController extends Controller
 
     public function encerraPartida($idPartida)
     {
-        $modelAcao = new acao();
-        $acoes = $modelAcao->lstAcao();
-        
         $modelPartida = new partida();
-        $timesParticipantes = $modelPartida->lstPartida($idPartida);
-
+        $dadosPartida = $modelPartida->lstPartida($idPartida);
         $modelTime =  new time();
         $timesCasa = $modelTime->lstTimes([
-            $timesParticipantes[0]['id_time_casa']
+            $dadosPartida[0]['id_time_casa']
         ]);
         $timesVisitante = $modelTime->lstTimes([
-            $timesParticipantes[0]['id_time_visitante']
+            $dadosPartida[0]['id_time_visitante']
         ]);
         $times = array_merge($timesCasa, $timesVisitante);
-
-        return view('campeonatos.encerraPartida', compact('idPartida', 'acoes','times'));
+//dd($times);
+        return view('campeonatos.encerraPartida', compact('idPartida', 'times', 'dadosPartida'));
     }
 
     public function validaEncerrarPartida(Request $request)
     {
-        $count = count($request->query());
-        $qtdAcoes = (($count - 5) / 4);
-
-        $modelSumula = new sumula();
-
-        $golsTimeCasa = 0;
-        $golsTimeVisitante = 0;
-
-        for ($i=0; $i<$qtdAcoes; $i++) {
-            $modelSumula->insAcao(
-                $request['hdPartida'],
-                $request['slAcao'.$i],
-                $request['slTime'.$i],
-                $request['inNumero'.$i],
-                $request['inTempo'.$i]
-            );
-            
-            if ($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeCasa']
-            || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeVisitante']
-            ) {
-                $golsTimeCasa++;
-            }
-
-            if ($request['slAcao'.$i] == 1 && $request['slTime'.$i] == $request['hdTimeVisitante']
-            || $request['slAcao'.$i] == 2 && $request['slTime'.$i] == $request['hdTimeCasa']
-            ) {
-                $golsTimeVisitante++;
-            }
-        }
         $modelPartida = new partida();
         $modelPartida->encerraPartida(
             $request['hdPartida'],
-            $golsTimeCasa,
-            $golsTimeVisitante,
-            $request['inObservacao']
+            $request->inGolsTimeCasa,
+            $request->inGolsTimeVisitante,
         );
 
         $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);
         $idCampeonato = intval($campeonato[0]['id_campeonato']);
 
-        $partidas = $modelPartida->lstPartidasPorIdCampeonato($campeonato);
-        
         return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
-        //return view('campeonatos.partidas', compact('idCampeonato','partidas'));
     }
 
     public function detalhesPartida($idPartida)
@@ -873,72 +836,16 @@ class CampeonatosController extends Controller
         $modelAcao = new acao();
         $acoes = $modelAcao->lstAcao();
         
-        return view('campeonatos.editaResultado', compact('idPartida', 'eventos', 'times', 'acoes', 'observacao'));
+        return view('campeonatos.encerraPartida', compact('idPartida', 'eventos', 'times', 'acoes', 'observacao'));
     }
 
     public function validaAlterarResultado(Request $request)
     {
-        //dd($request);
-        $modelSumula = new sumula();
-        $eventos =  $modelSumula->lstEventosPorPartida($request['hdPartida']);
-
-        $arrayEventos = array_column($eventos, 'idAcao');
-        
-        $aux = 0;
-        $golsTimeCasa = 0;
-        $golsTimeVisitante = 0;
-
-        $modelSumula = new sumula();
-        for ($i=0; $i<count($eventos); $i++) {
-            if (in_array($request['hdidSumula'.$i], $arrayEventos)) {
-                //atualiza ocorrencia na sumula
-                $modelSumula->updOcorrencia(
-                    $request['hdidSumula'.$i],
-                    $request['slAcaoExistente'.$i],
-                    $request['slTimeExistente'.$i],
-                    $request['inNumeroExistente'.$i],
-                    $request['inTempoExistente'.$i]
-                );
-                $aux++;
-            } else {
-                //remove ocorrencia da sumula
-                $modelSumula->excluiOcorrencia($arrayEventos[$i]);
-            }
-        }
-
-        $count = ((count($request->query())) - 5 - (4 * $aux)) / 4;
-
-        for ($i=1; $i<=$count; $i++) {
-            $modelSumula->insAcao(
-                    $request['hdPartida'],
-                    $request['slAcao'.$i],
-                    $request['slTime'.$i],
-                    $request['inNumero'.$i],
-                    $request['inTempo'.$i]
-            );
-        }
-        $sumula = $modelSumula->lstEventosPorPartida($request['hdPartida']);
-
-        foreach($sumula as $valor){
-            if($valor['id_acao'] == 1 && $valor['id_time'] == $request['hdTimeCasa']
-            || $request['id_acao'] == 2 && $request['id_time'] == $request['hdTimeVisitante']
-            ){
-                $golsTimeCasa++;
-            }
-
-            if($valor['id_acao'] == 1 && $valor['id_time'] == $request['hdTimeVisitante']
-            || $valor['id_acao'] == 2 && $valor['id_time'] == $request['hdTimeCasa']
-            ){
-                $golsTimeVisitante++;
-            }
-        }
-
         $modelPartida = new partida();
         $modelPartida->encerraPartida(
             $request['hdPartida'],
-            $golsTimeCasa,
-            $golsTimeVisitante,
-            $request['inObservacao']
+            $request->inGolsTimeCasa,
+            $request->inGolsTimeVisitante,
         );
 
         $campeonato = $modelPartida->lstCampeonatoPorPartida($request['hdPartida']);

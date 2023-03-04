@@ -67,7 +67,7 @@
                         $golsTimeCasa = $partida['gols_time_casa'];
                         $golsTimeVisitante = $partida['gols_time_visitante'];
                         $href = route("campeonato.editarResultado", ['idPartida' => $partida['id']]);
-                        $btn = 'Editar Sumula';
+                        $btn = 'Editar Resultado';
                         $propriedade = 'primary';
                     }
 
