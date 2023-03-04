@@ -21,6 +21,7 @@ use App\Models\sumula;
 use App\Models\Grupos;
 use App\Models\TimeParticipaGrupo;
 use App\Models\arbritos;
+use App\Models\Arquivo;
 use App\Rules\ValidaHora;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
@@ -28,6 +29,7 @@ use Auth;
 //use Dompdf\Dompdf;
 //use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Stroage;
 
 class CampeonatosController extends Controller
 {
@@ -575,9 +577,16 @@ class CampeonatosController extends Controller
         $times = $modelTimesParticipantes->lstTimesParticipantes($idCampeonato);
         $numeroTimes = count($times);
 
+        $modelArquivo = new Arquivo();
+        $arquivos = array_column(
+            $modelArquivo->lstArquivos(array_column($partidas, 'id')),
+            'id_partida',
+            'arquivo',
+        );
+
         return view(
             'campeonatos.partidas',
-            compact('idCampeonato', 'partidas', 'formato', 'numeroPartidas', 'numeroTimes')
+            compact('idCampeonato', 'partidas', 'formato', 'numeroPartidas', 'numeroTimes', 'arquivos')
         );
     }
 
@@ -981,5 +990,46 @@ class CampeonatosController extends Controller
             )
         );
         return $pdf->setPaper('A4')->stream('sumula.pdf');
+    }
+
+    public function upLoadArquivo($idPartida)
+    {
+        return view('campeonatos.uploadSumula', compact('idPartida'));
+    }
+
+    public function validaEnviarSumula($idPartida, Request $request)
+    {
+        $data=new Arquivo();
+		$file=$request->file;
+        $filename=time().'.'.$file->getClientOriginalExtension();
+        
+        $destinationPath = base_path('public\sumulas');
+        
+        $request->file->move($destinationPath, $filename);
+        $data->arquivo=$filename;
+        
+        $data->nome=$filename;
+        $data->id_partida=$idPartida;
+
+        $data->save();
+		return redirect()->back();
+    }
+
+    public function downloadArquivo($idPartida)
+    {
+        $modelArquivo = new Arquivo();
+        $aux =  $modelArquivo->lstArquivos([$idPartida]);
+        $arquivo = $aux[0]['arquivo'];
+        return response()->download(public_path('sumulas/'.$arquivo));
+
+    }
+
+    public function removerSumula($idPartida)
+    {
+        $modelArquivo = new Arquivo();
+        $aux =  $modelArquivo->lstArquivos([$idPartida]);
+        $arquivo = $aux[0]['arquivo'];
+        unlink(public_path('sumulas/'.$arquivo));
+        $modelArquivo->delArquivos([$idPartida]);
     }
 }

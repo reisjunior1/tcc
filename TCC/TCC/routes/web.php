@@ -224,6 +224,18 @@ Route::get('/campeonato/chave/', 'App\Http\Controllers\MataMataController@verCam
 Route::get('/campeonato/proximaEtapa/', 'App\Http\Controllers\MataMataController@proximaEtapa')
     ->name("campeonato.proximaEtapa");
 
+Route::get('/campeonato/upLoadArquivo/{idPartida}', CAMPEONATOS_CONTROLLER.'@upLoadArquivo')
+    ->name("campeonato.upLoadArquivo");
+
+Route::post('/campeonato/validaEnviarSumula/{idPartida}', CAMPEONATOS_CONTROLLER.'@validaEnviarSumula')
+    ->name("campeonato.validaEnviarSumula");
+
+Route::get('/campeonato/downloadArquivo/{idPartida}', CAMPEONATOS_CONTROLLER.'@downloadArquivo')
+    ->name("campeonato.downloadArquivo");
+
+Route::get('/campeonato/removerSumula/{idPartida}', CAMPEONATOS_CONTROLLER.'@removerSumula')
+    ->name("campeonato.removerSumula");
+
 Route::resource('/campeonato', CAMPEONATOS_CONTROLLER);
 
 //Rotas Abritos

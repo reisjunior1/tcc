@@ -70,6 +70,14 @@
                         $btn = 'Editar Sumula';
                         $propriedade = 'primary';
                     }
+
+                    if (in_array($partida['id'], $arquivos)) {
+                        $textoSumula = 'Baixar Súmula';
+                        $rotaSumula = route("campeonato.downloadArquivo", ['idPartida' => $partida['id']]);
+                    } else {
+                        $textoSumula = 'Enviar Sumula';
+                        $rotaSumula = route("campeonato.upLoadArquivo", ['idPartida' => $partida['id']]);
+                    }
                 ?>
                 <table class="table text-center">
                     <thead class="thead-dark">
@@ -109,6 +117,20 @@
                                             }}" target="_blank">
                                                 <button class="btn btn-danger btn-size-160">Gerar PDF</button>
                                             </a>
+                                        
+                                        @if ($partida['status'] == 1)
+                                        <a href="{{$rotaSumula}}">
+                                            <button class="btn btn-warning btn-size-160">{{$textoSumula}}</button>
+                                        </a>
+                                        @endif
+
+                                        @if(in_array($partida['id'], $arquivos))
+                                        <a href="{{
+                                            route("campeonato.removerSumula", ['idPartida' => $partida['id']])
+                                        }}">
+                                            <button class="btn btn-warning btn-size-160">Remover Súmula</button>
+                                        </a>
+                                        @endif
                                         
                                         
                                         <a href="{{$href}}">
