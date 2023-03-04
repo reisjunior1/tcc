@@ -899,11 +899,17 @@ class CampeonatosController extends Controller
         return $pdf->setPaper('A4')->stream('sumula.pdf');
     }
 
+    /**
+     * Redireciona para a tela que realiza o upload da sumula
+     */
     public function upLoadArquivo($idPartida)
     {
         return view('campeonatos.uploadSumula', compact('idPartida'));
     }
 
+    /**
+     * Salva o arquivo no diretorio e cria o registro no banco de dados
+     */
     public function validaEnviarSumula($idPartida, Request $request)
     {
         $data=new Arquivo();
@@ -919,9 +925,17 @@ class CampeonatosController extends Controller
         $data->id_partida=$idPartida;
 
         $data->save();
-		return redirect()->back();
+		
+        //voltar para tela que lista as partidas
+        $modelPartida = new partida();
+        $campeonato = $modelPartida->lstCampeonatoPorPartida($idPartida);
+        $idCampeonato = intval($campeonato[0]['id_campeonato']);
+        return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
     }
 
+    /**
+     * Realiza o donwload do arquvo da sumula enviada previamente
+     */
     public function downloadArquivo($idPartida)
     {
         $modelArquivo = new Arquivo();
@@ -931,6 +945,9 @@ class CampeonatosController extends Controller
 
     }
 
+    /**
+     * Remove o arquivo da sumula e exluio o registro do banco de dados
+     */
     public function removerSumula($idPartida)
     {
         $modelArquivo = new Arquivo();
@@ -938,5 +955,11 @@ class CampeonatosController extends Controller
         $arquivo = $aux[0]['arquivo'];
         unlink(public_path('sumulas/'.$arquivo));
         $modelArquivo->delArquivos([$idPartida]);
+
+        //voltar para tela que lista as partidas
+        $modelPartida = new partida();
+        $campeonato = $modelPartida->lstCampeonatoPorPartida($idPartida);
+        $idCampeonato = intval($campeonato[0]['id_campeonato']);
+        return redirect()->route('campeonato.partidas', ['idCampeonato' => $idCampeonato]);
     }
 }
