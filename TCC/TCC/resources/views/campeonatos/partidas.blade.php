@@ -61,22 +61,22 @@
                         $golsTimeVisitante = '-';
                         $href = route("campeonato.encerraPartida", ['idPartida' => $partida['id']]);
                         $btn = 'Encerrar Partida';
-                        $propriedade = 'danger';
                     } else {
                         $status = 'Encerrada';
                         $golsTimeCasa = $partida['gols_time_casa'];
                         $golsTimeVisitante = $partida['gols_time_visitante'];
                         $href = route("campeonato.editarResultado", ['idPartida' => $partida['id']]);
                         $btn = 'Editar Resultado';
-                        $propriedade = 'primary';
                     }
 
                     if (in_array($partida['id'], $arquivos)) {
                         $textoSumula = 'Baixar Súmula';
                         $rotaSumula = route("campeonato.downloadArquivo", ['idPartida' => $partida['id']]);
+                        $propriedade = 'success';
                     } else {
                         $textoSumula = 'Enviar Sumula';
                         $rotaSumula = route("campeonato.upLoadArquivo", ['idPartida' => $partida['id']]);
+                        $propriedade = 'success';
                     }
                 ?>
                 <table class="table text-center">
@@ -101,9 +101,6 @@
                             <td style="width:80px">{{$golsTimeCasa . ' x '. $golsTimeVisitante}}</td>
                             <td style="width:80px">
                                 <div input-group>
-                                    <a href="{{route("campeonato.detalhesPartida", ['idPartida' => $partida['id']])}}">
-                                        <button class="btn btn-success btn-size-160">Detalhes</button>
-                                    </a>
                                     @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
                                     
                                             <a href="{{
@@ -112,11 +109,13 @@
                                                 <button class="btn btn-primary btn-size-160">Editar</button>
                                             </a>
                                         
-                                        <a href="{{
+                                        @if(!in_array($partida['id'], $arquivos))
+                                            <a href="{{
                                                 route("campeonato.geraPDF", ['idPartida' => $partida['id']])
                                             }}" target="_blank">
                                                 <button class="btn btn-danger btn-size-160">Gerar PDF</button>
                                             </a>
+                                        @endif
                                         
                                         @if ($partida['status'] == 1)
                                         <a href="{{$rotaSumula}}">
@@ -128,13 +127,13 @@
                                         <a href="{{
                                             route("campeonato.removerSumula", ['idPartida' => $partida['id']])
                                         }}">
-                                            <button class="btn btn-warning btn-size-160">Remover Súmula</button>
+                                            <button class="btn btn-danger btn-size-160">Remover Súmula</button>
                                         </a>
                                         @endif
                                         
                                         
                                         <a href="{{$href}}">
-                                            <button class="btn btn-{{$propriedade}} btn-size-160">{{$btn}}</button>
+                                            <button class="btn btn-success btn-size-160">{{$btn}}</button>
                                         </a>
                                     @endif
                                 </div>
