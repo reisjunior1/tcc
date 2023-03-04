@@ -25,12 +25,17 @@ class local extends Model
         return $this->belongsTo(local::class);
     }
 
-    public function lstLocais()
+    public function lstLocais($ativo = false)
     {
-        return local::select('id', 'nome', 'endereco', 'eExcluido')
+        $query = local::select('id', 'nome', 'endereco', 'eExcluido')
             ->from('local')
-            ->orderby('nome')
-            ->get()->toArray();
+            ->orderby('nome');
+
+        $query->when($ativo, function ($q) {
+                return $q->where('eExcluido', '=', '0');
+            });
+        
+        return $query->get()->toArray();
     }
 
     public function lstLocalPorid($idLocal)

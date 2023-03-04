@@ -86,7 +86,7 @@
                                             ? ($dados['slLocal'] == $local['id'] ? 'selected' : '')
                                             : ''}}
                                         >
-                                            {{$local['endereco']}}
+                                            {{$local['nome']}}
                                         </option>
                                     @endforeach
                                 </select>
@@ -189,7 +189,7 @@
                                     <button type="button" class="btn btn-danger btn-size-90-10-margin">Excluir</button>
                                 </a>
                                 @endif
-                                <button type="submit" class="btn btn-success btn-size-90-10-margin">{{$botao}}</button>
+                                <button type="submit" class="btn btn-success btn-margin-top-botton">{{$botao}}</button>
                             </div>
                     </div>
                 </div>

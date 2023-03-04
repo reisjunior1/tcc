@@ -612,7 +612,7 @@ class CampeonatosController extends Controller
         }
             
         $modelLocal = new local();
-        $locais = $modelLocal->lstLocais();
+        $locais = $modelLocal->lstLocais(true);
 
         $modelArbrito = new arbritos();
         $arbritos = $modelArbrito->lstArbritos(0);

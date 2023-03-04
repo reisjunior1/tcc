@@ -22,6 +22,11 @@
     margin-top: 10px;
 }
 
+.btn-margin-top-botton{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .btn-size-90-10-margin{
     width: 90px;
     margin-top: 10px;
