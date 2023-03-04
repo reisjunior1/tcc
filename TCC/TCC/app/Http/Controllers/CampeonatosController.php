@@ -20,6 +20,7 @@ use App\Models\acao;
 use App\Models\sumula;
 use App\Models\Grupos;
 use App\Models\TimeParticipaGrupo;
+use App\Models\arbritos;
 use App\Rules\ValidaHora;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
@@ -27,7 +28,6 @@ use Auth;
 //use Dompdf\Dompdf;
 //use Dompdf\Options;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Gate;
 
 class CampeonatosController extends Controller
 {
@@ -602,13 +602,19 @@ class CampeonatosController extends Controller
             $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
         }
             
-            $modelLocal = new local();
-            $locais = $modelLocal->lstLocais();
+        $modelLocal = new local();
+        $locais = $modelLocal->lstLocais();
+
+        $modelArbrito = new arbritos();
+        $arbritos = $modelArbrito->lstArbritos(0);
             
-        return view('campeonatos.criaPartidas', compact('idCampeonato', 'times', 'locais', 'formato', 'grupo'));
+        return view(
+            'campeonatos.criaPartidas',
+            compact('idCampeonato', 'times', 'locais', 'formato', 'grupo', 'arbritos')
+        );
     }
 
-    public function editarPartida($idPartida)
+    public function editarPartida($idPartida, $grupo = null)
     {
         $modelPartida = new partida();
         $partida = $modelPartida->lstPartida($idPartida);
@@ -618,14 +624,29 @@ class CampeonatosController extends Controller
         
         $modelLocal = new local();
         $locais = $modelLocal->lstLocais();
-        
+
+        $modelCampeonato = new campeonato();
+        $dados = $modelCampeonato->lstCampeonatosPorId([$partida[0]['id_campeonato']]);
+        $formato = ($dados[0]->formato);
+
+        $modelArbrito = new arbritos();
+        $arbritos = $modelArbrito->lstArbritos(0);
+
         $dados['slTimeCasa'] = $partida[0]['id_time_casa'];
         $dados['slTimeVizitante'] = $partida[0]['id_time_visitante'];
         $dados['slLocal'] = $partida[0]['id_local'];
         $dados['inData'] =  (new Carbon($partida[0]['dataHora']))->format('Y-m-d');
         $dados['inHora'] =  (new Carbon($partida[0]['dataHora']))->format('H:i:s');
+        $dados['slArbrito'] = $partida[0]['id_arbrito'];
+        $dados['slAuxiliar1'] = $partida[0]['id_auxiliar1'];
+        $dados['slAuxiliar2'] = $partida[0]['id_auxiliar2'];
+        $dados['slMesario'] = $partida[0]['id_mesario'];
         $idCampeonato = $partida[0]['id_campeonato'];
-        return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados', 'partida'));
+        return view(
+            'campeonatos.criaPartidas',
+            compact('idCampeonato', 'idPartida', 'times', 'locais', 'dados', 'partida',
+                'arbritos', 'formato', 'grupo')
+        );
     }
 
     public function salvaPartida(PartidasRequest $request)
@@ -637,6 +658,10 @@ class CampeonatosController extends Controller
         $dados['slLocal'] = $request['slLocal'];
         $dados['inData'] = $request['inData'];
         $dados['inHora'] = $request['inHora'];
+        $dados['slArbrito'] = $request['slArbrito'];
+        $dados['slAuxiliar1'] = $request['slAuxiliar1'];
+        $dados['slAuxiliar2'] = $request['slAuxiliar2'];
+        $dados['slMesario'] = $request['slMesario'];
 
         if($request['slTimeCasa'] == $request['slTimeVizitante']){
             $modelTimes = new timesParticipantes();
@@ -666,7 +691,11 @@ class CampeonatosController extends Controller
                 $request['slLocal'],
                 $dataHora,
                 $etapa,
-                $request->hdGrupo
+                $request->hdGrupo,
+                $request['slArbrito'],
+                $request['slAuxiliar1'],
+                $request['slAuxiliar2'],
+                $request['slMesario'],
             );
 
             return Redirect("campeonato/$idCampeonato/partidas");
@@ -687,7 +716,7 @@ class CampeonatosController extends Controller
         //return view('campeonatos.partidas', compact('idCampeonato', 'partidas'));
     }
 
-    public function editaPartida(PartidasRequest $request, $idPartida)
+    public function editaPartida($idPartida, PartidasRequest $request)
     {
 
         $idCampeonato = $request['hdIdCampeonato'];
@@ -719,7 +748,12 @@ class CampeonatosController extends Controller
                 $request->slTimeCasa,
                 $request->slTimeVizitante,
                 $request->slLocal,
-                $dataHora
+                $dataHora,
+                $request['slArbrito'],
+                $request['slAuxiliar1'],
+                $request['slAuxiliar2'],
+                $request['slMesario']
+
             );
 
             return Redirect("campeonato/$idCampeonato/partidas");
@@ -923,60 +957,27 @@ class CampeonatosController extends Controller
         $modelPartida = new partida();
         $partida =  $modelPartida->lstDadosPartidaPorIdPartida($idPartida);
 
-        $modelSumula = new sumula();
-        $golsCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 1);
-        $golsVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 1);
-
-        $golsContraCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 2);
-        $golsContraVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 2);
-
-        $cartaoVermelhoCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 3);
-        $cartaoVermelhoVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 3);
-
-        $cartaoAmareloCasa = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeCasa'], 4);
-        $cartaoAmareloVisitante = $modelSumula->lstEventosPorPartida($idPartida, $partida[0]['idTimeVisitante'], 4);
-
-        if (count($golsCasa) >= count($golsVisitante)) {
-            $gols = count($golsCasa);
-        } else {
-            $gols = count($golsVisitante);
-        }
-
-        if (count($golsContraCasa) >= count($golsContraVisitante)) {
-            $golsContra = count($golsContraCasa);
-        } else {
-            $golsContra = count($golsContraVisitante);
-        }
-
-        if (count($cartaoVermelhoCasa) >= count($cartaoVermelhoVisitante)) {
-            $cartoesVermelhos = count($cartaoVermelhoCasa);
-        } else {
-            $cartoesVermelhos = count($cartaoVermelhoVisitante);
-        }
-
-        if (count($cartaoAmareloCasa) >= count($cartaoAmareloVisitante)) {
-            $cartoesAmarelos = count($cartaoAmareloCasa);
-        } else {
-            $cartoesAmarelos = count($cartaoAmareloVisitante);
-        }
-
-        //dd($gols, $golsCasa, $golsVisitante);
+        $modelJogadoresParticipantes = new jogadoresParticipantes();
+        $jogadoresTimeCasa = $modelJogadoresParticipantes->lstDadosJogadoresCampeonatoTime(
+            $partida[0]['idCampeonato'],
+            $partida[0]['idTimeCasa']
+        );
+        $jogadoresTimeVisitante = $modelJogadoresParticipantes->lstDadosJogadoresCampeonatoTime(
+            $partida[0]['idCampeonato'],
+            $partida[0]['idTimeVisitante']
+        );
+        $qtdeJogadores = count($jogadoresTimeCasa) >= count($jogadoresTimeVisitante)
+            ? count($jogadoresTimeCasa)
+            : count($jogadoresTimeVisitante);
+        //dd($jogadoresTimeCasa, $jogadoresTimeVisitante);
+        
         $pdf = PDF::loadView(
             'campeonatos.sumulaPDF',
             compact(
                 'partida',
-                'gols',
-                'golsContra',
-                'cartoesVermelhos',
-                'cartoesAmarelos',
-                'golsCasa',
-                'golsVisitante',
-                'golsContraCasa',
-                'golsContraVisitante',
-                'cartaoVermelhoCasa',
-                'cartaoVermelhoVisitante',
-                'cartaoAmareloCasa',
-                'cartaoAmareloVisitante'
+                'qtdeJogadores',
+                'jogadoresTimeCasa',
+                'jogadoresTimeVisitante'
             )
         );
         return $pdf->setPaper('A4')->stream('sumula.pdf');

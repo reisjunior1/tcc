@@ -29,7 +29,7 @@
             @if(isset($partida))
                 <form
                     method = "PUT"
-                    action="{{ route("campeonato.editaPartida", ['idCampeonato' => $idCampeonato]) }}" name="formBusca"
+                    action="{{ route("campeonato.editaPartida", ['idPartida' => $partida[0]['id']]) }}" name="formBusca"
                     placeholder="Filtrar por"
                 >
             @else
@@ -115,6 +115,66 @@
                                     placeholder="Hora de início"
                                 >
                             </div>
+
+                            <div class="col-6 mx-auto">
+                                <label for="slArbrito" class="form-label">Selecione o Arbrito</label>
+                                <select name="slArbrito"  id="slArbrito" class="form-select">
+                                    <option value="0" selected>Selecione...</option>
+                                @foreach($arbritos as $arbrito)
+                                    <option value= {{
+                                        $arbrito['id']}} {{isset($dados['slArbrito'])
+                                            ?($dados['slArbrito'] == $arbrito['id'] ? 'selected' : '')
+                                            : ''
+                                        }}>{{$arbrito['nome']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-6 mx-auto">
+                                <label for="slAuxiliar1" class="form-label">Selecione o Primeiro Auxiliar</label>
+                                <select name="slAuxiliar1"  id="slAuxiliar1" class="form-select">
+                                    <option value="0" selected>Selecione...</option>
+                                @foreach($arbritos as $arbrito)
+                                    <option value= {{
+                                        $arbrito['id']}} {{isset($dados['slAuxiliar1'])
+                                            ?($dados['slAuxiliar1'] == $arbrito['id'] ? 'selected' : '')
+                                            : ''
+                                        }}>{{$arbrito['nome']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-6 mx-auto">
+                                <label for="slAuxiliar2" class="form-label">Selecione o Segundo Auxiliar</label>
+                                <select name="slAuxiliar2"  id="slAuxiliar2" class="form-select">
+                                    <option value="0" selected>Selecione...</option>
+                                @foreach($arbritos as $arbrito)
+                                    <option value= {{
+                                        $arbrito['id']}} {{isset($dados['slAuxiliar2'])
+                                            ?($dados['slAuxiliar2'] == $arbrito['id'] ? 'selected' : '')
+                                            : ''
+                                        }}>{{$arbrito['nome']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-6 mx-auto">
+                                <label for="slMesario" class="form-label">Selecione o Mesário</label>
+                                <select name="slMesario"  id="slMesario" class="form-select">
+                                    <option value="0" selected>Selecione...</option>
+                                @foreach($arbritos as $arbrito)
+                                    <option value= {{
+                                        $arbrito['id']}} {{isset($dados['slMesario'])
+                                            ?($dados['slMesario'] == $arbrito['id'] ? 'selected' : '')
+                                            : ''
+                                        }}>{{$arbrito['nome']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
                     
                             <input type="hidden" id="hdIdCampeonato" name="hdIdCampeonato" value={{$idCampeonato}}>
                             <input type="hidden" id="hdFormato" name="hdFormato" value={{$formato}}>
@@ -125,7 +185,7 @@
                                 <?php $botao = 'Cadastrar'; ?>
                                 @if(isset($partida) && $partida[0]['status'] == 0)
                                 <?php $botao = 'Salvar'; ?>
-                                <a href="{{route("campeonato.excluirPartida", ['idCampeonato' => $partida[0]['id']])}}">
+                                <a href="{{route("campeonato.excluirPartida", ['idPartida' => $partida[0]['id']])}}">
                                     <button type="button" class="btn btn-danger btn-size-90-10-margin">Excluir</button>
                                 </a>
                                 @endif

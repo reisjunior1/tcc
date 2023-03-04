@@ -26,8 +26,9 @@ class jogadoresParticipantes extends Model
 
     public function lstDadosJogadoresCampeonatoTime($idCampeonato, $idTime, $operador = '=')
     {
-        return jogadoresParticipantes::select('id_jogador')
+        return jogadoresParticipantes::select('id_jogador', 'jogadores.apelido', 'jogadores.nome')
         ->from('jogadores_participantes')
+        ->join('jogadores', 'jogadores.id', '=', 'jogadores_participantes.id_jogador')
         ->where('id_campeonato', '=', $idCampeonato)
         ->where('id_time', $operador, $idTime)
         ->where('status', '=', 1)
@@ -63,10 +64,11 @@ class jogadoresParticipantes extends Model
 
     public function lstJogadoresPorTimeECampeonato($idTime, $idCampeonato)
     {
-        return jogadoresParticipantes::select('id', 'id_jogador')
+        return jogadoresParticipantes::select('jogadores_participantes.id', 'jogadores.id as id_jogador', 'jogadores.apelido')
         ->from('jogadores_participantes')
         ->where('id_time', '=', $idTime)
         ->where('id_campeonato', '=', $idCampeonato)
+        ->join('jogadores', 'jogadores.id', '=', 'jogadores_participantes.id_jogador')
         ->get()->toArray();
     }
 

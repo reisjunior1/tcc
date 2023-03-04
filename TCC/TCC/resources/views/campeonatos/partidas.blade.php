@@ -97,19 +97,19 @@
                                         <button class="btn btn-success btn-size-160">Detalhes</button>
                                     </a>
                                     @if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
-                                        @if($partida['status'] == 0)
+                                    
                                             <a href="{{
-                                                route("campeonato.editarPartida", ['idCampeonato' => $partida['id']])
+                                                route("campeonato.editarPartida", ['idPartida' => $partida['id'], 'idgrupo' => 0])
                                             }}">
                                                 <button class="btn btn-primary btn-size-160">Editar</button>
                                             </a>
-                                        @else
+                                        
                                         <a href="{{
                                                 route("campeonato.geraPDF", ['idPartida' => $partida['id']])
                                             }}" target="_blank">
                                                 <button class="btn btn-danger btn-size-160">Gerar PDF</button>
                                             </a>
-                                        @endif
+                                        
                                         
                                         <a href="{{$href}}">
                                             <button class="btn btn-{{$propriedade}} btn-size-160">{{$btn}}</button>
