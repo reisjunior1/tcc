@@ -5,7 +5,7 @@
     <body>
         <hr>
         <h2 class="text-center">Campeonatos</h2>
-        <a href="{{route("campeonato.chave")}}">chave</a>
+        <!--<a href="{{route("campeonato.chave")}}">chave</a>-->
         @if(session('mensagem'))
             <div class="alert alert-success text-center mt-4 mb-4 p-2">
                 <p>{{session('mensagem')}}</p>
