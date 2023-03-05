@@ -211,34 +211,44 @@ class partida extends Model
         return $query;
     }
 
-    public function lstUltimasPartidas($idCampeonato)
+    public function lstUltimasPartidas($idCampeonato = null, $qtde = 4)
     {
-        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
+        $query = partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
             'time2.nome as timeVisitante', 'dataHora', 'status',
             'gols_time_casa', 'gols_time_visitante'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
         ->join('local', 'local.id', '=', 'partidas.id_local')
-        ->where('id_campeonato', '=', $idCampeonato)
         ->where('status', '=', 1)
-        ->orderBy('dataHora', 'DESC')
-        ->take(4)->get()->toArray();
+        ->orderBy('dataHora', 'DESC');
+        
+
+        $query->when(!is_null($idCampeonato), function ($q) use ($idCampeonato) {
+            return $q->where('id_campeonato', '=', $idCampeonato);
+        });
+
+        return $query->take($qtde)->get()->toArray();
     }
 
-    public function lstProximasPartidas($idCampeonato)
+    public function lstProximasPartidas($idCampeonato = null, $qtde = 4)
     {
-        return partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
+        $query = partida::select('partidas.id', 'id_campeonato', 'time1.nome as timeCasa',
             'time2.nome as timeVisitante', 'dataHora', 'status',
             'gols_time_casa', 'gols_time_visitante'
             )
         ->join('times as time1', 'time1.id', '=', 'partidas.id_time_casa')
         ->join('times as time2', 'time2.id', '=', 'partidas.id_time_visitante')
         ->join('local', 'local.id', '=', 'partidas.id_local')
-        ->where('id_campeonato', '=', $idCampeonato)
+        
         ->where('status', '=', 0)
-        ->orderBy('dataHora', 'ASC')
-        ->take(4)->get()->toArray();
+        ->orderBy('dataHora', 'ASC');
+
+        $query->when(!is_null($idCampeonato), function ($q) use ($idCampeonato) {
+            return $q->where('id_campeonato', '=', $idCampeonato);
+        });
+
+        return $query->take($qtde)->get()->toArray();
     }
 
     public function lstPartidasPorIdCampeonatoIdTime($idCampeonato, $idTime)

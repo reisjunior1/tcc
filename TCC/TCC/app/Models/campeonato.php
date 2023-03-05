@@ -17,9 +17,16 @@ class Campeonato extends Model
         return $this->belongsTo(campeonato::class);
     }
 
-    public function lstCampeonatos()
+    public function lstCampeonatos($array = false)
     {
-        return campeonato::get();
+        if (!$array) {
+            return campeonato::get();
+        } else {
+            $query = campeonato::where('Eexcluido', '=', 0)
+            ->orderby('dataInicio', 'DESC');
+            return $query->take(10)->get()->toArray();
+
+        }
     }
 
     public function lstCampeonatosPorId($id)
@@ -61,7 +68,6 @@ class Campeonato extends Model
 
     public function getTabela($idCampeonato)
     {
-        dd($idCampeonato);
         return campeonato::select('campeonatos.id', 'campeonatos.nome,')
             ->where('campeonatos.id', '=', $idCampeonato)
             ->get()->toArray();

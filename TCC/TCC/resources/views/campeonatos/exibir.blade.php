@@ -22,7 +22,7 @@
 					<div class="col-10 m-auto box">
 						<label class="form-label">Nome: </label> {{$campeonato[0]['nome']}}
 						<br>
-						<label class="form-label">Formato: </label> {{$campeonato[0]['formato']}}
+						<label class="form-label">Formato: </label> {{getFormato($campeonato[0]['formato'])}}
 						<br>
 						<label class="form-label">Times Participantes: </label> {{$campeonato[0]['numeroTimes']}}
 						<br>

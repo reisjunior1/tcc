@@ -112,7 +112,7 @@
                         <tr>
                             <th scope="row">{{$campeonato->id}}</th>
                             <td>{{$campeonato->nome}}</td>
-                            <td>{{$campeonato->formato}}</td>
+                            <td>{{getFormato($campeonato->formato)}}</td>
                             <td>
                                 <div input-group>
                                     <a href="{{url("campeonato/$campeonato->id")}}">

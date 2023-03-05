@@ -32,7 +32,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('local.index') }}">local</a>
+            <a class="nav-link" href="{{ route('local.index') }}">Local</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"   href="{{ route('time.index') }}" >  Times</a>
@@ -55,7 +55,7 @@
             @guest
               <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
             @else
-              <a class="nav-link" href="{{ route('login.perfil') }}"  v-pre> {{Auth::user()->name}}</a>
+              <a class="nav-link" href="{{ route('login.perfil') }}"  v-pre> {{'Perfil'}}</a>
             @endguest
           </li>
 
