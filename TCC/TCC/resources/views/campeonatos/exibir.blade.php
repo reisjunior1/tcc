@@ -57,7 +57,7 @@
 
 		<!-- Tabela que exibe os times participantes -->
 		<div class="col-8 m-auto">
-			@if(!empty($times))
+			@if(!empty($arrayAuxTimes))
 				<table class="table text-center" style="overflow-x:auto;">
 					<thead class="thead-dark">
 						<tr>
@@ -69,10 +69,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($times as $time)
+						@foreach($arrayAuxTimes as $id => $value)
 							<tr>
-								<th scope="row">{{$time['nome']}}</th>
-								<td>{{!is_null($numeroJogadores) ? $numeroJogadores[$time['id']] : '0'}}</td>
+								<th scope="row">{{$value}}</th>
+								<td>{{!is_null($numeroJogadores) ? $numeroJogadores[$id] : '0'}}</td>
 								@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 									<td>
 										<form
@@ -84,7 +84,7 @@
 											@csrf
 											@method('PUT')
 											<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]['id']}}">
-											<input type="hidden" id="slTime" name="slTime" value="{{$time['id']}}">
+											<input type="hidden" id="slTime" name="slTime" value="{{$id}}">
 											<input type="hidden" id="hdApagarDados" name="hdApagarDados" value="1">
 											<button type="submit" class="btn btn-primary btn-size-90">Editar</button>
 										</form>
@@ -93,7 +93,7 @@
 											@csrf
 											@method('PUT')
 											<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]['id']}}">
-											<input type="hidden" id="slTime" name="slTime" value="{{$time['id']}}">
+											<input type="hidden" id="slTime" name="slTime" value="{{$id}}">
 											<input type="hidden" id="hdApagarDados" name="hdApagarDados" value="1">
 											<button type="submit" class="btn btn-danger btn-size-90">Deletar</button>
 										</form>
@@ -109,7 +109,6 @@
 			@endif
 		</div class="col-8 m-auto">
 
-		@if (sizeof($ultimasPartidas) > 0 || sizeof($proximasPartidas) > 0)
 			<div class="grid-container col-10 m-auto">
 				<div class="grid-child list-group">
 					<ul>
@@ -145,7 +144,6 @@
 					</ul>
 				</div>
 			</div>
-		@endif
 
 		<!-- Tabela Classificacao -->
 		<div class = "col-10 m-auto" style="overflow-x:auto;">
@@ -224,6 +222,7 @@
 
 		<!-- Tabela Classificacao Grupos -->
 		@if(!empty($tabelaGrupos))
+			<?php $c = 0; ?>
 			@foreach ($tabelaGrupos as $id => $grupo)
 			<?php
 				$aux = count($grupo);
@@ -245,7 +244,7 @@
 						<tbody>
 							@for ($k = 0; $k < $aux; $k++)
 							<tr>
-								<th scope="row">{{$arrayTimes[0][$grupo[$k]['time']]}}</th>
+								<th scope="row">{{$arrayTimes[$c][$grupo[$k]['time']]}}</th>
 								<td> {{$grupo[$k]['pontos']}} </td>
 								<td> {{$grupo[$k]['partidas']}} </td>
 								<td> {{$grupo[$k]['vitorias']}} </td>
@@ -256,6 +255,7 @@
 						</tbody>
 					</table>
 			</div>
+			<?php $c++; ?>
 			@endforeach
 		@endif
 

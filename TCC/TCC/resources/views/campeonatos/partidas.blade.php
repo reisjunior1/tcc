@@ -38,15 +38,15 @@
                     style= "<?php echo $style ?>"
                     href="{{route("campeonato.criarPartida", ['idCampeonato' => $idCampeonato])}}"
                 >
-                    <button class="btn btn-success" <?php echo $disabled ?>>Adicionar Partida</button>
+                    <button class="btn btn-success btn-margin-top-botton" <?php echo $disabled ?>>Adicionar Partida</button>
                 </a>
             @endif
         </div>
         
         <div class="text-center">
             @if ($formato == 'MM')
-                <a href="{{route("campeonato.proximaEtapa")}}">
-                    <button class="btn btn-success">Próxima Etapa</button>
+                <a style="pointer-events: none" href="{{route("campeonato.proximaEtapa")}}">
+                    <button class="btn btn-success btn-margin-top-botton" disabled>Próxima Etapa</button>
                 </a>
             @endif
         </div>

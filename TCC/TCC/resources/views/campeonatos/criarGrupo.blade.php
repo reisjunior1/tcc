@@ -5,13 +5,11 @@
 	</head>
 	<body>
 		<div class="text mt-3 mb-4">
-			@if(isset($errors) && count($errors)>0)
-				<div class="alert alert-danger text-center mt-4 mb-4 p-2">
-					@foreach($errors->all() as $erro)
-						{{$erro}}<br>
-					@endforeach
-				</div>
-			@endif
+			@if(session('mensagem'))
+                <div class="alert alert-danger text-center mt-4 mb-4 p-2">
+                    <p>{{session('mensagem')}}</p>
+                </div>
+            @endif
 
 			@if(isset($partida))
                 <form
@@ -32,7 +30,7 @@
                 <div class="card-header text-left">{{ (isset($campeonato)) ? 'Editar' : 'Cadastrar'}}</div>
 
 				<div class="col-6 mx-auto">
-					<label for="inNome" class="form-label">Nome do Campeonato*</label>
+					<label for="inNome" class="form-label">Nome do Grupo*</label>
 					<input
 					type="text"
 					name="inNome"

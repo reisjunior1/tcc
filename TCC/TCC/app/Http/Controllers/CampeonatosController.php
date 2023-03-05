@@ -224,8 +224,21 @@ class CampeonatosController extends Controller
                 }
             }
         }
-        //dd($tabelaGrupos);
 
+        if ($campeonato[0]['formato'] == 'MM' || $campeonato[0]['formato'] == 'PC') {
+            $arrayTimes = array_column($times, 'nome', 'id');
+            foreach ($arrayTimes as $key => $value) {
+                $arrayAuxTimes[$key] = $value;
+            }
+        } else {
+            foreach ($arrayTimes as $key => $value) {
+                foreach ($value as $k => $v) {
+                    $arrayAuxTimes[$k] = $v;
+                }
+            }
+        }
+       // dd($arrayTimes);
+        //dd($times, $arrayAuxTimes);
         $modelPartida = new partida();
         $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
         $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
@@ -243,7 +256,8 @@ class CampeonatosController extends Controller
                 'arrayTimes',
                 'grupos',
                 'tabelaGrupos',
-                'nomeGrupo'
+                'nomeGrupo',
+                'arrayAuxTimes'
             )
         );
     }
@@ -322,6 +336,16 @@ class CampeonatosController extends Controller
 
     public function salvarGrupo(Request $request, $idCampeonato)
     {
+        if (is_null($request->inNome) || is_null($request->inNumeroTimes)) {
+            session()->flash(
+                'mensagem',
+                "Preencha todos os dados!"
+            );
+            return redirect()->route(
+                'campeonato.criarGrupo',
+                ['idCampeonato' => $idCampeonato]
+            );
+        }
         $modelGrupos = new Grupos();
         $modelGrupos->inGrupo($request->inNome, $idCampeonato, $request->inNumeroTimes);
 
@@ -329,7 +353,7 @@ class CampeonatosController extends Controller
             'mensagem',
             "Grupo criado com sucesso!"
         );
-        return redirect("campeonato/$request->hdCampeonato");
+        return redirect("campeonato/$idCampeonato");
     }
 
     public function verGrupo($idGrupo)
@@ -407,7 +431,7 @@ class CampeonatosController extends Controller
             'mensagem',
             "Time adicionado com sucesso!"
         );
-        return redirect()->route('campeonato.adicionarTimeGrupo', ['idGrupo' => $idGrupo]);
+        return redirect()->route('campeonato.verGrupo', ['idGrupo' => $idGrupo]);
     }
 
     public function buscaJogadores(Request $request)
@@ -672,16 +696,13 @@ class CampeonatosController extends Controller
         $dados['slAuxiliar2'] = $request['slAuxiliar2'];
         $dados['slMesario'] = $request['slMesario'];
 
-        if($request['slTimeCasa'] == $request['slTimeVizitante']){
-            $modelTimes = new timesParticipantes();
-            $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
-        
-            $modelLocal = new local();
-            $locais = $modelLocal->lstLocais();
-
+        if ($request['slTimeCasa'] == $request['slTimeVizitante']) {
             session()->flash('mensagem', 'Os times selecionados não podem ser os mesmos!');
-            return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados'));
-        }else{
+            return redirect()->route(
+                'campeonato.criarPartida',
+                ['idCampeonato' => $idCampeonato, 'idgrupo' => $request->hdGrupo]
+            );
+        } else {
             $this->validate($request, ['inHora' => new ValidaHora]);
             $dataHora = $this->trataDataHora($request['inData'], $request['inHora']);
 
