@@ -299,12 +299,22 @@ class CampeonatosController extends Controller
         return redirect('campeonato');
     }
 
-    public function deletarCampeonato(Request $request)
+    public function deletarCampeonato($idCampeonato)
     {
-        $modelCampeonato = new campeonato();
-        $modelCampeonato->delCampeonato($request->hdCampeonato);
+        $modelPartidas = new partida();
+        $partidas = $modelPartidas->lstPartidasPorIdCampeonato($idCampeonato);
         
-        session()->flash('mensagem', "Campeonato $request->hdCampeonato foi excluido!");
+        $modelCampeonato = new campeonato();
+        $campeonato = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
+        if (!is_null($partidas)) {
+            session()->flash('mensagem', "Não é possível excluir o campeonato"
+            .$campeonato[0]->nome . ", pois exitem partidas cadastradas a ele!");
+            return redirect('campeonato');
+        }
+        $modelCampeonato = new campeonato();
+        $modelCampeonato->delCampeonato($idCampeonato);
+        
+        session()->flash('mensagem', "Campeonato $idCampeonato foi excluido!");
         return redirect('campeonato');
     }
 

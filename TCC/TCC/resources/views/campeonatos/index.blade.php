@@ -130,7 +130,7 @@
                                             <button class="btn btn-primary btn-size-120">Editar</button>
                                         </a>
                                 
-                                        <a href="{{url("#")}}">
+                                        <a href="{{route("campeonato.excluirCampeonato", ['idCampeonato' => $campeonato->id])}}">
                                             <button type="button" class="btn btn-danger btn-size-120">Excluir</button>
                                         </a>
                                     </div>

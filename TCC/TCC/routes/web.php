@@ -136,8 +136,8 @@ Route::get('/campeonato', CAMPEONATOS_CONTROLLER.'@index')
 Route::get('/campeonato/cadastrar', CAMPEONATOS_CONTROLLER.'@cadastrarCampeonato')
     ->name("campeonato.cadastrar");
 
-Route::get('/campeonato/deleta', CAMPEONATOS_CONTROLLER.'@deletarCampeonato')
-    ->name("campeonato.deletaCampeonato");
+Route::get('/campeonato/{idCampeonato}/excluir', CAMPEONATOS_CONTROLLER.'@deletarCampeonato')
+    ->name("campeonato.excluirCampeonato");
 
 Route::get('/campeonato/{idCampeonato}/adicionarTime/', CAMPEONATOS_CONTROLLER.'@adicionarTime')
     ->name("campeonato.adicionarTime");
