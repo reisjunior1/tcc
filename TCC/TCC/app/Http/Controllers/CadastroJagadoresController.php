@@ -44,7 +44,7 @@ class CadastroJagadoresController extends Controller
 
     public function show($idJogador)
     {
-        dd($idJogador);
+        //dd($idJogador);
     }
 
     public function store(JogadoresRequest $request)
