@@ -203,5 +203,64 @@ class CadastroUsuarioController extends Controller
             'recuperarDados' => $parametros,
         ]);
     }
+
+    public function recuperarSenha()
+    {
+        return view('usuario/recuperarSenha');
+    }
+
+    public function validaEmailTelefone(Request $request)
+    {
+        $modelUsuario = new User();
+        $email = $modelUsuario->lstDadosUsuarioPorEmail($request->telefone);
+        $telfone = $modelUsuario->lstDadosUsuarioPorTelefone(montaTelefone($request->telefone));
+        
+        if (empty($email) && empty($telfone)) {
+            session()->flash('mensagem', 'Usuário não encontrado!');
+            return view('usuario/recuperarSenha');
+        } else {
+            $idUsuario = !empty($email) ? $email[0]['id'] : $telfone[0]['id'];
+            return view('usuario/verificaDado', compact('idUsuario'));
+        }
+    }
+
+    public function validaDado(Request $request)
+    {
+        $modelUsuario = new User();
+        $usuario = $modelUsuario->lstDadosUsuarioPorId($request->hdUsuario);
+
+        if (substr($usuario[0]->cpf, 0, 3) == $request->cpf) {
+            return redirect()->route('usuario.novaSenha',['idUsuario' => $request->hdUsuario]);
+        } else {
+            session()->flash('mensagem', 'Usuário não encontrado!');
+            return view('usuario/recuperarSenha');
+        }
+    }
+
+    public function novaSenha($idUsuario)
+    {
+        return view('usuario/novaSenha', compact('idUsuario'));
+    }
+
+    public function validaNovaSenha(Request $request)
+    {
+        $modelUsuario = new User();
+        $usuario = $modelUsuario->lstDadosUsuarioPorId($request['hdUsuario']);
+        
+        if ($request['inNovaSenha'] != $request['inConfirmaSenha']) {
+                $msg = "As senhas não coenhecidem!";
+        } else {
+            $modelUsuario->updSenha(
+                $request['hdUsuario'],
+                password_hash($request['inConfirmaSenha'], PASSWORD_DEFAULT)
+            );
+            session()->flash('mensagem', 'Senha atualizada com sucesso');
+            $usuario = $usuario[0];
+            
+            return redirect()->route('login');
+        }
+        session()->flash('mensagem', $msg);
+        return view('usuario/recuperarSenha', compact('usuario'));
+    }
 }
 

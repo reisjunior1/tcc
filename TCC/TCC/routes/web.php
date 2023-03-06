@@ -29,6 +29,21 @@ Route::get('/usuario/{idUsuario}/atualizarSenha', 'App\Http\Controllers\Cadastro
 Route::get('/usuario/validaAlterarSenha/', 'App\Http\Controllers\CadastroUsuarioController@validaAlterarSenha')
     ->name("usuario.validaAlterarSenha");
 
+Route::get('/usuario/recuperarSenha/', 'App\Http\Controllers\CadastroUsuarioController@recuperarSenha')
+    ->name("usuario.recuperarSenha");
+
+Route::post('/usuario/validaEmailTelefone/', 'App\Http\Controllers\CadastroUsuarioController@validaEmailTelefone')
+    ->name("usuario.validaEmailTelefone");
+
+Route::post('/usuario/validaDado/', 'App\Http\Controllers\CadastroUsuarioController@validaDado')
+    ->name("usuario.validaDado");
+
+Route::get('/usuario/{idUsuario}/novaSenha', 'App\Http\Controllers\CadastroUsuarioController@novaSenha')
+    ->name("usuario.novaSenha");
+
+Route::get('/usuario/validaNovaSenha/', 'App\Http\Controllers\CadastroUsuarioController@validaNovaSenha')
+    ->name("usuario.validaNovaSenha");
+
 Route::get('/usuario/sair/', 'App\Http\Controllers\CadastroUsuarioController@sair')
     ->name("usuario.sair");
 

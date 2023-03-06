@@ -75,4 +75,16 @@ class User extends Authenticatable
     {
         return User::get()->toArray();
     }
+
+    public function lstDadosUsuarioPorEmail($email)
+    {
+        return User::where('email', '=', $email)
+            ->get()->toArray();
+    }
+
+    public function lstDadosUsuarioPorTelefone($telefone)
+    {
+        return User::where('telefone', '=', $telefone)
+            ->get()->toArray();
+    }
 }
