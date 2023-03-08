@@ -260,6 +260,7 @@
 		@endif
 
 		<!-- Grupos -->
+		@if(!is_null(Auth::user()) && Auth::user()->hasAnyRole(['AdminCampeonato', 'AdminGeral']))
 		<div class = "col-10 m-auto" style="overflow-x:auto;">
 			@if(!empty($grupos))
 				<table class="table text-center">
@@ -292,5 +293,6 @@
 				</table>
 			@endif
 		</div>
+		@endif
 
 	@endsection
