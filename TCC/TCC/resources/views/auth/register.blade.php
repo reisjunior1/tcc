@@ -78,7 +78,7 @@
                                     type="email"
                                     class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}"
-                                    required autocomplete="email"
+                                    autocomplete="email"
                                 >
 
                                 @error('email')
@@ -102,7 +102,7 @@
                                     type="text"
                                     class="form-control telefone"
                                     name="telefone" value="{{ old('email') }}"
-                                    required autocomplete="telefone"
+                                    autocomplete="telefone"
                                 >
 
                                 @error('telefone')

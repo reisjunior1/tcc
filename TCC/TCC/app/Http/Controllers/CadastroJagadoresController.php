@@ -38,7 +38,6 @@ class CadastroJagadoresController extends Controller
         if (!empty($jogador)) {
             $id = $jogador[0]['id'];
         }
-        //dd($jogador);
         return view('times/jogadors', compact('jogador', 'id'));
     }
 
@@ -55,7 +54,6 @@ class CadastroJagadoresController extends Controller
             'cpf'=>$request->inCpf,
             'telefone'=>$request->inTelefone,
             'nacimento'=>$request->inData,
-            'email'=>'m@mail.com',
             'Eexcluido'=>0
         ]);
         if ($cadastro) {
@@ -71,7 +69,6 @@ class CadastroJagadoresController extends Controller
             'cpf'=>$request->inCpf,
             'telefone'=>$request->inTelefone,
             'nacimento'=>$request->inData,
-            'email'=>'m@mail.com',
             'Eexcluido'=>0
         ]);
         if ($cadastro) {

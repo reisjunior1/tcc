@@ -95,7 +95,7 @@ return [
         'array' => 'The :attribute must have at least :min items.',
         'file' => 'The :attribute must be at least :min kilobytes.',
         'numeric' => 'The :attribute must be at least :min.',
-        'string' => 'The :attribute must be at least :min characters.',
+        'string' => 'O :attribute deve ter pelo menos :min caracteres.',
     ],
     'multiple_of' => 'The :attribute must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
@@ -151,6 +151,12 @@ return [
     'custom' => [
         'email' => [
             'required_without' => 'Informe um e-mail ou telefone',
+        ],
+        'telefone' => [
+            'required_without' => 'Informe um e-mail ou telefone',
+        ],
+        'password' => [
+            'min' => 'A senha deve conter pelo menos :min caracteres',
         ],
     ],
 

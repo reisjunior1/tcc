@@ -27,7 +27,6 @@ class JogadoresRequest extends FormRequest
             'inNome'=>'required',
             'inApelido'=>'required',
             'inCpf'=>'required',
-            'inTelefone' => 'required',
             'inData' => 'required'
         ];
     }

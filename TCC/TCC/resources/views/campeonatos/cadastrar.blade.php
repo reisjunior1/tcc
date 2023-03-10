@@ -32,14 +32,14 @@
 					name="inNomeCampeonato"
 					id="inNomeCampeonato"
 					value="{{$campeonato->nome ?? ''}}"
-					class="form-control text20em"
+					class="form-control"
 					placeholder="Digite o nome do campeonato"
 					>
 				</div>
 
 				<div class="col-6 mx-auto">
 					<label for="slFormato" class="form-label">Formato*</label>
-					<select name="slFormato"  id="slFormato" class="form-select select20em">
+					<select name="slFormato"  id="slFormato" class="form-select">
 						<option selected>Selecione...</option>
 						<option
 							value="PC" {{isset($campeonato) ? ($campeonato->formato == 'PC' ? 'selected' : '') : ''}}>Pontos Corridos
@@ -60,7 +60,7 @@
 					<div class="col-6 input-group">
 						<input
 							type="date"
-							class="form-control text10em"
+							class="form-control"
 							name="inDataInicio"
 							id="inDataInicio"
 							value="{{$campeonato->dataInicio ?? ''}}"
@@ -69,7 +69,7 @@
 						<label class="form-label">&nbsp&nbsp A &nbsp&nbsp</label>
 						<input
 							type="date"
-							class="form-control text10em"
+							class="form-control"
 							name="inDataFim"
 							id="inDataFim"
 							value="{{$campeonato->dataFim ?? ''}}"
@@ -82,7 +82,7 @@
 					<label for="inNumeroTimes" class="form-label">Número de Times Participantes*</label>
 					<input
 						type="number"
-						class="form-control text20em"
+						class="form-control"
 						name="inNumeroTimes"
 						id="inNumeroTimes"
 						value="{{$campeonato->numeroTimes ?? ''}}"

@@ -15,14 +15,15 @@
 	<!-- <form class="row g-3 conterner"  method="post"  action="{{url('cadastrojogador')}}"  > -->
 
 		<div class="col-8 m-auto">
-			<label for="nome" class="form-label">Nome Completo:</label>
+			<label for="nome" class="form-label">Nome:</label>
 			<input
 				type="text"
 				class="text45Left form-control"
 				id="inNome"
 				name='inNome'
 				value="{{$jogador[0]['nome'] ?? ''}}"
-				placeholder="Nome Sobrenome"
+				placeholder="Nome"
+				required
 			>
 
 			<label for="nome" class="form-label">Apelido:</label>
@@ -33,6 +34,7 @@
 				name='inApelido'
 				value="{{$jogador[0]['apelido'] ?? ''}}"
 				placeholder="Apelido"
+				required
 			>
 
 			<label for="cpf" class="form-label">CPF:</label>
@@ -43,6 +45,7 @@
 				name='inCpf'
 				value="{{$jogador[0]['cpf'] ?? ''}}"
 				placeholder="***.***.***-**"
+				required
 			>
 
 			<label for="telefone" class="form-label">Telefone:</label>
@@ -61,8 +64,9 @@
 				class="text45Left form-control"
 				name="inData"
 				id="inData"
-				value="{{isset($dados['inData']) ? $dados['inData'] : null}}"
+				value="{{$jogador[0]['nacimento'] ?? ''}}"
 				placeholder="DD/MM/AAAA"
+				required
 			>
 		</div>
 

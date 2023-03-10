@@ -18,7 +18,7 @@
 				<div class="col-6 mx-auto">
 					<input type="hidden" id="hdCampeonato" name="hdCampeonato" value="{{$campeonato[0]->id}}">
 					<label for="slTime" class="form-label">Selecione um Time*</label>
-					<select name="slTime"  id="slTime" class="form-select select20em">
+					<select name="slTime"  id="slTime" class="form-select">
 						<option value="0" selected>Selecione...</option>
 						@foreach($times as $time)
 							<option value= {{$time['id']}}>{{$time['nome']}}</option>
