@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sumula', function (Blueprint $table) {
+        /*Schema::create('sumula', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_partida');
             $table->foreign('id_partida')->references('id')->on('partidas');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('id_time')->references('id')->on('times');
             $table->string('minutos', 6)->nullable(true);
             $table->timestamps();
-        });
+        });*/
     }
 
     /**

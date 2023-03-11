@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('cpf', 14)->unique()->nullable(false)->after('id');
-            $table->string('telefone', 20)->nullable(true)->after('name');
+            $table->string('telefone', 20)->unique()->nullable(true)->after('name');
             $table->tinyInteger('tipo')->nullable(false)->after('email');
         });
     }

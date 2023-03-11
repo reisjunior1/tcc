@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('cpf')->unique();
             $table->string('nome');
-            $table->String('telefone');
-            $table->String('email');
+            $table->String('telefone')->nullable(true);
             $table->tinyInteger('Eexcluido')->nullable(false);
             $table->date('nacimento');
             $table->timestamp('created_at')->useCurrent();
