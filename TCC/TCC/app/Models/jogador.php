@@ -26,7 +26,7 @@ class jogador extends Model
 
     public function lstTodosJogadores($eExcluido = null)
     {
-        $query = jogador::select('id', 'nome')
+        $query = jogador::select('id', 'nome', 'apelido')
             ->from('jogadores')
             ->orderby('nome');
            // ->get()->toArray();

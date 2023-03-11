@@ -29,7 +29,7 @@
                                     ? (in_array($jogador['id'], $dados['mlJogador']) ? 'selected' : '')
                                     : ''}}
                                     >
-                                    {{$jogador['nome']}}
+                                    {{$jogador['apelido']}}
                                 </option>
                                 @endforeach
                             </select>

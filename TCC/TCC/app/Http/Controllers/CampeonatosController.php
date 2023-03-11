@@ -186,7 +186,6 @@ class CampeonatosController extends Controller
             $grupos = $modelGrupos->lstGruposPorIdCampeonato($id);
             $arrayGrupo = array_column($grupos, 'id');
             $nomeGrupo = array_column($grupos, 'nome', 'id');
-            //dd($grupos, $arrayGrupo, $nomeGrupo);
 
             foreach ($arrayGrupo as $grupo) {
                 $times = null;
@@ -225,20 +224,22 @@ class CampeonatosController extends Controller
             }
         }
 
-        if ($campeonato[0]['formato'] == 'MM' || $campeonato[0]['formato'] == 'PC') {
-            $arrayTimes = array_column($times, 'nome', 'id');
-            foreach ($arrayTimes as $key => $value) {
-                $arrayAuxTimes[$key] = $value;
-            }
+        /*if ($campeonato[0]['formato'] == 'MM' || $campeonato[0]['formato'] == 'PC') {
+            $arrayAuxTimes = array_column($times, 'nome', 'id');
         } else {
-            foreach ($arrayTimes as $key => $value) {
-                foreach ($value as $k => $v) {
-                    $arrayAuxTimes[$k] = $v;
+            if (!empty($arrayTimes)) {
+                foreach ($arrayTimes as $key => $value) {
+                    foreach ($value as $k => $v) {
+                        $arrayAuxTimes[$k] = $v;
+                    }
                 }
+            } else {
+                $arrayAuxTimes = null;
             }
-        }
-       // dd($arrayTimes);
-        //dd($times, $arrayAuxTimes);
+        }*/
+        $arrayAuxTimes = array_column($times, 'nome', 'id');
+
+        $arrayAuxTimes = empty($arrayAuxTimes) ? null : $arrayAuxTimes;
         $modelPartida = new partida();
         $ultimasPartidas = $modelPartida->lstUltimasPartidas($campeonato[0]['id']);
         $proximasPartidas = $modelPartida->lstProximasPartidas($campeonato[0]['id']);
@@ -306,15 +307,15 @@ class CampeonatosController extends Controller
         
         $modelCampeonato = new campeonato();
         $campeonato = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
-        if (!is_null($partidas)) {
-            session()->flash('mensagem', "Não é possível excluir o campeonato"
+        if (!empty($partidas)) {
+            session()->flash('mensagem', "Não é possível excluir o campeonato "
             .$campeonato[0]->nome . ", pois exitem partidas cadastradas a ele!");
             return redirect('campeonato');
         }
         $modelCampeonato = new campeonato();
         $modelCampeonato->delCampeonato($idCampeonato);
         
-        session()->flash('mensagem', "Campeonato $idCampeonato foi excluido!");
+        session()->flash('mensagem', "Campeonato " . $campeonato[0]->nome . " foi excluido!");
         return redirect('campeonato');
     }
 
@@ -596,9 +597,6 @@ class CampeonatosController extends Controller
 
     public function partidas($idCampeonato)
     {
-        $modelPartida = new partida();
-        $partidas = $modelPartida->lstPartidasPorIdCampeonato($idCampeonato);
-
         $modelCampeonato = new campeonato();
         $campeonato = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
         $formato = $campeonato[0]->formato;

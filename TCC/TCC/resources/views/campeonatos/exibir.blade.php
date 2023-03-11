@@ -46,10 +46,9 @@
 			@if ($campeonato[0]['formato'] === 'CP')
 				<div class="text-center mt-3 mb-4">
 					<a
-						style= "<?php echo $style ?>"
 						href="{{ route("campeonato.criarGrupo", ['idCampeonato' => $campeonato[0]['id']]) }}"
 					>
-						<button type="button " class="btn btn-success" <?php echo $disabled ?>>Criar Grupo</button>
+						<button type="button " class="btn btn-success">Criar Grupo</button>
 					</a>
 				</div>
 			@endif

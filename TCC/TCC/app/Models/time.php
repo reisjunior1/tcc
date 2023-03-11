@@ -40,6 +40,7 @@ class time extends Model
     {
         return time::select('id', 'nome')
             ->where('Eexcluido', '=', '0')
+            ->orderby('nome')
             ->get()->toArray();
     }
 

@@ -14,7 +14,6 @@
 	@endif
 	<div class="text-left mt-3 mb-4" >
 		<div class="col-8 m-auto">
-			{{var_dump($local, $id)}}
 			@if(isset($id))
 			<form class="row g-3"  method="put"  action="{{ route("local.edita", ['id' => $id]) }}">
 			@else
@@ -30,6 +29,7 @@
 					name='inNome'
 					placeholder="Nome"
 					value="{{$local[0]['nome'] ?? ''}}"
+					required
 				>
 
 				<label for="cep" class="form-label">CEP:</label>
@@ -39,6 +39,7 @@
 					id="inCep" name='inCep'
 					placeholder="00000-000"
 					value="{{$local[0]['cep'] ?? ''}}"
+					required
 				>
 
 				<label for="endereco" class="form-label">Endereço:</label>
@@ -49,6 +50,7 @@
 					name="inEndereco"
 					placeholder="Rua:.."
 					value="{{$local[0]['endereco'] ?? ''}}"
+					required
 				>
 
 				<label for="cidade" class="form-label">Numero:</label>
@@ -58,6 +60,7 @@
 					id="inNumero"
 					name="inNumero"
 					value="{{$local[0]['numero'] ?? ''}}"
+					required
 				>
 
 				<label for="cidade" class="form-label">Bairro:</label>
@@ -67,6 +70,7 @@
 					id="inBairro"
 					name="inBairro"
 					value="{{$local[0]['bairro'] ?? ''}}"
+					required
 				>
 
 				<label for="complemento" class="form-label">Complemento:</label>
@@ -86,6 +90,7 @@
 					id="inCidade"
 					name="inCidade"
 					value="{{$local[0]['cidade'] ?? ''}}"
+					required
 					>
 
 				<label for="estado" class="form-label">Estado:</label>
@@ -93,6 +98,7 @@
 					<option selected>Selecione...</option>
 					<option>MG</option>
 					<option>ES</option>
+					required
 				</select>
 
 

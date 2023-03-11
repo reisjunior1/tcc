@@ -51,8 +51,9 @@ class TimeController extends Controller
             'id'
         );
 
-        $arrayJogadores = $modelJogador->lstJogadores(array_diff($jogadores, $jogadoresTime));
-        //dd($idTime, $jogadoresTime, $jogadores);
+        $aux = $modelJogador->lstJogadores(array_diff($jogadores, $jogadoresTime));
+        $arrayJogadores = array_column($aux, 'apelido', 'id');
+        asort($arrayJogadores, SORT_NATURAL | SORT_FLAG_CASE);
 
         return view('times.adicionaJogadorTime', compact('arrayJogadores', 'idTime'));
     }

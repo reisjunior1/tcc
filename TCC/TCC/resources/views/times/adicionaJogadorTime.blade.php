@@ -23,13 +23,13 @@
                                 multiple size="15"
                                 style="height: 25%;"
                             >
-                                @foreach($arrayJogadores as $jogador)
+                                @foreach($arrayJogadores as $key => $value)
                                 <option
-                                value= {{$jogador['id']}} {{isset($dados)
+                                value= {{$key}} {{isset($dados)
                                     ? (in_array($jogador['id'], $dados['mlJogador']) ? 'selected' : '')
                                     : ''}}
                                     >
-                                    {{$jogador['nome']}}
+                                    {{$value}}
                                 </option>
                                 @endforeach
                             </select>

@@ -37,6 +37,7 @@
                                 name="inGolsTimeCasa"
                                 id="inGolsTimeCasa"
                                 value="{{isset($dadosPartida[0]['gols_time_casa']) ? $dadosPartida[0]['gols_time_casa'] : null}}"
+								required
                             >
                     </div>
 					<div class="col-6 mx-auto">
@@ -47,7 +48,8 @@
                                 name="inGolsTimeVisitante"
                                 id="inGolsTimeVisitante"
                                 value="{{isset($dadosPartida[0]['gols_time_visitante']) ? $dadosPartida[0]['gols_time_visitante'] : null}}"
-                            >
+								required
+							>
                     </div>
 				</div>
 				<div input-group class="my-auto mx-auto">

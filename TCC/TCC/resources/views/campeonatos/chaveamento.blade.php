@@ -143,6 +143,7 @@ body {
         </div>
     </div>
 
+<<<<<<< Updated upstream
     <div id="wrapper">
       <span class="label">Vencedor</span>
         <div class="branch lv1">
@@ -154,5 +155,179 @@ body {
             </div>
         </div>
     </div>    
+=======
+	<hr>
+	<hr>
+
+    <div id="wrapper">
+		<span class="label">Vencedor</span>
+        <div class="branch">
+    		<div class="entry">
+            	<span class="label">{{'Vencedor1'}}</span>
+          	</div>
+          	<div class="entry">
+            	<span class="label">{{'Vencedor2'}}</span>
+            	<div class="branch">
+          			<div class="entry">
+            			<span class="label">{{'Vencedor21'}}</span>
+          			</div>
+          			<div class="entry">
+            			<span class="label">{{'Vencedor22'}}</span>
+
+						<div class="branch">
+          					<div class="entry">
+            					<span class="label">{{'Vencedor221'}}</span>
+          					</div>
+          					<div class="entry">
+            					<span class="label">{{'Vencedor222'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+          					</div>
+        				</div>
+          			</div>
+        		</div>
+        	</div>
+    	</div>
+    </div>
+
+	<hr>
+	<hr>
+
+
+    <div id="wrapper">
+		<span class="label">Vencedor</span>
+        <div class="branch">
+
+			<div class="entry">
+				<span class="label">{{'Vencedor1'}}</span>
+				<div class="branch">
+					<div class="entry">
+						<span class="label">{{'Vencedor2221'}}</span>
+						<div class="branch">
+							<div class="entry">
+								<span class="label">{{'Vencedor2221'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="entry">
+								<span class="label">{{'Vencedor2222'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="entry">
+						<span class="label">{{'Vencedor2222'}}</span>
+						<div class="branch">
+							<div class="entry">
+								<span class="label">{{'Vencedor2221'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="entry">
+								<span class="label">{{'Vencedor2222'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="entry">
+				<span class="label">{{'Vencedor2'}}</span>
+				<div class="branch">
+					<div class="entry">
+						<span class="label">{{'Vencedor2221'}}</span>
+						<div class="branch">
+							<div class="entry">
+								<span class="label">{{'Vencedor2221'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="entry">
+								<span class="label">{{'Vencedor2222'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="entry">
+						<span class="label">{{'Vencedor2222'}}</span>
+						<div class="branch">
+							<div class="entry">
+								<span class="label">{{'Vencedor2221'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="entry">
+								<span class="label">{{'Vencedor2222'}}</span>
+								<div class="branch">
+									<div class="entry">
+										<span class="label">{{'Vencedor2221'}}</span>
+									</div>
+									<div class="entry">
+										<span class="label">{{'Vencedor2222'}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+>>>>>>> Stashed changes
 </body>
 </html>

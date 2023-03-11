@@ -101,6 +101,7 @@
                                 id="inData"
                                 value="{{isset($dados['inData']) ? $dados['inData'] : null}}"
                                 placeholder="DD/MM/AAAA"
+                                required
                                 >
                             </div>
 
@@ -113,6 +114,7 @@
                                     id="inHora"
                                     value="{{isset($dados['inHora']) ? $dados['inHora'] : null}}"
                                     placeholder="Hora de início"
+                                    required
                                 >
                             </div>
 

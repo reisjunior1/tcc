@@ -21,6 +21,7 @@
 				name='inNome'
 				value="{{$arbrito[0]['nome'] ?? ''}}"
 				placeholder="Nome Sobrenome"
+				required
 			>
 
 			<label for="cpf" class="form-label">CPF:</label>
@@ -31,6 +32,7 @@
 				name='inCpf'
 				value="{{$arbrito[0]['cpf'] ?? ''}}"
 				placeholder="***.***.***-**"
+				required
 			>
 
 			<label for="telefone" class="form-label">Telefone:</label>

@@ -5,7 +5,7 @@
 
 	<div class="text-left mt-3 mb-4">
 		@if(!empty($id))
-			<form name="formEdit" id="formEdit" method="put" action="{{ route("jogador.edita", ['id' => $id]) }}">
+			<form name="formEdit" id="formEdit" method="put" action="{{ route("jogador.edita", ['id' => $id, 'time' => $time]) }}">
 				@method('PUT')
 		@else
 			<form name="formCadastro" id="formCadastro" method="post" action="{{route("jogador.salva")}}">

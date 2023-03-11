@@ -27,7 +27,10 @@
                                 <th scope="row">{{$jogador['apelido']}}</th>
                                 <td>
                                     <div input-group>
-                                        <a href="{{route('jogador.cadastrar',['idJogador' => $jogador['id']])}}">
+                                        <a href="{{route('jogador.cadastrar',
+                                            ['idJogador' => $jogador['id'], 'time' => $idTime]
+                                            )}}"
+                                        >
                                             <button type="button" class="btn btn-primary btn-size-120">Editar</button>
                                         </a>
 

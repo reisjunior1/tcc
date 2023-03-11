@@ -15,7 +15,8 @@
 					class="text45Left form-control"
 					name="inNometime"
 					id="inNometime"
-					placeholder="NomeTime"
+					placeholder="Nome Time"
+					required
 				>
 
 				<label for="sigla" class="form-label">Sigla:</label>
@@ -24,7 +25,8 @@
 					class="text45Left form-control"
 					id="inSigla"
 					name = "inSigla"
-					placeholder="Siglado Time"
+					placeholder="Sigla do Time"
+					required
 				>
 
 				<label for="telefone" class="form-label">Telefone:</label>
@@ -69,6 +71,7 @@
 					id="inEndereco"
 					name="inEndereco"
 					placeholder="Rua:"
+					required
 				>
 
 				<label for="bairo" class="form-label">Bairro:</label>
@@ -78,6 +81,7 @@
 					id="inBairro"
 					name="inBairro"
 					placeholder="Bairo:"
+					required
 				>
 
 				<label for="complemento" class="form-label">Complemento:</label>
@@ -95,6 +99,7 @@
 					class="text45Left form-control"
 					id="inCidade"
 					name="inCidade"
+					required
 				>
 
 				<label for="estado" class="form-label">Estado:</label>

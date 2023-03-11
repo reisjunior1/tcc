@@ -119,7 +119,7 @@ Route::resource('/time', TIMES_CONTROLLER);
 Route::get('/jogador', 'App\Http\Controllers\CadastroJagadoresController@index')
     ->name("jogador.index");
 
-Route::get('/jogador/cadastrar/{idJogador?}', 'App\Http\Controllers\CadastroJagadoresController@cadastrar')
+Route::get('/jogador/cadastrar/{idJogador?}/{time?}', 'App\Http\Controllers\CadastroJagadoresController@cadastrar')
     ->name("jogador.cadastrar");
 
 /*Route::get('/cadastrojogador', 'App\Http\Controllers\CadastroJogadoresController@cadastrarJogar')
@@ -137,7 +137,7 @@ Route::get('/jogador/{idJogador}/ativarDesativar/{dados?}', 'App\Http\Controller
 Route::post('/jogador/salva/', 'App\Http\Controllers\CadastroJagadoresController@store')
     ->name("jogador.salva");
 
-Route::get('/jogador/edita/{id}', 'App\Http\Controllers\CadastroJagadoresController@update')
+Route::get('/jogador/edita/{id}/{time?}', 'App\Http\Controllers\CadastroJagadoresController@update')
     ->name("jogador.edita");
 
 //Route::resource('/jogador', 'App\Http\Controllers\CadastroJagadoresController');

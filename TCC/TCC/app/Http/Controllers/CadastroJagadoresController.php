@@ -30,7 +30,7 @@ class CadastroJagadoresController extends Controller
         return view('times/buscaJogadores', compact('jogadores'));
     }
 
-    public function cadastrar($idJogador = null)
+    public function cadastrar($idJogador = null, $time = 0)
     {
         $modelJogador = new jogador();
         $jogador = $modelJogador->lstJogadores([$idJogador]);
@@ -38,7 +38,7 @@ class CadastroJagadoresController extends Controller
         if (!empty($jogador)) {
             $id = $jogador[0]['id'];
         }
-        return view('times/jogadors', compact('jogador', 'id'));
+        return view('times/jogadors', compact('jogador', 'id', 'time'));
     }
 
     public function show($idJogador)
@@ -61,7 +61,7 @@ class CadastroJagadoresController extends Controller
         }
     }
 
-    public function update(JogadoresRequest $request, $id)
+    public function update(JogadoresRequest $request, $id, $time = false)
     {
         $cadastro=$this->objJogador->where(['id'=>$id])->update([
             'nome'=>$request->inNome,
@@ -72,6 +72,12 @@ class CadastroJagadoresController extends Controller
             'Eexcluido'=>0
         ]);
         if ($cadastro) {
+            if ($time) {
+                return redirect()->route('time.gerenciar', [
+                    'idTime' => $time
+                ]);
+                return redirect('jogador');
+            }
             return redirect('jogador');
         }
     }

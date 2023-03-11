@@ -34,6 +34,7 @@
 					value="{{$campeonato->nome ?? ''}}"
 					class="form-control"
 					placeholder="Digite o nome do campeonato"
+					required
 					>
 				</div>
 
@@ -55,7 +56,7 @@
 					</select>
 				</div>
 
-				<div class="col-6 mx-auto">
+				<div class="col-6 mx-auto text-left">
 					<label for="inDataInicio" class="form-label">Periodo*</label>
 					<div class="col-6 input-group">
 						<input
@@ -65,6 +66,7 @@
 							id="inDataInicio"
 							value="{{$campeonato->dataInicio ?? ''}}"
 							placeholder="DD/MM/AAAA"
+							required
 						>
 						<label class="form-label">&nbsp&nbsp A &nbsp&nbsp</label>
 						<input
@@ -74,6 +76,7 @@
 							id="inDataFim"
 							value="{{$campeonato->dataFim ?? ''}}"
 							placeholder="DD/MM/AAAA"
+							required
 						>
 					</div>
 				</div>
@@ -87,6 +90,7 @@
 						id="inNumeroTimes"
 						value="{{$campeonato->numeroTimes ?? ''}}"
 						placeholder="Digite o Número de times participantes"
+						required
 					>
 				</div>
 
