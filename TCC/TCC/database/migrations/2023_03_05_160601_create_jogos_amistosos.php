@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('jogos_amistosos', function (Blueprint $table) {
-            $table->id();
+           /* $table->id();
 
             $table->unsignedBigInteger('id_time_visitante');
             $table->foreign('id_time_visitante')->references('id')->on('times');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreign('id_local')->references('id')->on('local');
 
 
-            $table->timestamps();
+            $table->timestamps();*/
 
         });
     }
