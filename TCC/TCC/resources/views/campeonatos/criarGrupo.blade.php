@@ -35,7 +35,7 @@
 					type="text"
 					name="inNome"
 					id="inNome"
-					value="{{$campeonato->nome ?? ''}}"
+					value="{{$dados['inNome'] ?? ''}}"
 					class="form-control"
 					placeholder="Digite o nome do grupo"
 					>
@@ -48,7 +48,7 @@
 						class="form-control"
 						name="inNumeroTimes"
 						id="inNumeroTimes"
-						value="{{$campeonato->numeroTimes ?? ''}}"
+						value="{{$dados['inNumeroTimes'] ?? ''}}"
 						placeholder="Digite o Número de times participantes"
 					>
 				</div>

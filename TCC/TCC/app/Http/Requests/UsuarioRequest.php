@@ -24,15 +24,9 @@ class UsuarioRequest extends FormRequest
     public function rules()
     {
         return [
-
-           
-                'inNome'=>'required',
-                'inCpf'=>'required',
-                'inTelefone'=>'required',
-                'inEmail'=>'required',
-                'inSenha'=>'required',
-                'inSenha2'=>'required',
-          ];
+            'email' => 'required_without:telefone'|'max:255'|'unique:users',
+            'telefone' => 'required_without:email'|'min:13'|'max:15'|'unique:users'
+        ];
         
     }
 
@@ -40,13 +34,8 @@ class UsuarioRequest extends FormRequest
 public function messages()
     {
         return [
-            'inNome.required' => 'O campo Nome é obrigatório!',
-            'inCpf.required' => 'O campo CPF é obrigatório!',
-            'inTelefone.required' => 'O campo Telefone é obrigatório!',
-            'inEmail.required' => 'O campo Tipo é obrigatório!',
-            'inSenha.required' => 'O campo Senha é obrigatório!',
-            'inSenha2.required' => 'O campo Confirmar Senha é obrigatório!',
-
+            'email.required_without' => 'O campo Nome é obrigatório!',
+            'telefone.required_without' => 'O campo Telefone é obrigatório!',
         ];
     }
 }

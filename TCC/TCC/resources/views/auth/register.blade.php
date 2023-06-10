@@ -4,16 +4,15 @@
 <div class="container">
     <div class="row justify-content-center">
     @if(session('mensagem'))
-            <div class="alert alert-success text-center mt-4 mb-4 p-2">
-                <p>{{session('mensagem')}}</p>
-            </div>
-        @endif
-        <div class="col-md-8">
+	<div class="alert alert-danger text-center mt-4 mb-4 p-2">
+		<p>{{session('mensagem')}}</p>
+	</div>
+	@endif        <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Cadastrar-se') }}</div>
+                <div class="card-header">{{ __('Cadastrar Novo Usuário') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('usuario.salvar') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -101,7 +100,7 @@
                                     id="telefone"
                                     type="text"
                                     class="form-control telefone"
-                                    name="telefone" value="{{ old('email') }}"
+                                    name="telefone" value="{{ old('telefone') }}"
                                     autocomplete="telefone"
                                 >
 

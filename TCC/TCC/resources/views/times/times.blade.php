@@ -62,6 +62,7 @@
 					id="inCep"
 					name= "inCep"
 					placeholder="_____ - __"
+					required
 				>
 
 				<label for="endereco" class="form-label">Endereço:</label>

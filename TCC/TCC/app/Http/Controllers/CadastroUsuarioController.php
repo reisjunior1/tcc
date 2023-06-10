@@ -20,6 +20,11 @@ class CadastroUsuarioController extends Controller
         
     }
 
+    public function cadastrar()
+    {
+        return view('auth/register');
+    }
+
     public function update(Request $request, $id)
     {
         $modelUser = new User();

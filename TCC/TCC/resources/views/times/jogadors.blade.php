@@ -4,6 +4,12 @@
 <title>Jogador</title>
 
 	<div class="text-left mt-3 mb-4">
+	@if(session('mensagem'))
+		<div class="alert alert-danger text-center mt-4 mb-4 p-2">
+			<p>{{session('mensagem')}}</p>
+		</div>
+	@endif
+
 		@if(!empty($id))
 			<form name="formEdit" id="formEdit" method="put" action="{{ route("jogador.edita", ['id' => $id, 'time' => $time]) }}">
 				@method('PUT')
@@ -66,6 +72,7 @@
 				id="inData"
 				value="{{$jogador[0]['nacimento'] ?? ''}}"
 				placeholder="DD/MM/AAAA"
+				max="9999-12-31"
 				required
 			>
 		</div>

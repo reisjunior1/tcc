@@ -47,8 +47,22 @@
 
                             <div class="col-6 mx-auto">
                                 <label for="slTimeCasa" class="form-label">Selecione o Time mandante*</label>
-                                <select name="slTimeCasa"  id="slTimeCasa" class="form-select">
-                                    <option selected>Selecione...</option>
+                                <select
+                                    name="slTimeCasa"
+                                    id="slTimeCasa"
+                                    class="form-select"
+                                    required
+                                >
+                                <?php if(isset($idTime)){
+                                    
+                                    $dados['slTimeCasa']=$idTime;
+
+                                    
+                                }
+                                
+                                ?>
+                                    <option value="">Selecione...</option> 
+                                   
                                     @foreach($times as $time)
                                     <option
                                     value = {{
@@ -64,8 +78,13 @@
 
                             <div class="col-6 mx-auto">
                                 <label for="slTimeVizitante" class="form-label">Selecione o Time visitante*</label>
-                                <select name="slTimeVizitante"  id="slTimeVizitante" class="form-select">
-                                    <option selected>Selecione...</option>
+                                <select
+                                    name="slTimeVizitante"
+                                    id="slTimeVizitante"
+                                    class="form-select"
+                                    required
+                                >
+                                    <option value="">Selecione...</option>
                                 @foreach($times as $time)
                                     <option value= {{
                                         $time['id']}} {{isset($dados['slTimeVizitante'])
@@ -79,8 +98,13 @@
                                 
                             <div class="col-6 mx-auto">
                                 <label for="slLocal" class="form-label">Selecione o Local*</label>
-                                <select name="slLocal"  id="slLocal" class="form-select">
-                                    <option selected>Selecione...</option>
+                                <select
+                                    name="slLocal"
+                                    id="slLocal"
+                                    class="form-select"
+                                    required
+                                >
+                                    <option value="" selected>Selecione...</option>
                                     @foreach($locais as $local)
                                         <option value= {{$local['id']}} {{isset($dados['slLocal'])
                                             ? ($dados['slLocal'] == $local['id'] ? 'selected' : '')

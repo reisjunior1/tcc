@@ -347,15 +347,14 @@ class CampeonatosController extends Controller
 
     public function salvarGrupo(Request $request, $idCampeonato)
     {
-        if (is_null($request->inNome) || is_null($request->inNumeroTimes)) {
+        if (is_null($request->inNome) || is_null($request->inNumeroTimes) || $request->inNumeroTimes <=0){
+            $dados['inNome'] = $request->inNome;
+            $dados['inNumeroTimes'] = $request->inNumeroTimes;
             session()->flash(
                 'mensagem',
-                "Preencha todos os dados!"
+                "Preencha todos os dados corretamente!"
             );
-            return redirect()->route(
-                'campeonato.criarGrupo',
-                ['idCampeonato' => $idCampeonato]
-            );
+            return view('campeonatos/criarGrupo', compact('idCampeonato', 'dados'));
         }
         $modelGrupos = new Grupos();
         $modelGrupos->inGrupo($request->inNome, $idCampeonato, $request->inNumeroTimes);
@@ -691,9 +690,10 @@ class CampeonatosController extends Controller
     }
 
     public function salvaPartida(PartidasRequest $request)
-    {
+    { //dd($request['hdIdCampeonato']);
         
-        $idCampeonato = $request['hdIdCampeonato'];
+        $idCampeonato = $request['hdIdCampeonato'] ==0?null:$request['hdIdCampeonato'];
+        $grupo = $request->hdGrupo;
         $dados['slTimeCasa'] = $request['slTimeCasa'];
         $dados['slTimeVizitante'] = $request['slTimeVizitante'];
         $dados['slLocal'] = $request['slLocal'];
@@ -705,10 +705,28 @@ class CampeonatosController extends Controller
         $dados['slMesario'] = $request['slMesario'];
 
         if ($request['slTimeCasa'] == $request['slTimeVizitante']) {
+            $modelTimes = new timesParticipantes();
+            $times = $modelTimes->lstTimesParticipantes(array($idCampeonato));
+        
+            $modelLocal = new local();
+            $locais = $modelLocal->lstLocais();
+
+            $modelArbrito = new arbritos();
+            $arbritos = $modelArbrito->lstArbritos(0);
+
+            $modelCampeonato = new campeonato();
+            $aux = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
+            $formato = ($aux[0]->formato);
+
+
             session()->flash('mensagem', 'Os times selecionados não podem ser os mesmos!');
-            return redirect()->route(
+            /*return redirect()->route(
                 'campeonato.criarPartida',
                 ['idCampeonato' => $idCampeonato, 'idgrupo' => $request->hdGrupo]
+            );*/
+            return view(
+                'campeonatos.criaPartidas',
+                compact('idCampeonato', 'times', 'locais', 'formato', 'grupo', 'arbritos', 'dados')
             );
         } else {
             $this->validate($request, ['inHora' => new ValidaHora]);
@@ -758,12 +776,16 @@ class CampeonatosController extends Controller
     {
 
         $idCampeonato = $request['hdIdCampeonato'];
-        $idCampeonato = $request['hdIdCampeonato'];
+        $grupo = $request['hdGrupo'];
         $dados['slTimeCasa'] = $request['slTimeCasa'];
         $dados['slTimeVizitante'] = $request['slTimeVizitante'];
         $dados['slLocal'] = $request['slLocal'];
         $dados['inData'] = $request['inData'];
         $dados['inHora'] = $request['inHora'];
+        $dados['slArbrito'] = $request['slArbrito'];
+        $dados['slAuxiliar1'] = $request['slAuxiliar1'];
+        $dados['slAuxiliar2'] = $request['slAuxiliar2'];
+        $dados['slMesario'] = $request['slMesario'];
 
         $modelPartida = new partida();
         $partida = $modelPartida->lstPartida($idPartida);
@@ -775,8 +797,19 @@ class CampeonatosController extends Controller
             $modelLocal = new local();
             $locais = $modelLocal->lstLocais();
 
+            $modelArbrito = new arbritos();
+            $arbritos = $modelArbrito->lstArbritos(0);
+
+            $modelCampeonato = new campeonato();
+            $aux = $modelCampeonato->lstCampeonatosPorId([$idCampeonato]);
+            $formato = ($aux[0]->formato);
+
             session()->flash('mensagem', 'Os times selecionados não podem ser os mesmos!');
-            return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados', 'partida'));
+            //return view('campeonatos.criaPartidas', compact('idCampeonato','times', 'locais', 'dados', 'partida'));
+            return view(
+                'campeonatos.criaPartidas',
+                compact('idCampeonato', 'times', 'locais', 'formato', 'grupo', 'arbritos', 'dados', 'partida')
+            );
         } else {
             $this->validate($request, ['inHora' => new ValidaHora]);
             $dataHora = $this->trataDataHora($request['inData'], $request['inHora']);
@@ -941,6 +974,10 @@ class CampeonatosController extends Controller
      */
     public function validaEnviarSumula($idPartida, Request $request)
     {
+        if (is_null($request->file)) {
+            session()->flash('mensagem', 'Selecione um arquivo.');
+            return view('campeonatos.uploadSumula', compact('idPartida'));
+        }
         $data=new Arquivo();
 		$file=$request->file;
         $filename=time().'.'.$file->getClientOriginalExtension();

@@ -17,7 +17,9 @@ class local extends Model
         'numero',
         'cidade',
         'cep',
-        'Eexcluido'
+        'Eexcluido',
+        'complemento',
+        'estado'
     ];
 
     public function local()

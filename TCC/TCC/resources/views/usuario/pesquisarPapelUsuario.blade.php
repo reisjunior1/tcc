@@ -55,7 +55,13 @@
         
         <div class="text-center mt-3 mb-4">
             <a href="{{route('usuario.tipo')}}">
-                <button class="btn btn-success">Adicionar</button>
+                <button class="btn btn-primary">Atribuir Papel</button>
+            </a>
+        </div>
+
+        <div class="text-center mt-3 mb-4">
+            <a href="{{route('usuario.cadastrar')}}">
+                <button class="btn btn-success">Novo Usuário</button>
             </a>
         </div>
         @if (isset($arrayTabela))

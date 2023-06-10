@@ -20,6 +20,9 @@ Route::get('/', 'App\Http\Controllers\PaginaInicial@index')->name("PaginaInicial
 Route::get('/cadastrar', 'App\Http\Controllers\CadastroUsuarioController@cadastrar')
     ->name("usuario.cadastrar");
 
+Route::post('/usuario/salvar', 'App\Http\Controllers\Auth\RegisterController@create')
+    ->name("usuario.salvar");
+
 Route::put('/usuario/editar', 'App\Http\Controllers\CadastroUsuarioController@update')
     ->name("usuario.editar");
 
@@ -91,7 +94,10 @@ define("TIMES_CONTROLLER", 'App\Http\Controllers\TimeController');
 
 Route::get('/time', TIMES_CONTROLLER.'@index')
     ->name("time.index");
+    Route::get('/time{idTime}/amistoso', TIMES_CONTROLLER.'@criaramistoso')
+    ->name("time.amistoso");
     
+
 Route::get('/time/{idTime}/gerenciar', TIMES_CONTROLLER.'@gerenciar')
     ->name("time.gerenciar");
 

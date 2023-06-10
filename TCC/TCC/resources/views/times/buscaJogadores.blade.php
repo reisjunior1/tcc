@@ -4,6 +4,11 @@
 	<title>Pesquisar Jogadores</title>
 	</head>
 	<body>
+    @if(session('mensagem'))
+		<div class="alert alert-danger text-center mt-4 mb-4 p-2">
+			<p>{{session('mensagem')}}</p>
+		</div>
+	@endif
     <div class="col-8 m-auto">
                 <div input-group class="card">
                     <div class="card-header text-left">{{ __('Pesquisar') }}</div>

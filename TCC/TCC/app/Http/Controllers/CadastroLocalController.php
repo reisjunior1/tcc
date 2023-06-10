@@ -43,15 +43,16 @@ class CadastroLocalController extends Controller
 
     public function store(LocalRequest $request)
     {
+        dd($request);
         $cadastro=$this->objLocal->create([
             'nome'=>$request->inNome,
             'endereco'=>$request->inEndereco,
             'cidade'=>$request->inCidade,
             'bairro'=>$request->inBairro,
-            //'complemento'=>$request->inComplemento,
+            'complemento'=>$request->inComplemento,
             'numero'=>$request->inNumero,
             'cep'=>$request->inCep,
-            //'estado'=>$request->slEstado,
+            'estado'=>$request->slEstado,
             'Eexcluido'=>0
         ]);
         if($cadastro){
@@ -66,10 +67,10 @@ class CadastroLocalController extends Controller
             'endereco'=>$request->inEndereco,
             'cidade'=>$request->inCidade,
             'bairro'=>$request->inBairro,
-            //'complemento'=>$request->inComplemento,
+            'complemento'=>$request->inComplemento,
             'numero'=>$request->inNumero,
             'cep'=>$request->inCep,
-            //'estado'=>$request->slEstado,
+            'estado'=>$request->slEstado,
             'Eexcluido'=>0
         ]);
         session()->flash('mensagem', "O local $request->inNome foi editado!");

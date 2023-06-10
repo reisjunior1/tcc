@@ -20,7 +20,7 @@ class time extends Model
         'bairro',
         'complemento',
         'cep',
-        'estado',
+        'estado'
 
     ];
 
@@ -38,7 +38,7 @@ class time extends Model
 
     public function sltTimes()
     {
-        return time::select('id', 'nome')
+        return time::select('id', 'sigla', 'nome', 'Eexcluido')
             ->where('Eexcluido', '=', '0')
             ->orderby('nome')
             ->get()->toArray();

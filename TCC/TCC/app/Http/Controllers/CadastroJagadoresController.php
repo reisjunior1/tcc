@@ -84,6 +84,13 @@ class CadastroJagadoresController extends Controller
 
     public function pesquisar(Request $request, $pesquisar = null, $recuperaDados = null)
     {
+        if (empty($request->mlJogador)) {
+            session()->flash(
+                'mensagem',
+                "Selecione pelo menos um Jogador!"
+            );
+            return redirect('jogador');
+        }
         $dados['mlJogador'] = $request->mlJogador;
         
         if ($recuperaDados) {

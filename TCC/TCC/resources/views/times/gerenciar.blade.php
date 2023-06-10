@@ -7,7 +7,11 @@
     <div class="col-8 m-auto">
         <div class="text-center mt-3 mb-4">
             <a href="{{route('time.adicionaJogador',['idTime' => $idTime])}}">
-                <button class="btn btn-success">Adicionar</button>
+                <button class="btn btn-outline-dark">Adicionar Jogador</button>
+                </a>
+                <a href="{{route('time.amistoso', ['idTime' => $idTime])}} ">
+                
+                <button class="btn btn-outline-primary">Adicionar Partida Amistosa</button>
             </a>
         </div>
         @if (isset($jogadores))

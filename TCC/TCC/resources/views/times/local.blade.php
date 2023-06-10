@@ -80,7 +80,7 @@
 					id="inComplemento"
 					name="inComplemento"
 					placeholder="Apartamento, quadra..."
-					value={{isset($local[0]['complemento']) ? $local[0]['complemento'] : ''}}
+					value={{$local[0]['complemento'] ?? ''}}
 				>
 
 				<label for="cidade" class="form-label">Cidade:</label>
@@ -96,8 +96,16 @@
 				<label for="estado" class="form-label">Estado:</label>
 				<select id="slEstado" name="slEstado" class="text45Left form-select">
 					<option selected>Selecione...</option>
-					<option>MG</option>
-					<option>ES</option>
+					<option value = 'MG'
+						{{isset($local[0]['estado'])
+						? ($local[0]['estado'] == 'MG' ? 'selected' : '')
+						: ''}}
+					>MG</option>
+					<!--<option value = 'ES'
+						{{isset($local[0]['estado'])
+						? ($local[0]['estado'] == 'ES' ? 'selected' : '')
+						: ''}}
+					>ES</option>-->
 					required
 				</select>
 

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\partida;
-use App\Models\Campeonato;
+use App\Models\campeonato;
 
 class PaginaInicial extends Controller
 {
-    //
+    
 
     public function index ()
     {
